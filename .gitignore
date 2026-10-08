@@ -1,2 +1,7 @@
 __pycache__/
 *.pyc
+.DS_Store
+*.pyc
+__pycache__/
+dev/poc-output/
+dev/www/
