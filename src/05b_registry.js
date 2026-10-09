@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — registries for the newer expression groups + a single
+   WordWave (based on JIZURA by 852wa) — registries for the newer expression groups + a single
    registration helper used by every expression pack (src/11p_*.js)
 
    group    registry      order array          picked per
@@ -60,7 +60,7 @@ J.register = (group, key, def, pack) => {
   if (!G) throw new Error('unknown group ' + group);
   if (!def || !def.name) throw new Error(`${group}.${key}: name is required`);
   const reg = J[G[0]], order = J[G[1]];
-  if (reg[key] && reg[key].pack !== pack) console.warn(`JIZURA: ${group}.${key} is being replaced`);
+  if (reg[key] && reg[key].pack !== pack) console.warn(`WordWave: ${group}.${key} is being replaced`);
   def.pack = pack || def.pack || 'core';
   reg[key] = def;
   if (!def.special && !order.includes(key)) order.push(key);

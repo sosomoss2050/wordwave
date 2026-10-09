@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — planner: lyrics -> lines -> chunks -> timed cuts + events
+   WordWave (based on JIZURA by 852wa) — planner: lyrics -> lines -> chunks -> timed cuts + events
    ============================================================ */
 (() => {
 'use strict';
@@ -290,7 +290,7 @@ J.plan = (project, audio) => {
   const zoneOf = () => (zones ? Object.assign({}, zones[0]) : null);
   if (zones && en.bg) en.bg.bigChar = false;               // the one background that draws the lyric itself (big, centred)
   const plan = {
-    version: 1, generator: 'JIZURA', appVersion: '@VERSION@', title, artist, W, H, fps: project.fps || 24,
+    version: 1, generator: 'WordWave', appVersion: '@VERSION@', title, artist, W, H, fps: project.fps || 24,
     duration: tm.duration, styleKey: project.style, style: st, fx, seed: project.seed,
     lines: [], cuts: [], events: [], beats: audio && audio.beats ? audio.beats.slice() : [],
     hud: fx.hud === 'on' ? true : fx.hud === 'off' ? false : !!st.hud,
@@ -1024,7 +1024,7 @@ J.previewPlan = (project, group, key) => {
   }
   cuts.forEach((c, i) => { c.index = i; });
   return {
-    version: 1, generator: 'JIZURA-preview', title: '', artist: '', W, H, fps: 24,
+    version: 1, generator: 'WordWave-preview', title: '', artist: '', W, H, fps: 24,
     duration: cuts[cuts.length - 1].end, styleKey: project.style, style: st, fx,
     lines: [], cuts, events, beats: [], hud: false, keyBg: null,
   };

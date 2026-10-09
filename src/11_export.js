@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — export: MP4 (WebCodecs + mp4-muxer), PNG sequence ZIP,
+   WordWave (based on JIZURA) — export: MP4 (WebCodecs + mp4-muxer), PNG sequence ZIP,
    file saving (artifact download capability or plain browser download)
    ============================================================ */
 (() => {

@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — audio: decode, energy envelope, onset, BPM & beat grid
+   WordWave (based on JIZURA) — audio: decode, energy envelope, onset, BPM & beat grid
    ============================================================ */
 (() => {
 'use strict';
