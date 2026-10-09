@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — おまかせ (randomise everything into a coherent mood)
+   WordWave — おまかせ (randomise everything into a coherent mood)
    Each call rolls a mood, a style, effect strengths, a technique
    subset, fonts, colours and a new seed. Lyrics / timing / output
    settings and locked lines are left untouched.

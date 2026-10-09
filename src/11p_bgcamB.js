@@ -1,4 +1,4 @@
-/* JIZURA pack: bgcamB — background graphics (gradients, wa / textile patterns, scenes, textures) + camera moves */
+/* WordWave pack: bgcamB — background graphics (gradients, wa / textile patterns, scenes, textures) + camera moves */
 (() => {
 'use strict';
 const E = J.E;

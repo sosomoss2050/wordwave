@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — lyric language: auto-detection + per-language faces
+   WordWave — lyric language: auto-detection + per-language faces
    The styles are designed around Japanese fonts. For Chinese
    (Traditional / Simplified) and Korean lyrics every font key is
    drawn with a face that has the glyphs, chosen to keep the same

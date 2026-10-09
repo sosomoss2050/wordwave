@@ -1,6 +1,6 @@
-/*  JIZURA for After Effects — lyric motion panel
+/*  WordWave for After Effects — lyric motion panel
     ScriptUI panel: builds editable compositions (text animators, expressions,
-    shape layers, effects) from lyrics or from a JIZURA plan JSON.
+    shape layers, effects) from lyrics or from a WordWave plan JSON.
     Install: copy this file to
       After Effects/Support Files/Scripts/ScriptUI Panels/
     then open it from the Window menu.                                         */

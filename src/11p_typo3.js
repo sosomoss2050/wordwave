@@ -1,4 +1,4 @@
-/* JIZURA pack: typo (part 3) — typographic decor (colophon, running head, glyph bodies, text rules, type scale, big quote marks),
+/* WordWave pack: typo (part 3) — typographic decor (colophon, running head, glyph bodies, text rules, type scale, big quote marks),
    text treatments (hollow key glyph, head / foot rules, large head glyph, glyph indices) and two type-driven transitions */
 (() => {
 'use strict';

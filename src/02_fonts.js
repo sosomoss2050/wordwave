@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — fonts: catalogue, loading, glyph decomposition
+   WordWave — fonts: catalogue, loading, glyph decomposition
    ============================================================ */
 (() => {
 'use strict';

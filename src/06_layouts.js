@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — layouts (how a chunk of lyric is composed on screen)
+   WordWave — layouts (how a chunk of lyric is composed on screen)
    plan(rng, cut, st)  -> params stored in the cut (also exported to AE)
    render(env)         -> draws; returns bbox of the main text for decor
    ============================================================ */

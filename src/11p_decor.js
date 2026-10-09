@@ -1,4 +1,4 @@
-/* JIZURA pack: decor — 45 refined graphic accents: HUD / measuring marks, geometry, particles & light, hand-drawn marks, type ornaments */
+/* WordWave pack: decor — 45 refined graphic accents: HUD / measuring marks, geometry, particles & light, hand-drawn marks, type ornaments */
 (() => {
 'use strict';
 const E = J.E;

@@ -1,4 +1,4 @@
-/* JIZURA pack: enterB — 47 more entrances (physics, paper, light, digital devices, graphic masks) */
+/* WordWave pack: enterB — 47 more entrances (physics, paper, light, digital devices, graphic masks) */
 (() => {
 'use strict';
 const E = J.E;

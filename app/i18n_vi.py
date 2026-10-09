@@ -345,7 +345,7 @@ UI = {
     "' · 前回の曲'": "' · bài hát cuối cùng'",
     "'・前回の曲'": "' · bài hát cuối cùng'",
     "title: '1. 歌詞を入れる', text: '1行が1フレーズになります。空行で少し間が空き、[間奏 8] と書くと8秒の間奏（背景と装飾だけ）になります。'": "title: '1. Nhập lời bài hát', text: 'Mỗi dòng là một câu. Dòng trống tạo khoảng dừng ngắn; [interlude 8] sẽ tạo đoạn nhạc nền 8 giây (chỉ hình nền và hiệu ứng).'",
-    "title: '2. 曲を読み込む', text: 'mp3 などを読み込むと拍を検出して、カットの切り替わりを合わせます。曲がなくても作れます。「タップで同期」で行の頭を合わせることもできます。'": "title: '2. Chọn tệp âm thanh', text: 'Chọn tệp mp3 hoặc tệp tương tự: JIZURA nhận diện nhịp và căn chỉnh chuyển cảnh. Có thể làm không cần bài hát. “Đặt điểm chuyển cảnh” để đánh dấu bắt đầu của mỗi câu.'",
+    "title: '2. 曲を読み込む', text: 'mp3 などを読み込むと拍を検出して、カットの切り替わりを合わせます。曲がなくても作れます。「タップで同期」で行の頭を合わせることもできます。'": "title: '2. Chọn tệp âm thanh', text: 'Chọn tệp mp3 hoặc tệp tương tự: WordWave nhận diện nhịp và căn chỉnh chuyển cảnh. Có thể làm không cần bài hát. “Đặt điểm chuyển cảnh” để đánh dấu bắt đầu của mỗi câu.'",
     "title: '3. おまかせで作る', text: 'スタイル・雰囲気・動き・配色・構成をまるごと決めます。押すたびに別の案になり、「◀ 前の案」で戻れます。'": "title: '3. Tạo ngẫu nhiên', text: 'Phong cách, bầu không khí, chuyển động, bảng màu và bố cục được chọn tự động. Mỗi lần bấm tạo biến thể mới; “◀ Biến thể trước” để quay lại.'",
     "title: '4. 再生して確認する', text: '再生して見てみましょう。下のタイムラインでは、行の区切りをドラッグして動かせます（＋−で拡大）。'": "title: '4. Phát thử', text: 'Phát để xem trước. Trên dòng thời gian phía dưới, kéo thanh neo để chỉnh (＋− để phóng to).'",
     "title: '5. 気になる行だけ直す', text: '行ごとに、歌詞を直す（✎）、カット数を決める、この行からタップし直す（◎）、この行だけ作り直す（サイコロ）ができます。'": "title: '5. Sửa từng câu', text: 'Mỗi câu: sửa lời (✎), đặt vị trí chuyển cảnh, đặt lại vị trí chuyển cảnh cho câu này (◎), hoặc tạo lại cho riêng câu này (ngẫu nhiên).'",
@@ -451,7 +451,7 @@ UI = {
     '読み込めませんでした: ': 'Không thể tải:',
     '約': 'khoảng',
     '（PC）': '(đã cài đặt)',
-    '字面': 'JIZURA',
+    '字面': 'WordWave',
     '追加': 'Mới',
     '和': 'JP'
 }

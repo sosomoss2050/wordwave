@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — decor (graphic elements around / behind the lyric) + HUD
+   WordWave — decor (graphic elements around / behind the lyric) + HUD
    ============================================================ */
 (() => {
 'use strict';

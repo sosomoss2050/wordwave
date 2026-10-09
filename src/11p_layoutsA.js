@@ -1,4 +1,4 @@
-/* JIZURA pack: layoutsA — 28 compositional layouts: telops, editorial typesetting, graphic devices and UI mock-ups */
+/* WordWave pack: layoutsA — 28 compositional layouts: telops, editorial typesetting, graphic devices and UI mock-ups */
 (() => {
 'use strict';
 const E = J.E;

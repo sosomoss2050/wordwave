@@ -56,7 +56,7 @@ SCENE = r"""async () => {
 }"""
 
 RENDER = r"""(ts) => {
-  const env = __H.env, comp = env.comps.filter(c => /^JIZURA /.test(c.name)).pop(); env.refCheck = false;
+  const env = __H.env, comp = env.comps.filter(c => /^WordWave /.test(c.name)).pop(); env.refCheck = false;
   const R = new AER.Renderer(); R.comps = env.comps;
   const urls = ts.map(t => { const cv = R.renderComp(comp, t, 0.25, 0); const o = document.createElement('canvas'); o.width = cv.width; o.height = cv.height; const x = o.getContext('2d'); x.fillStyle = '#000'; x.fillRect(0, 0, o.width, o.height); x.drawImage(cv, 0, 0); return o.toDataURL('image/png'); });
   return { name: comp.name, layers: comp._layers.map(l => l.name), urls, errors: [...R.ev.errors.keys()].slice(0, 5) };

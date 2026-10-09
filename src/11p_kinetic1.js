@@ -1,4 +1,4 @@
-/* JIZURA pack: kinetic (1) — kinetic typography layouts: word-timed stacks, turns, swaps, dives and flows */
+/* WordWave pack: kinetic (1) — kinetic typography layouts: word-timed stacks, turns, swaps, dives and flows */
 (() => {
 'use strict';
 const E = J.E;

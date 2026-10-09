@@ -28,7 +28,7 @@ def build(lang):
     else: script = js
     script = script.replace('@VERSION@', VERSION)
     if english or local:
-        marker = '/* ============================================================\n   WordWave (based on JIZURA by 852wa) — editor UI'
+        marker = '/* ============================================================\n   WordWave (based on WordWave by 852wa) — editor UI'
         if marker not in script: raise ValueError('Could not find browser UI entry point')
         inject = read('app/english.js') + ('\n' + i18n.labels_js(lang) if local else '')
         script = script.replace(marker, inject + '\n' + marker, 1)

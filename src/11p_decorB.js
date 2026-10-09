@@ -1,4 +1,4 @@
-/* JIZURA pack: decorB — 55 more graphic accents: Japanese motifs, sci-fi HUD, print & stationery, nature / atmosphere, graphic shapes, UI widgets */
+/* WordWave pack: decorB — 55 more graphic accents: Japanese motifs, sci-fi HUD, print & stationery, nature / atmosphere, graphic shapes, UI widgets */
 (() => {
 'use strict';
 const E = J.E;

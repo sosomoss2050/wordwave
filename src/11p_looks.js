@@ -1,4 +1,4 @@
-/* JIZURA pack: looks — text treatments, background graphics, camera moves and post / transition effects */
+/* WordWave pack: looks — text treatments, background graphics, camera moves and post / transition effects */
 (() => {
 'use strict';
 const E = J.E;

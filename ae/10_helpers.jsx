@@ -4,7 +4,7 @@ function jzWarn(m) { if (JZLOG.length < 400) JZLOG.push(m); }
 // number for expression source; negatives are parenthesised so 'a-' + jzN(-2) never becomes the syntax error 'a--2'
 function jzN(x) { var v = Math.round(x * 10000) / 10000; return v < 0 ? '(' + String(v) + ')' : String(v); }
 
-// ---- fonts: map JIZURA font keys to PostScript names, verify when the API exists
+// ---- fonts: map WordWave font keys to PostScript names, verify when the API exists
 var JZ_FONT_CANDIDATES = {
     gothic_black: ['NotoSansJP-Black', 'NotoSansCJKjp-Black', 'SourceHanSansJP-Heavy', 'KozGoPr6N-Heavy', 'HiraginoSans-W8', 'YuGothic-Bold', 'Meiryo-Bold'],
     gothic_bold: ['NotoSansJP-Bold', 'NotoSansCJKjp-Bold', 'SourceHanSansJP-Bold', 'KozGoPr6N-Bold', 'HiraginoSans-W6', 'YuGothic-Bold', 'Meiryo-Bold'],

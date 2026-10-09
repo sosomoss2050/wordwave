@@ -1,4 +1,4 @@
-/* JIZURA pack: treattrans — text treatments (neon, chrome, karaoke, reflection, ransom…) + cut-to-cut transitions (カット間のつなぎ) */
+/* WordWave pack: treattrans — text treatments (neon, chrome, karaoke, reflection, ransom…) + cut-to-cut transitions (カット間のつなぎ) */
 (() => {
 'use strict';
 const E = J.E;

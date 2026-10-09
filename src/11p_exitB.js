@@ -1,4 +1,4 @@
-/* JIZURA pack: exitB — 39 more exits (退場) + 12 more holds (待機中の動き)
+/* WordWave pack: exitB — 39 more exits (退場) + 12 more holds (待機中の動き)
    Exits:  p 0 (rest) → 1 (fully gone).   Holds: amt 0..1 × fx.motion, subtle idle motion.
    Motion principles here are new to the engine: paper physics (peel / crumple / tear / shred / flutter), rigid-body
    mechanics (hinge / domino / roll / bounce / rocket), masks with character (scorch edge / flood line / halftone / stripes /

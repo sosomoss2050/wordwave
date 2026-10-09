@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — frame renderer: background, chroma passes, HUD, post FX
+   WordWave — frame renderer: background, chroma passes, HUD, post FX
    ============================================================ */
 (() => {
 'use strict';

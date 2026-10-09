@@ -1,4 +1,4 @@
-/* JIZURA pack: typo (part 1) — 文字PV typography layouts: key glyphs, crossings, rules, grids, scale contrast, crops, annotation */
+/* WordWave pack: typo (part 1) — 文字PV typography layouts: key glyphs, crossings, rules, grids, scale contrast, crops, annotation */
 (() => {
 'use strict';
 const E = J.E;

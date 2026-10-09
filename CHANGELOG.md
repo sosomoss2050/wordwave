@@ -1,5 +1,7 @@
 # 変更の記録（CHANGELOG）
 
+> WordWave（based on JIZURA by 852wa）。以下は upstream JIZURA 時代からの履歴をそのまま残しています。
+
 JIZURA のバージョンは `メジャー.マイナー.パッチ` の形で付けます。
 
 - **マイナー**（0.6 → 0.7）：機能の追加や、見た目・操作が変わる変更

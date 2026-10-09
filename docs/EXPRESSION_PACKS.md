@@ -1,6 +1,6 @@
-# JIZURA expression packs — contributor guide
+# WordWave expression packs — contributor guide
 
-JIZURA is a browser lyric-video (文字PV) engine: lyrics → timed "cuts", each cut = one **layout** (composition) +
+WordWave is a browser lyric-video (文字PV) engine: lyrics → timed "cuts", each cut = one **layout** (composition) +
 **enter** (entrance) + **hold** (idle motion) + **exit** + 0..n **decor** graphics (+ treatment / background / camera / fx,
 which are handled by other packs). Everything renders into a Canvas2D in *design space* and is deterministic from a seed.
 
@@ -13,7 +13,7 @@ Existing implementations to read first (they show the house style and all the id
 ## File skeleton
 
 ```js
-/* JIZURA pack: <pack> — <one line> */
+/* WordWave pack: <pack> — <one line> */
 (() => {
 'use strict';
 const E = J.E;

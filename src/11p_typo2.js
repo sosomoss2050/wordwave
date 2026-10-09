@@ -1,4 +1,4 @@
-/* JIZURA pack: typo (part 2) — typographic entrances, exits and holds: key glyph first, line wipes with rules, ruby, brackets, retyping, indices */
+/* WordWave pack: typo (part 2) — typographic entrances, exits and holds: key glyph first, line wipes with rules, ruby, brackets, retyping, indices */
 (() => {
 'use strict';
 const E = J.E;

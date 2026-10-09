@@ -1,4 +1,4 @@
-/* JIZURA pack: enter — 40 extra entrances (glyph masks, flips, squash & stretch, graphic wipes, glitch, neon, stamps) */
+/* WordWave pack: enter — 40 extra entrances (glyph masks, flips, squash & stretch, graphic wipes, glitch, neon, stamps) */
 (() => {
 'use strict';
 const E = J.E;

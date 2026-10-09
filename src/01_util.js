@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — util: math, easing, deterministic randomness, colour
+   WordWave — util: math, easing, deterministic randomness, colour
    ============================================================ */
 'use strict';
 const J = (window.J = window.J || {});

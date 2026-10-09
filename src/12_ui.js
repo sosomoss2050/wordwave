@@ -1,5 +1,5 @@
 /* ============================================================
-   WordWave (based on JIZURA by 852wa) — editor UI
+   WordWave (based on WordWave by 852wa) — editor UI
    ============================================================ */
 (() => {
 'use strict';

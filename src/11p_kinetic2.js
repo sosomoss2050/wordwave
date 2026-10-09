@@ -1,4 +1,4 @@
-/* JIZURA pack: kinetic (2) — word-by-word entrances, exits and holds */
+/* WordWave pack: kinetic (2) — word-by-word entrances, exits and holds */
 (() => {
 'use strict';
 const E = J.E;

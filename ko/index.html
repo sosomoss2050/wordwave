@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>JIZURA — 가사 모션 영상 메이커</title>
+<title>WordWave — 가사 모션 영상 메이커</title>
 <meta name="description" content="브라우저에서 가사를 움직이는 가사 영상으로 만들고 MP4로 내보내세요.">
-<link rel="canonical" href="https://852wa.github.io/JIZURA/ko/">
-<link rel="alternate" hreflang="ja" href="https://852wa.github.io/JIZURA/">
-<link rel="alternate" hreflang="en" href="https://852wa.github.io/JIZURA/en/">
-<link rel="alternate" hreflang="zh-Hant" href="https://852wa.github.io/JIZURA/zh-hant/">
-<link rel="alternate" hreflang="zh-Hans" href="https://852wa.github.io/JIZURA/zh-hans/">
-<link rel="alternate" hreflang="ko" href="https://852wa.github.io/JIZURA/ko/">
-<link rel="alternate" hreflang="id-ID" href="https://852wa.github.io/JIZURA/id/">
-<link rel="alternate" hreflang="vi" href="https://852wa.github.io/JIZURA/vi/">
+<link rel="canonical" href="https://852wa.github.io/WordWave/ko/">
+<link rel="alternate" hreflang="ja" href="https://852wa.github.io/WordWave/">
+<link rel="alternate" hreflang="en" href="https://852wa.github.io/WordWave/en/">
+<link rel="alternate" hreflang="zh-Hant" href="https://852wa.github.io/WordWave/zh-hant/">
+<link rel="alternate" hreflang="zh-Hans" href="https://852wa.github.io/WordWave/zh-hans/">
+<link rel="alternate" hreflang="ko" href="https://852wa.github.io/WordWave/ko/">
+<link rel="alternate" hreflang="id-ID" href="https://852wa.github.io/WordWave/id/">
+<link rel="alternate" hreflang="vi" href="https://852wa.github.io/WordWave/vi/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="JIZURA — 가사 모션 영상 메이커">
+<meta property="og:title" content="WordWave — 가사 모션 영상 메이커">
 <meta property="og:description" content="브라우저에서 가사를 움직이는 가사 영상으로 만들고 MP4로 내보내세요.">
-<meta property="og:url" content="https://852wa.github.io/JIZURA/ko/">
+<meta property="og:url" content="https://852wa.github.io/WordWave/ko/">
 <meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -478,7 +478,7 @@ button.small.primary { padding: 4px 12px; }
 </div>
 <div id="app">
   <header class="bar">
-    <div class="brand"><span class="mark" aria-hidden="true">字面</span><span class="word">JIZURA</span><span class="tag">lyric motion engine</span><span class="ver">v0.10.1</span></div>
+    <div class="brand"><span class="mark" aria-hidden="true">字面</span><span class="word">WordWave</span><span class="tag">lyric motion engine</span><span class="ver">v0.10.1</span></div>
     <div class="proj">
       <input id="songTitle" type="text" placeholder="곡 제목 (타이틀 카드와 HUD에 표시)" aria-label="곡 제목">
       <input id="songArtist" type="text" placeholder="아티스트" aria-label="아티스트">
@@ -787,7 +787,7 @@ If you want to offset all timestamps of a track such that the first one is zero,
 </script>
 <script>
 /* ============================================================
-   JIZURA — util: math, easing, deterministic randomness, colour
+   WordWave — util: math, easing, deterministic randomness, colour
    ============================================================ */
 'use strict';
 const J = (window.J = window.J || {});
@@ -969,7 +969,7 @@ J.fmtTime = (t, fps) => {
 };
 
 /* ============================================================
-   JIZURA — fonts: catalogue, loading, glyph decomposition
+   WordWave — fonts: catalogue, loading, glyph decomposition
    ============================================================ */
 (() => {
 'use strict';
@@ -1269,7 +1269,7 @@ function clipHalf(poly, nx, ny, d0, sgn) {
 })();
 
 /* ============================================================
-   JIZURA — lyric language: auto-detection + per-language faces
+   WordWave — lyric language: auto-detection + per-language faces
    The styles are designed around Japanese fonts. For Chinese
    (Traditional / Simplified) and Korean lyrics every font key is
    drawn with a face that has the glyphs, chosen to keep the same
@@ -1423,7 +1423,7 @@ J.segLocale = () => (J.lang === 'zh-Hant' ? 'zh-Hant' : J.lang === 'zh-Hans' ? '
 })();
 
 /* ============================================================
-   JIZURA — text items: layout + drawing (whole glyphs or pieces)
+   WordWave — text items: layout + drawing (whole glyphs or pieces)
    ============================================================ */
 (() => {
 'use strict';
@@ -1810,7 +1810,7 @@ J.fitSize = (text, font, maxW, maxH, opt = {}) => {
 })();
 
 /* ============================================================
-   JIZURA — style packs (palettes, type roles, texture, tendencies)
+   WordWave — style packs (palettes, type roles, texture, tendencies)
    Each pack = a set of colour schemes the cuts can swap between,
    font roles, texture, ghost (chromatic) colours and recipe biases.
    ============================================================ */
@@ -2005,7 +2005,7 @@ function pickDefined(o, keys) { const r = {}; for (const k of keys) if (o[k]) r[
 })();
 
 /* ============================================================
-   JIZURA — motion recipes: entrances / holds / exits
+   WordWave — motion recipes: entrances / holds / exits
    Each recipe mutates a text item: it.size/sx/alpha/blur/clip/bands,
    and pushes per-glyph (charFns) or per-piece (pieceFns) functions.
    ============================================================ */
@@ -2420,7 +2420,7 @@ J.combinePiece = (fns) => {
 })();
 
 /* ============================================================
-   JIZURA — registries for the newer expression groups + a single
+   WordWave (based on WordWave by 852wa) — registries for the newer expression groups + a single
    registration helper used by every expression pack (src/11p_*.js)
 
    group    registry      order array          picked per
@@ -2481,7 +2481,7 @@ J.register = (group, key, def, pack) => {
   if (!G) throw new Error('unknown group ' + group);
   if (!def || !def.name) throw new Error(`${group}.${key}: name is required`);
   const reg = J[G[0]], order = J[G[1]];
-  if (reg[key] && reg[key].pack !== pack) console.warn(`JIZURA: ${group}.${key} is being replaced`);
+  if (reg[key] && reg[key].pack !== pack) console.warn(`WordWave: ${group}.${key} is being replaced`);
   def.pack = pack || def.pack || 'core';
   reg[key] = def;
   if (!def.special && !order.includes(key)) order.push(key);
@@ -2494,7 +2494,7 @@ J.taggedWith = (group, mood) => J.order(group).filter(k => { const d = J.registr
 })();
 
 /* ============================================================
-   JIZURA — layouts (how a chunk of lyric is composed on screen)
+   WordWave — layouts (how a chunk of lyric is composed on screen)
    plan(rng, cut, st)  -> params stored in the cut (also exported to AE)
    render(env)         -> draws; returns bbox of the main text for decor
    ============================================================ */
@@ -3173,7 +3173,7 @@ J.EXIT_ORDER = ['cut', 'explode', 'fall', 'drift', 'slice', 'wipe', 'shrink', 'b
 })();
 
 /* ============================================================
-   JIZURA — decor (graphic elements around / behind the lyric) + HUD
+   WordWave — decor (graphic elements around / behind the lyric) + HUD
    ============================================================ */
 (() => {
 'use strict';
@@ -3434,7 +3434,7 @@ J.drawHUD = (env, plan) => {
 })();
 
 /* ============================================================
-   JIZURA — planner: lyrics -> lines -> chunks -> timed cuts + events
+   WordWave (based on WordWave by 852wa) — planner: lyrics -> lines -> chunks -> timed cuts + events
    ============================================================ */
 (() => {
 'use strict';
@@ -3725,7 +3725,7 @@ J.plan = (project, audio) => {
   const zoneOf = () => (zones ? Object.assign({}, zones[0]) : null);
   if (zones && en.bg) en.bg.bigChar = false;               // the one background that draws the lyric itself (big, centred)
   const plan = {
-    version: 1, generator: 'JIZURA', appVersion: '0.10.1', title, artist, W, H, fps: project.fps || 24,
+    version: 1, generator: 'WordWave', appVersion: '0.10.1', title, artist, W, H, fps: project.fps || 24,
     duration: tm.duration, styleKey: project.style, style: st, fx, seed: project.seed,
     lines: [], cuts: [], events: [], beats: audio && audio.beats ? audio.beats.slice() : [],
     hud: fx.hud === 'on' ? true : fx.hud === 'off' ? false : !!st.hud,
@@ -4459,7 +4459,7 @@ J.previewPlan = (project, group, key) => {
   }
   cuts.forEach((c, i) => { c.index = i; });
   return {
-    version: 1, generator: 'JIZURA-preview', title: '', artist: '', W, H, fps: 24,
+    version: 1, generator: 'WordWave-preview', title: '', artist: '', W, H, fps: 24,
     duration: cuts[cuts.length - 1].end, styleKey: project.style, style: st, fx,
     lines: [], cuts, events, beats: [], hud: false, keyBg: null,
   };
@@ -4482,7 +4482,7 @@ J.outputSize = (project) => {
 })();
 
 /* ============================================================
-   JIZURA — おまかせ (randomise everything into a coherent mood)
+   WordWave — おまかせ (randomise everything into a coherent mood)
    Each call rolls a mood, a style, effect strengths, a technique
    subset, fonts, colours and a new seed. Lyrics / timing / output
    settings and locked lines are left untouched.
@@ -4609,7 +4609,7 @@ J.omakase = (project, rnd = Math.random, themeId = null) => {
 })();
 
 /* ============================================================
-   JIZURA — frame renderer: background, chroma passes, HUD, post FX
+   WordWave — frame renderer: background, chroma passes, HUD, post FX
    ============================================================ */
 (() => {
 'use strict';
@@ -5150,7 +5150,7 @@ J.Renderer = Renderer;
 })();
 
 /* ============================================================
-   JIZURA — audio: decode, energy envelope, onset, BPM & beat grid
+   WordWave (based on WordWave) — audio: decode, energy envelope, onset, BPM & beat grid
    ============================================================ */
 (() => {
 'use strict';
@@ -5284,7 +5284,7 @@ J.beatGrid = (bpm, offset, duration) => {
 })();
 
 /* ============================================================
-   JIZURA — export: MP4 (WebCodecs + mp4-muxer), PNG sequence ZIP,
+   WordWave (based on WordWave) — export: MP4 (WebCodecs + mp4-muxer), PNG sequence ZIP,
    file saving (artifact download capability or plain browser download)
    ============================================================ */
 (() => {
@@ -5624,7 +5624,7 @@ J.planForAE = (plan, project, range) => {
 };
 })();
 
-/* JIZURA pack: bgcamB — background graphics (gradients, wa / textile patterns, scenes, textures) + camera moves */
+/* WordWave pack: bgcamB — background graphics (gradients, wa / textile patterns, scenes, textures) + camera moves */
 (() => {
 'use strict';
 const E = J.E;
@@ -6875,7 +6875,7 @@ reg('cam', 'jelly', { name: 'ぷるん', tags: ['pop', 'graphic'], w: 0.7,
   } });
 })();
 
-/* JIZURA pack: decor — 45 refined graphic accents: HUD / measuring marks, geometry, particles & light, hand-drawn marks, type ornaments */
+/* WordWave pack: decor — 45 refined graphic accents: HUD / measuring marks, geometry, particles & light, hand-drawn marks, type ornaments */
 (() => {
 'use strict';
 const E = J.E;
@@ -8557,7 +8557,7 @@ DEF.seal = {
 for (const k of Object.keys(DEF)) J.register('decor', k, DEF[k], PK);
 })();
 
-/* JIZURA pack: decorB — 55 more graphic accents: Japanese motifs, sci-fi HUD, print & stationery, nature / atmosphere, graphic shapes, UI widgets */
+/* WordWave pack: decorB — 55 more graphic accents: Japanese motifs, sci-fi HUD, print & stationery, nature / atmosphere, graphic shapes, UI widgets */
 (() => {
 'use strict';
 const E = J.E;
@@ -10974,7 +10974,7 @@ for (const k of SETTLE) if (DEF[k]) DEF[k].draw = withSettle(DEF[k].draw);
 for (const k of Object.keys(DEF)) J.register('decor', k, DEF[k], PK);
 })();
 
-/* JIZURA pack: enter — 40 extra entrances (glyph masks, flips, squash & stretch, graphic wipes, glitch, neon, stamps) */
+/* WordWave pack: enter — 40 extra entrances (glyph masks, flips, squash & stretch, graphic wipes, glitch, neon, stamps) */
 (() => {
 'use strict';
 const E = J.E;
@@ -11843,7 +11843,7 @@ const DEFS = {
 for (const k of Object.keys(DEFS)) J.register('enter', k, DEFS[k], P);
 })();
 
-/* JIZURA pack: enterB — 47 more entrances (physics, paper, light, digital devices, graphic masks) */
+/* WordWave pack: enterB — 47 more entrances (physics, paper, light, digital devices, graphic masks) */
 (() => {
 'use strict';
 const E = J.E;
@@ -13336,7 +13336,7 @@ function dRange(it, b) {
 for (const k of Object.keys(DEFS)) J.register('enter', k, DEFS[k], P);
 })();
 
-/* JIZURA pack: exitHold — 36 exits (退場) + 20 holds (待機中の動き)
+/* WordWave pack: exitHold — 36 exits (退場) + 20 holds (待機中の動き)
    Exits:  p 0 (rest) → 1 (fully gone).   Holds: amt 0..1 × fx.motion, subtle idle motion.
    Everything is relative to it.size / the item box and deterministic (it.seed, glyph index, env.step). */
 (() => {
@@ -14440,7 +14440,7 @@ H.echoTrail = {
 for (const k of Object.keys(H)) J.register('hold', k, H[k], P);
 })();
 
-/* JIZURA pack: exitB — 39 more exits (退場) + 12 more holds (待機中の動き)
+/* WordWave pack: exitB — 39 more exits (退場) + 12 more holds (待機中の動き)
    Exits:  p 0 (rest) → 1 (fully gone).   Holds: amt 0..1 × fx.motion, subtle idle motion.
    Motion principles here are new to the engine: paper physics (peel / crumple / tear / shred / flutter), rigid-body
    mechanics (hinge / domino / roll / bounce / rocket), masks with character (scorch edge / flood line / halftone / stripes /
@@ -16374,7 +16374,7 @@ H.pluckString = {
 for (const k of Object.keys(H)) J.register('hold', k, H[k], P);
 })();
 
-/* JIZURA pack: fxB — more post-processing / accent effects: lens, print, film, glitch and manga-style overlays */
+/* WordWave pack: fxB — more post-processing / accent effects: lens, print, film, glitch and manga-style overlays */
 (() => {
 'use strict';
 const E = J.E;
@@ -17182,7 +17182,7 @@ fx('loopScroll', { name: '横ループ', tags: ['pop', 'graphic', 'glitch'], w: 
 
 })();
 
-/* JIZURA pack: horror (1/3) — uneasy / found-footage layouts: flashlight, door gap, obsessive wall writing, CCTV, spirit board,
+/* WordWave pack: horror (1/3) — uneasy / found-footage layouts: flashlight, door gap, obsessive wall writing, CCTV, spirit board,
    missing poster, the one wrong glyph, rising from the dark, redacted file, static TV, spirit photo, the wrong shadow */
 (() => {
 'use strict';
@@ -17966,7 +17966,7 @@ reg('hrWrongShadow', {
 });
 })();
 
-/* JIZURA pack: horror (2/3) — entrances, exits, holds and text treatments with an uneasy, J-horror / found-footage feel */
+/* WordWave pack: horror (2/3) — entrances, exits, holds and text treatments with an uneasy, J-horror / found-footage feel */
 (() => {
 'use strict';
 const E = J.E;
@@ -18487,7 +18487,7 @@ reg('treat', 'hrDoubleExp', {
 });
 })();
 
-/* JIZURA pack: horror (3/3) — decorations, backgrounds, camera moves, screen effects, cut transitions and three styles */
+/* WordWave pack: horror (3/3) — decorations, backgrounds, camera moves, screen effects, cut transitions and three styles */
 (() => {
 'use strict';
 const E = J.E;
@@ -19043,7 +19043,7 @@ for (const [k, v] of Object.entries(S)) {
 }
 })();
 
-/* JIZURA pack: kinetic (1) — kinetic typography layouts: word-timed stacks, turns, swaps, dives and flows */
+/* WordWave pack: kinetic (1) — kinetic typography layouts: word-timed stacks, turns, swaps, dives and flows */
 (() => {
 'use strict';
 const E = J.E;
@@ -20010,7 +20010,7 @@ reg('knPadGrid', {
 
 })();
 
-/* JIZURA pack: kinetic (2) — word-by-word entrances, exits and holds */
+/* WordWave pack: kinetic (2) — word-by-word entrances, exits and holds */
 (() => {
 'use strict';
 const E = J.E;
@@ -20555,7 +20555,7 @@ reg('hold', 'knGapBreath', {
 
 })();
 
-/* JIZURA pack: kinetic (3) — word-timed cameras, transitions, treatments and decor */
+/* WordWave pack: kinetic (3) — word-timed cameras, transitions, treatments and decor */
 (() => {
 'use strict';
 const E = J.E;
@@ -20927,7 +20927,7 @@ reg('decor', 'knWordTicks', {
 
 })();
 
-/* JIZURA pack: layoutsA — 28 compositional layouts: telops, editorial typesetting, graphic devices and UI mock-ups */
+/* WordWave pack: layoutsA — 28 compositional layouts: telops, editorial typesetting, graphic devices and UI mock-ups */
 (() => {
 'use strict';
 const E = J.E;
@@ -22822,7 +22822,7 @@ reg('ticket', {
 
 })();
 
-/* JIZURA pack: layoutsB — kinetic / typographic layouts (rain, hanging, orbit, tunnel, word cloud, mechanical reveals …) */
+/* WordWave pack: layoutsB — kinetic / typographic layouts (rain, hanging, orbit, tunnel, word cloud, mechanical reveals …) */
 (() => {
 'use strict';
 const E = J.E;
@@ -24733,7 +24733,7 @@ J.register('layout', 'tape', {
 
 })();
 
-/* JIZURA pack: layoutsC — 34 layouts themed on print, editorial design and Japanese paper objects */
+/* WordWave pack: layoutsC — 34 layouts themed on print, editorial design and Japanese paper objects */
 (() => {
 'use strict';
 const E = J.E;
@@ -25292,7 +25292,7 @@ reg('magazine', {
     const dper = Math.max(4, Math.floor(aw / (ds * 1.05)));
     const dt = J.splitLines(deck, dper).split('\n').slice(0, 3).join('\n');
     env.draw({ text: dt, font: serifF(env), size: ds, lead: 1.55, align: 'left', x: ax, y: ry + ds * 1.2 + (dt.split('\n').length - 1) * ds * 0.78, color: C.text, alpha: fa * 0.75, ghost: false });
-    env.draw({ text: pad3(p.folio) + '   ' + (romajiOf(env) || 'JIZURA').slice(0, 18), font: monoF(env), size: ls * 0.85, track: 0.1, align: 'left', x: A.x + mx * 0.5, y: A.y + ph - my * 0.45, color: C.text, alpha: fa * 0.8, ghost: false });
+    env.draw({ text: pad3(p.folio) + '   ' + (romajiOf(env) || 'WordWave').slice(0, 18), font: monoF(env), size: ls * 0.85, track: 0.1, align: 'left', x: A.x + mx * 0.5, y: A.y + ph - my * 0.45, color: C.text, alpha: fa * 0.8, ghost: false });
     return bb || box(ax, hy - m.h / 2, ax + m.w, hy + m.h / 2);
     };
     const res = drawA();
@@ -25956,7 +25956,7 @@ reg('swissGrid', {
     }
     if (p.label) {
       const a = tin(env, 0.3, 0.4, E.outCubic) * out;
-      env.draw({ text: 'JIZURA  ／  No.' + lineNo(env) + '  ／  ' + J.fmtTime(env.cut.start), font: monoF(env), size: ls * 0.8, track: 0.25, x: m * 0.62, y: (gy0 + gy1) / 2, rot: -90, color: sc.sub, alpha: a, ghost: false });
+      env.draw({ text: 'WordWave  ／  No.' + lineNo(env) + '  ／  ' + J.fmtTime(env.cut.start), font: monoF(env), size: ls * 0.8, track: 0.25, x: m * 0.62, y: (gy0 + gy1) / 2, rot: -90, color: sc.sub, alpha: a, ghost: false });
     }
     return bb;
   },
@@ -26715,7 +26715,7 @@ reg('stampSheet', {
     shadowR(env, sx - m, sy - m * 1.8, sw + m * 2, sh + m * 2.8, 0, sa, u * 0.012);
     env.rect(sx - m, sy - m * 1.8, sw + m * 2, sh + m * 2.8, C.fill, sa, false);
     if (C.edge) env.line([[sx - m, sy - m * 1.8], [sx + sw + m, sy - m * 1.8], [sx + sw + m, sy + sh + m], [sx - m, sy + sh + m], [sx - m, sy - m * 1.8]], C.line, 1.2, sa, false);
-    env.draw({ text: 'JIZURA POST  ·  ' + p.val + ' × ' + (cols * rows - 3) + '  ·  No.' + lineNo(env), font: monoF(env), size: Math.min(ls * 0.8, m * 0.7), track: 0.2, align: 'left', x: sx, y: sy - m * 0.9, color: C.text, alpha: sa * 0.7, ghost: false });
+    env.draw({ text: 'WordWave POST  ·  ' + p.val + ' × ' + (cols * rows - 3) + '  ·  No.' + lineNo(env), font: monoF(env), size: Math.min(ls * 0.8, m * 0.7), track: 0.2, align: 'left', x: sx, y: sy - m * 0.9, color: C.text, alpha: sa * 0.7, ghost: false });
     const port2 = rows > cols;
     const spc = port2 ? 2 : 3, spr = port2 ? 3 : 2;
     const hc = Math.min(p.hc, cols - spc), hr = Math.min(p.hr, rows - spr);
@@ -27751,7 +27751,7 @@ reg('clapper', {
     lab('PROD.', x0 + pad, y0 + pad + ls * 0.4);
     const rowH = r2 - r1;
     [['SCENE', lineNo(env)], ['TAKE', String(p.take)], ['ROLL', p.roll]].forEach(([k2, v], i) => { lab(k2, x0 + bw * i / 3 + pad, r1 + ls * 0.6); val(v, x0 + bw * i / 3 + pad, r1 + rowH * 0.62, rowH * 0.46); });
-    [['DATE', J.fmtTime(env.cut.start)], ['DIR.', 'JIZURA'], ['CAM.', 'A']].forEach(([k2, v], i) => { lab(k2, x0 + bw * i / 3 + pad, r2 + ls * 0.6); val(v, x0 + bw * i / 3 + pad + ls * 3.2, r2 + (y0 + bh - r2) * 0.55, Math.min((y0 + bh - r2) * 0.42, ls * 1.3)); });
+    [['DATE', J.fmtTime(env.cut.start)], ['DIR.', 'WordWave'], ['CAM.', 'A']].forEach(([k2, v], i) => { lab(k2, x0 + bw * i / 3 + pad, r2 + ls * 0.6); val(v, x0 + bw * i / 3 + pad + ls * 3.2, r2 + (y0 + bh - r2) * 0.55, Math.min((y0 + bh - r2) * 0.42, ls * 1.3)); });
     const fb = fitBlock(env.cut.text.trim(), p.font, bw - pad * 2, (r1 - y0) - ls * 1.6, { lead: 1.08 }, 2);
     const size = Math.min(fb.size, bh * 0.3);
     const bb = J.mainDraw(env, { text: fb.text, font: p.font, size, x: x0 + pad * 1.4, y: y0 + ls * 1.2 + ((r1 - y0) - ls * 1.2) / 2, align: 'left', lead: 1.08, color: chalk, noHold: plateHold(env), mi: miAt(env, 0.25) });
@@ -28118,7 +28118,7 @@ reg('karuta', {
 
 })();
 
-/* JIZURA pack: layoutsD — kinetic / faux-3D / physical / pop-graphic layouts (cube, cylinder, flags, pendulums, signs, puzzles, masks …) */
+/* WordWave pack: layoutsD — kinetic / faux-3D / physical / pop-graphic layouts (cube, cylinder, flags, pendulums, signs, puzzles, masks …) */
 (() => {
 'use strict';
 const E = J.E;
@@ -31141,7 +31141,7 @@ reg('stencil', {
 
 })();
 
-/* JIZURA pack: looks — text treatments, background graphics, camera moves and post / transition effects */
+/* WordWave pack: looks — text treatments, background graphics, camera moves and post / transition effects */
 (() => {
 'use strict';
 const E = J.E;
@@ -32433,7 +32433,7 @@ fxReg('splitSlide', { name: '上下スライド', tags: ['graphic', 'pop', 'glit
   } });
 })();
 
-/* JIZURA pack: styles — twelve more style packs (配色セット: colour schemes, font roles, texture, tendencies) */
+/* WordWave pack: styles — twelve more style packs (配色セット: colour schemes, font roles, texture, tendencies) */
 (() => {
 'use strict';
 
@@ -32723,7 +32723,7 @@ for (const [k, v] of Object.entries(S)) {
 }
 })();
 
-/* JIZURA pack: treattrans — text treatments (neon, chrome, karaoke, reflection, ransom…) + cut-to-cut transitions (カット間のつなぎ) */
+/* WordWave pack: treattrans — text treatments (neon, chrome, karaoke, reflection, ransom…) + cut-to-cut transitions (カット間のつなぎ) */
 (() => {
 'use strict';
 const E = J.E;
@@ -33856,7 +33856,7 @@ trReg('pixelate', { name: 'モザイク転換', tags: ['glitch', 'pop'], w: 0.6,
 
 })();
 
-/* JIZURA pack: typo (part 1) — 文字PV typography layouts: key glyphs, crossings, rules, grids, scale contrast, crops, annotation */
+/* WordWave pack: typo (part 1) — 文字PV typography layouts: key glyphs, crossings, rules, grids, scale contrast, crops, annotation */
 (() => {
 'use strict';
 const E = J.E;
@@ -34797,7 +34797,7 @@ reg('tyLineFocus', {
 
 })();
 
-/* JIZURA pack: typo (part 2) — typographic entrances, exits and holds: key glyph first, line wipes with rules, ruby, brackets, retyping, indices */
+/* WordWave pack: typo (part 2) — typographic entrances, exits and holds: key glyph first, line wipes with rules, ruby, brackets, retyping, indices */
 (() => {
 'use strict';
 const E = J.E;
@@ -35317,7 +35317,7 @@ reg('hold', 'tyTrackStep', {
 
 })();
 
-/* JIZURA pack: typo (part 3) — typographic decor (colophon, running head, glyph bodies, text rules, type scale, big quote marks),
+/* WordWave pack: typo (part 3) — typographic decor (colophon, running head, glyph bodies, text rules, type scale, big quote marks),
    text treatments (hollow key glyph, head / foot rules, large head glyph, glyph indices) and two type-driven transitions */
 (() => {
 'use strict';
@@ -35753,7 +35753,7 @@ trReg('tyGridCells', {
 })();
 
 /* ============================================================
-   JIZURA — which entries random picks may use
+   WordWave — which entries random picks may use
    1) 追加分 (extra): everything added after the first public
       version (356 parts, 12 styles). Random picks (planner /
       おまかせ / シャッフル) use the first version's set unless
@@ -36332,7 +36332,7 @@ J.randomOk = (project, g, k) => {
 })();
 
 /* ============================================================
-   JIZURA — editor UI
+   WordWave (based on WordWave by 852wa) — editor UI
    ============================================================ */
 (() => {
 'use strict';
@@ -36558,7 +36558,7 @@ async function ensureFonts() {
 // style thumbnails need two glyphs of every style's display face — fetched only once the style grid is actually shown
 function loadThumbFonts() {
   if (thumbFonts || !$('styleGrid').offsetParent) return;
-  thumbFonts = J.ensureFonts('JIZURA', [...new Set(J.STYLE_ORDER.map(k => J.STYLES[k].fonts.display[0]))]).then(() => drawStyleGrid()).catch(() => {});
+  thumbFonts = J.ensureFonts('WordWave', [...new Set(J.STYLE_ORDER.map(k => J.STYLES[k].fonts.display[0]))]).then(() => drawStyleGrid()).catch(() => {});
 }
 function showMsg(m) { const el = $('viewMsg'); if (!m) { el.hidden = true; return; } el.textContent = m; el.hidden = false; }
 
@@ -37267,9 +37267,9 @@ function drawStyleGrid() {
     st.schemes.slice(1, 4).forEach((s2, i) => { x.fillStyle = s2.bg; x.fillRect(192 - 14 * (i + 1), 0, 14, 10); });
     const f = st.fonts.display[0];
     x.font = J.fontCSS(f, 46); x.textAlign = 'center'; x.textBaseline = 'middle';
-    x.fillStyle = sc.ghostB; x.fillText('JIZURA', 96 - 3, 54 - 1);
-    x.fillStyle = sc.ghostA; x.fillText('JIZURA', 96 + 3, 54 + 2);
-    x.fillStyle = sc.fg; x.fillText('JIZURA', 96, 54);
+    x.fillStyle = sc.ghostB; x.fillText('WordWave', 96 - 3, 54 - 1);
+    x.fillStyle = sc.ghostA; x.fillText('WordWave', 96 + 3, 54 + 2);
+    x.fillStyle = sc.fg; x.fillText('WordWave', 96, 54);
     x.fillStyle = sc.accent; x.fillRect(12, 90, 30, 4);
     x.font = J.fontCSS('mono', 9); x.textAlign = 'left'; x.fillStyle = sc.sub; x.fillText(k.toUpperCase(), 48, 93);
   });

@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — which entries random picks may use
+   WordWave — which entries random picks may use
    1) 追加分 (extra): everything added after the first public
       version (356 parts, 12 styles). Random picks (planner /
       おまかせ / シャッフル) use the first version's set unless

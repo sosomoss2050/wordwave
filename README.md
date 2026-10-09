@@ -1,16 +1,16 @@
 # WordWave 字浪 — 歌词动态视频（MV）生成工具
 
-> 本项目基于 [852wa/JIZURA](https://github.com/852wa/JIZURA)（MIT License, Copyright (c) 2026 hakoniwa）二次开发。
+> 本项目基于 [852wa/WordWave](https://github.com/852wa/WordWave)（MIT License, Copyright (c) 2026 hakoniwa）二次开发。
 
-**English edition:** [Open the app](https://852wa.github.io/JIZURA/en/) · [English guide](README.en.md)　／　**Bahasa Indonesia**：[Buka](https://852wa.github.io/JIZURA/id/) · [Panduan](README.id.md)　**Tiếng Việt**：[Mở](https://852wa.github.io/JIZURA/vi/) · [Hướng dẫn](README.vi.md)　**繁體中文**：[開啟](https://852wa.github.io/JIZURA/zh-hant/)　**简体中文**：[打开](https://852wa.github.io/JIZURA/zh-hans/)　**한국어**：[열기](https://852wa.github.io/JIZURA/ko/) · [한국어 가이드](README.ko.md)
+**English edition:** [Open the app](https://852wa.github.io/WordWave/en/) · [English guide](README.en.md)　／　**Bahasa Indonesia**：[Buka](https://852wa.github.io/WordWave/id/) · [Panduan](README.id.md)　**Tiếng Việt**：[Mở](https://852wa.github.io/WordWave/vi/) · [Hướng dẫn](README.vi.md)　**繁體中文**：[開啟](https://852wa.github.io/WordWave/zh-hant/)　**简体中文**：[打开](https://852wa.github.io/WordWave/zh-hans/)　**한국어**：[열기](https://852wa.github.io/WordWave/ko/) · [한국어 가이드](README.ko.md)
 
-英語版 AE パネル：[ScriptUI](https://852wa.github.io/JIZURA/WordWave_AE_en.jsx) · [CEP](https://852wa.github.io/JIZURA/WordWave_CEP_en.zip)
+英語版 AE パネル：[ScriptUI](https://852wa.github.io/WordWave/WordWave_AE_en.jsx) · [CEP](https://852wa.github.io/WordWave/WordWave_CEP_en.zip)
 
 歌詞を入れると、文字PV（リリックモーション）でよく使われる表現を組み合わせてカットを自動で組み立て、MP4 に書き出すブラウザアプリです。レイアウト・動き・装飾・つなぎ・仕上げを 860 の小さな部品（と 27 のスタイル）として持ち、その組み合わせを毎回変えるので、シードを変えれば何度でも別の構成になります。After Effects 用のパネル（スクリプト版と、ブラウザ版の画面をそのまま使える CEP 版）も付属しています。
 
 **バージョン：v0.9.0**（変更の記録は [CHANGELOG.md](CHANGELOG.md)）
 
-**▶ ブラウザで使う：<https://852wa.github.io/JIZURA/>**　／　AE パネル：[WordWave_AE.jsx](https://852wa.github.io/JIZURA/WordWave_AE.jsx)（スクリプト版。リンク先を右クリック →「名前を付けてリンク先を保存」）・[WordWave_CEP.zip](https://852wa.github.io/JIZURA/WordWave_CEP.zip)（CEP 版）
+**▶ ブラウザで使う：<https://852wa.github.io/WordWave/>**　／　AE パネル：[WordWave_AE.jsx](https://852wa.github.io/WordWave/WordWave_AE.jsx)（スクリプト版。リンク先を右クリック →「名前を付けてリンク先を保存」）・[WordWave_CEP.zip](https://852wa.github.io/WordWave/WordWave_CEP.zip)（CEP 版）
 
 - インストール不要。歌詞・曲・書き出しはすべてブラウザの中で処理され、サーバーには送信されません（外部から読み込むのは Google Fonts のフォントだけで、今の構成で使う書体だけを読み込みます）。
 - おまかせボタン（キー `R`）で、押すたびにスタイル・雰囲気・動き・配色・構成がまるごと変わります。
@@ -348,14 +348,14 @@ AE パネルは2種類あります。どちらも中の生成エンジンは同�
 - **軽量**（AE での再生を軽く）：色ズレの複製・紙の質感・グロー・粒子・絵を複製する画面効果を省いて作ります。レイヤー数がおよそ4割減り、長い曲でも AE での再生が軽くなります。
 - **長い曲**：コンポは少しずつ分けて作るので、作成中も After Effects が「応答なし」になりません。パネルに進み具合（％・カット数）が出て、**中止** を押すと、そこまでに作ったカットでコンポを仕上げます（スクリプト版・CEP 版とも）。取り消しは細かく分かれるため、作り直すときはプロジェクトパネルでコンポと `cuts` フォルダを削除してください。
 
-- **診断レポート**（「JSONから」タブ）：最後に作ったコンポのエクスプレッションを AE に計算させて、エラーや置き換えを `JIZURA_report.txt` にまとめて保存します。思ったとおりにできないときは、このファイルを添えて報告してください。
+- **診断レポート**（「JSONから」タブ）：最後に作ったコンポのエクスプレッションを AE に計算させて、エラーや置き換えを `WordWave_report.txt` にまとめて保存します。思ったとおりにできないときは、このファイルを添えて報告してください。
 
 </details>
 
 <details>
 <summary><h3>CEP 版（ブラウザ版の画面を AE の中で）</h3></summary>
 
-1. [`WordWave_CEP.zip`](https://852wa.github.io/JIZURA/WordWave_CEP.zip) をダウンロードして展開します。
+1. [`WordWave_CEP.zip`](https://852wa.github.io/WordWave/WordWave_CEP.zip) をダウンロードして展開します。
 2. Windows は `install_win.bat`、Mac は `install_mac.command` を実行します（ユーザーの CEP エクステンションフォルダにコピーし、署名なしのパネルを読み込めるように設定します）。
 3. After Effects（2022 以降）を再起動し、**ウィンドウ → エクステンション → WordWave 字浪** を開きます。
 
@@ -371,7 +371,7 @@ AE パネルは2種類あります。どちらも中の生成エンジンは同�
 <details>
 <summary><h3>生成されるもの</h3></summary>
 
-- カットごとのプリコンポ（`JIZURA <曲名> cuts` フォルダ）
+- カットごとのプリコンポ（`WordWave <曲名> cuts` フォルダ）
   - 部品によっては、カットの中にさらにプリコンポ（`JZ … art` など）や、色ズレ用のコピー（`… ghost`：紙や板などの背景物を除いた版）が作られます。
 - 作成が終わった時点で、使われていない非表示レイヤーはすべて削除します。残る非表示レイヤーはトラックマット（AE の決まりで、マットに使うレイヤー自体は表示されません）だけです。
   - 文字はテキストアニメーター（エクスプレッションセレクター）で動くので、文字を打ち替えても動きが保たれます。

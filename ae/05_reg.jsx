@@ -14,7 +14,7 @@
 var JZ_GROUPS = ['layout', 'enter', 'hold', 'exit', 'decor', 'treat', 'bg', 'cam', 'fx', 'trans'];
 var JZ_REG = { layout: {}, enter: {}, hold: {}, exit: {}, decor: {}, treat: {}, bg: {}, cam: {}, fx: {}, trans: {} };
 function jzReg(g, k, def) {
-    if (!JZ_REG[g]) throw new Error('JIZURA: unknown group ' + g);
+    if (!JZ_REG[g]) throw new Error('WordWave: unknown group ' + g);
     def.key = k; def.group = g;
     JZ_REG[g][k] = def;
     return def;

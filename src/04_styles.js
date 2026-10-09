@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — style packs (palettes, type roles, texture, tendencies)
+   WordWave — style packs (palettes, type roles, texture, tendencies)
    Each pack = a set of colour schemes the cuts can swap between,
    font roles, texture, ghost (chromatic) colours and recipe biases.
    ============================================================ */

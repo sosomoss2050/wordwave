@@ -1,4 +1,4 @@
-/* JIZURA pack: fxB — more post-processing / accent effects: lens, print, film, glitch and manga-style overlays */
+/* WordWave pack: fxB — more post-processing / accent effects: lens, print, film, glitch and manga-style overlays */
 (() => {
 'use strict';
 const E = J.E;

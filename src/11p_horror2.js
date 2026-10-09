@@ -1,4 +1,4 @@
-/* JIZURA pack: horror (2/3) — entrances, exits, holds and text treatments with an uneasy, J-horror / found-footage feel */
+/* WordWave pack: horror (2/3) — entrances, exits, holds and text treatments with an uneasy, J-horror / found-footage feel */
 (() => {
 'use strict';
 const E = J.E;

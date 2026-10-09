@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — text items: layout + drawing (whole glyphs or pieces)
+   WordWave — text items: layout + drawing (whole glyphs or pieces)
    ============================================================ */
 (() => {
 'use strict';

@@ -1,4 +1,4 @@
-/* JIZURA pack: styles — twelve more style packs (配色セット: colour schemes, font roles, texture, tendencies) */
+/* WordWave pack: styles — twelve more style packs (配色セット: colour schemes, font roles, texture, tendencies) */
 (() => {
 'use strict';
 

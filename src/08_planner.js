@@ -1,5 +1,5 @@
 /* ============================================================
-   WordWave (based on JIZURA by 852wa) — planner: lyrics -> lines -> chunks -> timed cuts + events
+   WordWave (based on WordWave by 852wa) — planner: lyrics -> lines -> chunks -> timed cuts + events
    ============================================================ */
 (() => {
 'use strict';

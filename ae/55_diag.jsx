@@ -44,7 +44,7 @@ function jzDiagnose(comp, plan, maxSecs) {
     }
     walkComp(comp, comp ? comp.name : '?');
     var out = [];
-    out.push('JIZURA 診断レポート');
+    out.push('WordWave 診断レポート');
     out.push('panel ' + JZ_PANEL_VERSION + ' / parts ' + jzPartsCount() + ' / After Effects ' + app.version + ' / ' + $.os);
     try { out.push('expression engine: ' + app.project.expressionEngine); } catch (e6) {}
     out.push('comp: ' + (comp ? comp.name + ' ' + comp.width + 'x' + comp.height + ' ' + comp.frameRate + 'fps' : '(none)'));
@@ -77,7 +77,7 @@ function jzSaveReport(text) {
     try { dirs.push(Folder.temp); } catch (e2) {}
     for (i = 0; i < dirs.length; i++) {
         try {
-            f = new File(dirs[i].fsName + '/JIZURA_report.txt'); f.encoding = 'UTF-8'; f.lineFeed = 'Windows';
+            f = new File(dirs[i].fsName + '/WordWave_report.txt'); f.encoding = 'UTF-8'; f.lineFeed = 'Windows';
             if (f.open('w')) { f.write(text); f.close(); return f.fsName; }
         } catch (e3) {}
     }

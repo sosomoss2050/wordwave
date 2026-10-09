@@ -1,5 +1,5 @@
 /* ============================================================
-   WordWave (based on JIZURA by 852wa) — registries for the newer expression groups + a single
+   WordWave (based on WordWave by 852wa) — registries for the newer expression groups + a single
    registration helper used by every expression pack (src/11p_*.js)
 
    group    registry      order array          picked per

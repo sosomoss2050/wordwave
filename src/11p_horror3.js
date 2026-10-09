@@ -1,4 +1,4 @@
-/* JIZURA pack: horror (3/3) — decorations, backgrounds, camera moves, screen effects, cut transitions and three styles */
+/* WordWave pack: horror (3/3) — decorations, backgrounds, camera moves, screen effects, cut transitions and three styles */
 (() => {
 'use strict';
 const E = J.E;

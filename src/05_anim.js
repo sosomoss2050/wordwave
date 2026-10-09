@@ -1,5 +1,5 @@
 /* ============================================================
-   JIZURA — motion recipes: entrances / holds / exits
+   WordWave — motion recipes: entrances / holds / exits
    Each recipe mutates a text item: it.size/sx/alpha/blur/clip/bands,
    and pushes per-glyph (charFns) or per-piece (pieceFns) functions.
    ============================================================ */

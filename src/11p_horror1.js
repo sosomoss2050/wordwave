@@ -1,4 +1,4 @@
-/* JIZURA pack: horror (1/3) — uneasy / found-footage layouts: flashlight, door gap, obsessive wall writing, CCTV, spirit board,
+/* WordWave pack: horror (1/3) — uneasy / found-footage layouts: flashlight, door gap, obsessive wall writing, CCTV, spirit board,
    missing poster, the one wrong glyph, rising from the dark, redacted file, static TV, spirit photo, the wrong shadow */
 (() => {
 'use strict';

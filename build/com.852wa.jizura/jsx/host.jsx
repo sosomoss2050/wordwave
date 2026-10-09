@@ -1,4 +1,4 @@
-/*  WordWave 字浪 — host script of the After Effects CEP panel (ExtendScript, ES3).
+/*  WordWave \u5B57\u6D6A \u2014 host script of the After Effects CEP panel (ExtendScript, ES3).
     The panel (index.html) talks to After Effects through evalScript('JZCEP.xxx(...)'); every call returns a JSON string.
     The build engine itself (wordwave_core.jsx, the same code as WordWave_AE.jsx without its ScriptUI) is loaded once by init().  */
 var JZCEP = (function () {
@@ -36,7 +36,7 @@ var JZCEP = (function () {
         }
         return $.global.JZ_CORE;
     }
-    // fonts: the same settings as the ScriptUI panel (WordWave_AE.jsx → フォント tab), defaults otherwise
+    // fonts: the same settings as the ScriptUI panel (WordWave_AE.jsx \u2192 \u30D5\u30A9\u30F3\u30C8 tab), defaults otherwise
     function setting(k, d) { try { if (app.settings.haveSetting('WordWave', k)) return decodeURIComponent(app.settings.getSetting('WordWave', k)); } catch (e) {} return d; }
     function roles(C) {
         var d = C.roleDefault;
@@ -62,8 +62,8 @@ var JZCEP = (function () {
         job = null; jobT0 = new Date().getTime();
         try { C = core(); } catch (e0) { return fail('engine: ' + e0.toString()); }
         try { plan = C.parse(s); } catch (e1) { return fail('JSON: ' + e1.toString()); }
-        if (!plan || !plan.cuts || !plan.style) return fail('WordWave の構成データではありません');
-        if (!C.start) return fail('engine: jizura_core.jsx is too old — reinstall the panel');
+        if (!plan || !plan.cuts || !plan.style) return fail('WordWave \u306E\u69CB\u6210\u30C7\u30FC\u30BF\u3067\u306F\u3042\u308A\u307E\u305B\u3093');
+        if (!C.start) return fail('engine: jizura_core.jsx is too old \u2014 reinstall the panel');
         var au = audioId ? findItem(audioId) : null, err = null, off = +plan.audioOffset || 0;
         app.beginUndoGroup('WordWave');
         try { job = C.start(plan, { roles: roles(C), audioItem: au, audioStart: -off, light: !!light }); }
@@ -81,7 +81,7 @@ var JZCEP = (function () {
             fallbacks: C.fallbacks(), notes: notes, notesTotal: log.length, audio: jobAudio, missingFonts: C.missingFonts ? C.missingFonts() : [], fontCheck: !(C.fontCheckUnavailable && C.fontCheckUnavailable()) };
     }
     function step(ms) {
-        if (!job) return fail('生成中のコンポがありません');
+        if (!job) return fail('\u751F\u6210\u4E2D\u306E\u30B3\u30F3\u30DD\u304C\u3042\u308A\u307E\u305B\u3093');
         var C = core(), err = null;
         app.beginUndoGroup('WordWave');
         try { job.step(ms > 0 ? ms : 1200); }
@@ -125,26 +125,26 @@ var JZCEP = (function () {
         // the audio file behind the selected layer of the active comp (the panel analyses it for beats)
         selectedAudio: function () {
             var c = activeComp();
-            if (!c) return fail('コンポを開いて、曲のレイヤーを選択してください');
+            if (!c) return fail('\u30B3\u30F3\u30DD\u3092\u958B\u3044\u3066\u3001\u66F2\u306E\u30EC\u30A4\u30E4\u30FC\u3092\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044');
             var L = audioLayerOf(c);
-            if (!L) return fail('曲（音声ファイル）のレイヤーを選択してください');
+            if (!L) return fail('\u66F2\uFF08\u97F3\u58F0\u30D5\u30A1\u30A4\u30EB\uFF09\u306E\u30EC\u30A4\u30E4\u30FC\u3092\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044');
             return str({ ok: true, id: L.source.id, name: L.source.name, path: L.source.file.fsName, start: L.startTime, comp: c.name });
         },
-        // marker times → line start times (seconds from the start of the song)
+        // marker times \u2192 line start times (seconds from the start of the song)
         markers: function () {
             var c = activeComp();
-            if (!c) return fail('コンポを開いてください');
+            if (!c) return fail('\u30B3\u30F3\u30DD\u3092\u958B\u3044\u3066\u304F\u3060\u3055\u3044');
             var L = c.selectedLayers.length ? c.selectedLayers[0] : null, mk = null, src = 'comp', i;
             try { if (L && L.property('ADBE Marker').numKeys > 0) { mk = L.property('ADBE Marker'); src = 'layer'; } } catch (e) {}
             if (!mk) mk = c.markerProperty;
-            if (!mk || mk.numKeys < 1) return fail('マーカーが見つかりません（曲のレイヤーかコンポにマーカーを打ってください）');
+            if (!mk || mk.numKeys < 1) return fail('\u30DE\u30FC\u30AB\u30FC\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\uFF08\u66F2\u306E\u30EC\u30A4\u30E4\u30FC\u304B\u30B3\u30F3\u30DD\u306B\u30DE\u30FC\u30AB\u30FC\u3092\u6253\u3063\u3066\u304F\u3060\u3055\u3044\uFF09');
             var A = audioLayerOf(c), off = A ? A.startTime : 0, t = [];
             for (i = 1; i <= mk.numKeys; i++) t.push(Math.max(0, mk.keyTime(i) - off));
             return str({ ok: true, source: src, times: t, offset: off });
         },
-        buildFromFile: function (path, audioId) { var s = readTemp(path); return s == null ? fail('構成データの一時ファイルが見つかりません') : build(s, audioId); },
+        buildFromFile: function (path, audioId) { var s = readTemp(path); return s == null ? fail('\u69CB\u6210\u30C7\u30FC\u30BF\u306E\u4E00\u6642\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093') : build(s, audioId); },
         buildFromString: function (enc, audioId) { return build(decodeURIComponent(enc), audioId); },
-        startFromFile: function (path, audioId, light) { var s = readTemp(path); return s == null ? fail('構成データの一時ファイルが見つかりません') : start(s, audioId, light); },
+        startFromFile: function (path, audioId, light) { var s = readTemp(path); return s == null ? fail('\u69CB\u6210\u30C7\u30FC\u30BF\u306E\u4E00\u6642\u30D5\u30A1\u30A4\u30EB\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093') : start(s, audioId, light); },
         startFromString: function (enc, audioId, light) { return start(decodeURIComponent(enc), audioId, light); },
         step: function (ms) { return step(ms); },
         cancel: function () { if (job) job.cancelled = true; return str({ ok: true }); },
@@ -152,7 +152,7 @@ var JZCEP = (function () {
         diagnose: function () {
             var C; try { C = core(); } catch (e0) { return fail(e0.toString()); }
             var ok = false; try { ok = !!(lastComp && lastComp.name); } catch (e) { ok = false; }
-            if (!ok) return fail('先にこのパネルでコンポを作ってください');
+            if (!ok) return fail('\u5148\u306B\u3053\u306E\u30D1\u30CD\u30EB\u3067\u30B3\u30F3\u30DD\u3092\u4F5C\u3063\u3066\u304F\u3060\u3055\u3044');
             var r = C.diagnose(lastComp, lastPlan, 120), path = C.saveReport(r.text);
             return str({ ok: true, errors: r.errors, expressions: r.expressions, partial: r.partial, path: path });
         }

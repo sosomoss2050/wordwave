@@ -1,4 +1,4 @@
-/* JIZURA pack: kinetic (3) — word-timed cameras, transitions, treatments and decor */
+/* WordWave pack: kinetic (3) — word-timed cameras, transitions, treatments and decor */
 (() => {
 'use strict';
 const E = J.E;

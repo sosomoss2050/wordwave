@@ -1,4 +1,4 @@
-/* JIZURA pack: layoutsB — kinetic / typographic layouts (rain, hanging, orbit, tunnel, word cloud, mechanical reveals …) */
+/* WordWave pack: layoutsB — kinetic / typographic layouts (rain, hanging, orbit, tunnel, word cloud, mechanical reveals …) */
 (() => {
 'use strict';
 const E = J.E;

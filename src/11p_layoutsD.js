@@ -1,4 +1,4 @@
-/* JIZURA pack: layoutsD — kinetic / faux-3D / physical / pop-graphic layouts (cube, cylinder, flags, pendulums, signs, puzzles, masks …) */
+/* WordWave pack: layoutsD — kinetic / faux-3D / physical / pop-graphic layouts (cube, cylinder, flags, pendulums, signs, puzzles, masks …) */
 (() => {
 'use strict';
 const E = J.E;
