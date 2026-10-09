@@ -180,6 +180,9 @@ BODY = {
     'かんたん': 'Sederhana', '詳細': 'Lanjutan', '開く': 'Buka', '保存': 'Simpan',
     'AE用に書き出し': 'Ekspor untuk AE', '利用について': 'Tentang dan hak',
     '記法': 'Sintaks', 'プレビュー': 'Pratinjau', '再生': 'Putar', 'ループ': 'Loop',
+    '全画面': 'Layar penuh',
+    '全画面解除': 'Keluar layar penuh',
+    '全画面プレビュー（F／Esc で戻る）': 'Pratinjau layar penuh (F / Esc keluar)',
     '前の案': 'Sebelumnya', '次の案': 'Berikutnya', 'シャッフル': 'Acak susunan', 'おまかせで作る': 'Buat variasi',
     'おまかせ': 'Buat variasi', 'いまの案': 'Variasi saat ini', 'ここだけ変える': 'Ubah satu hal',
     'スタイル': 'Gaya', '配色': 'Palet', '雰囲気': 'Suasana', '構成': 'Susunan',
@@ -205,6 +208,9 @@ BODY = {
 }
 
 UI = {
+    '全画面': 'Layar penuh',
+    '全画面解除': 'Keluar layar penuh',
+    '全画面プレビュー（F／Esc で戻る）': 'Pratinjau layar penuh (F / Esc keluar)',
     '`前後の行と順番が入れ替わらないよう ${w.toFixed(2)} 秒にしました`': '`Diatur ke ${w.toFixed(2)} dtk agar urutan baris tetap`',
     "'このカットの開始時刻（手動）。空にすると自動に戻ります'": "'Awal cut ini (manual). Kosongkan untuk kembali otomatis'",
     "'このカットの開始時刻（自動）。数値を入れると固定します'": "'Awal cut ini (otomatis). Ketik waktu untuk menguncinya'",

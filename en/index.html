@@ -155,6 +155,9 @@ button.tap { font: 700 18px/1 var(--mono); letter-spacing: 0.2em; padding: 16px;
 /* ---------- stage ---------- */
 .col-stage { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; min-width: 0; }
 .viewport { position: relative; width: 100%; background: #000; border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+.viewport:fullscreen, .viewport.fs { width: 100vw; height: 100vh; border-radius: 0; background: #000; }
+.viewport:fullscreen canvas, .viewport.fs canvas { width: 100vw; height: 100vh; object-fit: contain; }
+.viewport:fullscreen .overlay-msg, .viewport.fs .overlay-msg { font-size: 1.4em; }
 .viewport canvas { display: block; width: 100%; height: auto; max-height: 68vh; object-fit: contain; }
 .field-wide { grid-column: span 2; }
 .lang-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 6px; font-size: 11px; color: var(--muted); }
@@ -478,7 +481,7 @@ button.small.primary { padding: 4px 12px; }
 </div>
 <div id="app">
   <header class="bar">
-    <div class="brand"><span class="mark" aria-hidden="true">字浪</span><span class="word">WordWave</span><span class="tag">lyric motion engine</span><span class="ver">v0.11.8</span></div>
+    <div class="brand"><span class="mark" aria-hidden="true">字浪</span><span class="word">WordWave</span><span class="tag">lyric motion engine</span><span class="ver">v0.11.9</span></div>
     <div class="proj">
       <input id="songTitle" type="text" placeholder="Song title (shown on title cards and HUD)" aria-label="Song title">
       <input id="songArtist" type="text" placeholder="Artist" aria-label="Artist">
@@ -562,6 +565,7 @@ button.small.primary { padding: 4px 12px; }
         <span id="timeNow" class="tc">00:00.00</span><span class="tc muted">/</span><span id="timeDur" class="tc muted">00:00.00</span>
         <input id="scrub" type="range" min="0" max="10000" value="0" aria-label="Playback position">
         <button id="btnLoop" class="ghost small" aria-pressed="true" title="Loop the whole piece">Loop</button>
+        <button id="btnFull" class="ghost small" title="Fullscreen preview (F / Esc to exit)">Fullscreen</button>
         <span class="vol"><button id="btnMute" class="ghost small" aria-pressed="false" title="Click to mute / unmute (preview only — exports keep the original level)">Vol</button><input id="vol" type="range" min="0" max="100" value="80" aria-label="Preview volume"></span>
         <span class="hist-btns">
           <button id="btnPrev" class="ghost small icon-txt" title="Previous variation" aria-label="Previous">◀</button>
@@ -3726,7 +3730,7 @@ J.plan = (project, audio) => {
   const zoneOf = () => (zones ? Object.assign({}, zones[0]) : null);
   if (zones && en.bg) en.bg.bigChar = false;               // the one background that draws the lyric itself (big, centred)
   const plan = {
-    version: 1, generator: 'WordWave', appVersion: '0.11.8', title, artist, W, H, fps: project.fps || 24,
+    version: 1, generator: 'WordWave', appVersion: '0.11.9', title, artist, W, H, fps: project.fps || 24,
     duration: tm.duration, styleKey: project.style, style: st, fx, seed: project.seed,
     lines: [], cuts: [], events: [], beats: audio && audio.beats ? audio.beats.slice() : [],
     hud: fx.hud === 'on' ? true : fx.hud === 'off' ? false : !!st.hud,
@@ -37824,7 +37828,7 @@ function bind() {
   const openTerms = () => { if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', ''); };
   document.querySelectorAll('.terms-open').forEach(b => b.addEventListener('click', openTerms));
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close ? dlg.close() : dlg.removeAttribute('open'); });   // click on the backdrop
-  $('btnSave').addEventListener('click', () => J.saveFile(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.8' }), null, 1)));
+  $('btnSave').addEventListener('click', () => J.saveFile(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.9' }), null, 1)));
   $('btnAE').addEventListener('click', () => J.saveFile(baseName() + rangeSuffix() + '_ae.json', JSON.stringify(J.planForAE(S.plan, S.project, exportRange()), null, 1)));
   audioNameDefault = $('audioName').textContent;
   $('btnClearLyrics').addEventListener('click', clearLyrics);
@@ -37877,9 +37881,26 @@ function bind() {
     else if (e.code === 'ArrowRight') seek(S.t + (e.shiftKey ? 1 : 1 / S.plan.fps));
     else if (e.code === 'ArrowLeft') seek(S.t - (e.shiftKey ? 1 : 1 / S.plan.fps));
     else if (e.code === 'KeyR' && !e.metaKey && !e.ctrlKey && !e.altKey && !S.exporting) { e.preventDefault(); omakase(); }
+    else if (e.code === 'KeyF' && !e.metaKey && !e.ctrlKey && !e.altKey && !typing) { e.preventDefault(); toggleFullscreen(); }
   });
   window.addEventListener('resize', () => { sizeViewport(); drawTimeline(); });
   if (window.ResizeObserver) new ResizeObserver(() => { sizeViewport(); drawTimeline(); }).observe($('viewport'));
+  // --- 全屏预览（F 键 / Fullscreen按钮；Esc 由浏览器原生退出） ---
+  function toggleFullscreen() {
+    const vp = $('viewport');
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else if (vp.requestFullscreen) {
+      vp.requestFullscreen().catch(e => toast('Fullscreenにできません: ' + e.message));
+    }
+  }
+  $('btnFull').addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', () => {
+    const on = !!document.fullscreenElement;
+    $('viewport').classList.toggle('fs', on);
+    if ($('btnFull')) $('btnFull').textContent = on ? 'Exit fullscreen' : 'Fullscreen';
+    sizeViewport(); drawTimeline();
+  });
   bindFollow();
 }
 

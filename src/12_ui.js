@@ -1822,9 +1822,26 @@ function bind() {
     else if (e.code === 'ArrowRight') seek(S.t + (e.shiftKey ? 1 : 1 / S.plan.fps));
     else if (e.code === 'ArrowLeft') seek(S.t - (e.shiftKey ? 1 : 1 / S.plan.fps));
     else if (e.code === 'KeyR' && !e.metaKey && !e.ctrlKey && !e.altKey && !S.exporting) { e.preventDefault(); omakase(); }
+    else if (e.code === 'KeyF' && !e.metaKey && !e.ctrlKey && !e.altKey && !typing) { e.preventDefault(); toggleFullscreen(); }
   });
   window.addEventListener('resize', () => { sizeViewport(); drawTimeline(); });
   if (window.ResizeObserver) new ResizeObserver(() => { sizeViewport(); drawTimeline(); }).observe($('viewport'));
+  // --- 全屏预览（F 键 / 全画面按钮；Esc 由浏览器原生退出） ---
+  function toggleFullscreen() {
+    const vp = $('viewport');
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else if (vp.requestFullscreen) {
+      vp.requestFullscreen().catch(e => toast('全画面にできません: ' + e.message));
+    }
+  }
+  $('btnFull').addEventListener('click', toggleFullscreen);
+  document.addEventListener('fullscreenchange', () => {
+    const on = !!document.fullscreenElement;
+    $('viewport').classList.toggle('fs', on);
+    if ($('btnFull')) $('btnFull').textContent = on ? '全画面解除' : '全画面';
+    sizeViewport(); drawTimeline();
+  });
   bindFollow();
 }
 

@@ -232,6 +232,9 @@ BODY = {
     '利用について': 'Giới thiệu & quyền sử dụng',
     '記法': 'Cú pháp',
     'プレビュー': 'Xem trước',
+    '全画面解除': 'Thoát toàn màn hình',
+    '全画面プレビュー（F／Esc で戻る）': 'Xem trước toàn màn hình (F / Esc thoát)',
+    '全画面': 'Toàn màn hình',
     '再生': 'Phát',
     'ループ': 'Vòng lặp',
     '前の案': 'Biến thể trước',
@@ -263,6 +266,9 @@ BODY = {
 }
 
 UI = {
+    '全画面': 'Toàn màn hình',
+    '全画面解除': 'Thoát toàn màn hình',
+    '全画面プレビュー（F／Esc で戻る）': 'Xem trước toàn màn hình (F / Esc thoát)',
     '`前後の行と順番が入れ替わらないよう ${w.toFixed(2)} 秒にしました`': '`Đã đặt ${w.toFixed(2)} giây để giữ thứ tự các dòng`',
     "'このカットの開始時刻（手動）。空にすると自動に戻ります'": "'Thời điểm bắt đầu cảnh này (thủ công). Xóa trống để về tự động'",
     "'このカットの開始時刻（自動）。数値を入れると固定します'": "'Thời điểm bắt đầu cảnh này (tự động). Nhập số để cố định'",

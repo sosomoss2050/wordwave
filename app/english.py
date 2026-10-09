@@ -145,6 +145,9 @@ BODY = {
     'かんたん': 'Simple', '詳細': 'Advanced', '開く': 'Open', '保存': 'Save',
     'AE用に書き出し': 'Export for AE', '利用について': 'About / rights',
     '記法': 'Syntax', 'プレビュー': 'Preview', '再生': 'Play', 'ループ': 'Loop',
+    '全画面': 'Fullscreen',
+    '全画面解除': 'Exit fullscreen',
+    '全画面プレビュー（F／Esc で戻る）': 'Fullscreen preview (F / Esc to exit)',
     '前の案': 'Previous', '次の案': 'Next', 'シャッフル': 'Shuffle', 'おまかせで作る': 'Create a variation',
     'おまかせ': 'Randomize', 'いまの案': 'Current variation', 'ここだけ変える': 'Change one thing',
     'スタイル': 'Style', '配色': 'Palette', '雰囲気': 'Mood', '構成': 'Arrangement',
@@ -173,6 +176,9 @@ BODY = {
 }
 
 UI = {
+    '全画面': 'Fullscreen',
+    '全画面解除': 'Exit fullscreen',
+    '全画面プレビュー（F／Esc で戻る）': 'Fullscreen preview (F / Esc to exit)',
     '`前後の行と順番が入れ替わらないよう ${w.toFixed(2)} 秒にしました`': '`Set to ${w.toFixed(2)} s so the lines stay in order`',
     "'このカットの開始時刻（手動）。空にすると自動に戻ります'": "'Start of this cut (set by hand). Clear it to go back to automatic'",
     "'このカットの開始時刻（自動）。数値を入れると固定します'": "'Start of this cut (automatic). Type a time to fix it'",
