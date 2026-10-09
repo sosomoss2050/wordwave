@@ -55,16 +55,16 @@ window.WW = {
     const buf = await J.exportMP4({ plan: this.plan, project: this.project, audio: this._audioBuf, quality: quality || 'high',
       onProgress: (p, msg) => { document.getElementById('log').textContent = msg; } });
     this._blob = buf.blob;
+    // 挂下载链接：Playwright 走原生下载通道流式取片，大文件不走 b64 字符串
+    this._dlUrl = URL.createObjectURL(this._blob);
+    const a = document.createElement('a');
+    a.id = 'ww-dl'; a.href = this._dlUrl; a.download = 'wordwave_output.mp4';
+    document.body.appendChild(a);
     return { size: buf.size, tried: buf.tried || [], codec: buf.codec, audio: !!buf.audio };
   },
-  async b64(){
-    if (!this._b64) {
-      const ab = await this._blob.arrayBuffer();
-      let bin = ''; const u8 = new Uint8Array(ab); const CH = 0x8000;
-      for (let i = 0; i < u8.length; i += CH) bin += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
-      this._b64 = btoa(bin);
-    }
-    return this._b64;
+  dispose(){
+    if (this._dlUrl) { URL.revokeObjectURL(this._dlUrl); this._dlUrl = null; }
+    const a = document.getElementById('ww-dl'); if (a) a.remove();
   },
   shot(t, scale){
     scale = scale || 0.5;
