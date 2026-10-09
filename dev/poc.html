@@ -1,0 +1,62 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>body{margin:0;background:#222;color:#eee;font-size:12px}#log{white-space:pre-wrap;padding:8px}</style>
+</head><body>
+<div id="log">ready</div>
+<script src="mp4-muxer.min.js"></script>
+<script src="jizura.js"></script>
+<script>
+window.WW = {
+  base(lyrics, over){
+    const project = J.defaultProject();
+    project.lyrics = lyrics;
+    project.title = 'WordWave MV';
+    if (over) for (const k of ['style','seed','aspect','res','fps']) if (over[k] != null) project[k] = over[k];
+    this.project = project;
+    this.plan = J.plan(project, null);
+    return this.plan;
+  },
+  async setup(lyrics, over){
+    const plan = this.base(lyrics, over || {});
+    await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
+    return { dur: plan.duration, cuts: plan.cuts.length, W: plan.W, H: plan.H, fps: plan.fps, style: this.project.style, seed: this.project.seed };
+  },
+  async setupOmakase(lyrics, seed){
+    const plan = this.base(lyrics, { seed });
+    const r = J.omakase(this.project, J.rng(seed), null);
+    Object.assign(this.project, r);   // UI 层同款应用方式（12_ui.js:1120）
+    this.plan = J.plan(this.project, null);
+    await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
+    return { dur: this.plan.duration, cuts: this.plan.cuts.length, W: this.plan.W, H: this.plan.H, fps: this.plan.fps, style: this.project.style, seed };
+  },
+  async setupFromJson(lyrics, json){
+    const plan = this.base(lyrics, {});
+    try { Object.assign(this.project, typeof json === 'string' ? JSON.parse(json) : json); } catch(e){}
+    this.plan = J.plan(this.project, null);
+    await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
+    return { dur: this.plan.duration, cuts: this.plan.cuts.length, W: this.plan.W, H: this.plan.H, fps: this.plan.fps, style: this.project.style };
+  },
+  async export(){
+    const buf = await J.exportMP4({ plan: this.plan, project: this.project, audio: null, quality: 'medium',
+      onProgress: (p, msg) => { document.getElementById('log').textContent = msg; } });
+    this._blob = buf.blob;
+    return { size: buf.size, tried: buf.tried || [], codec: buf.codec };
+  },
+  async b64(){
+    if (!this._b64) {
+      const ab = await this._blob.arrayBuffer();
+      let bin = ''; const u8 = new Uint8Array(ab); const CH = 0x8000;
+      for (let i = 0; i < u8.length; i += CH) bin += String.fromCharCode.apply(null, u8.subarray(i, i + CH));
+      this._b64 = btoa(bin);
+    }
+    return this._b64;
+  },
+  shot(t, scale){
+    scale = scale || 0.5;
+    const c = document.createElement('canvas');
+    c.width = Math.round(this.plan.W*scale); c.height = Math.round(this.plan.H*scale);
+    const ctx = c.getContext('2d');
+    new J.Renderer().frame(ctx, this.plan, t, { scale });
+    return c.toDataURL('image/png');
+  }
+};
+</script></body></html>
