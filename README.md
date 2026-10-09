@@ -57,6 +57,54 @@ python3 dev/poc_export.py --workdir /path/歌曲文件夹 --seed 42 --quality hi
 2. 浏览器版导入工程 JSON 人工微调（⚠️ 导入后需把歌词粘回歌词框并重新载入音乐）
 3. 导出新 JSON，`--project-json` 出高清正式版
 
+## Skill 部署指南（OpenClaw / AI Agent 自动化）
+
+`skill/wordwave-mv/` 是一个即插即用的 Agent Skill，让 AI agent 用一句自然语言出片（「用字浪把这段歌词做成 MV」）。
+
+### 安装（三步，全程自动）
+
+```bash
+# 1. 克隆仓库（已装可跳过）
+git clone https://github.com/sosomoss2050/wordwave.git
+
+# 2. 把 skill 拷进 OpenClaw 全局技能目录
+cp -r wordwave/skill/wordwave-mv ~/.openclaw/skills/
+
+# 3. 完成。首次运行时依赖自动安装（见下）
+```
+
+安装后**新开一个 agent 会话**即可生效。触发词：歌词MV / 歌词动画 / 文字MV / 动态歌词 / lyric video / 字浪 / WordWave。
+
+### 依赖自动安装（小白零操作）
+
+skill 脚本首次运行时自检并**自动安装**缺失依赖，无需手动操作：
+
+| 依赖 | 检测 | 自动处理 |
+|---|---|---|
+| playwright（Python 包） | import 失败 | 自动 `pip install --user playwright`（约 30 秒） |
+| 浏览器内核 | 找系统 Chrome/Chromium | 没有 → 自动 `playwright install chromium`（一次性约 2 分钟） |
+| 仓库引擎构建产物 `dev/www/` | 文件缺失 | 自动执行 `build.py --dev` 构建 |
+| mp4-muxer 库 | 文件缺失 | 自动从 vendor/ 复制 |
+
+全部失败才会退出，报错信息含可直接复制的安装命令。
+
+### 环境变量（可选）
+
+```bash
+export WORDWAVE_REPO=/path/to/wordwave   # 引擎仓库位置（默认 /Volumes/Work/TeamShare/project-workspace/wordwave）
+```
+
+> 其他机器部署时务必设置此项，指向你 clone 的仓库路径。
+
+### Agent 使用示例
+
+```
+用户：「使用字浪，帮我把这首歌生成歌词MV」（附歌词文件路径/工作文件夹）
+Agent：自动选风格 → headless 出片 → 回传 MP4 路径 + seed（可复现）+ 预览帧
+```
+
+详细的风格推荐表见 [skill/wordwave-mv/STYLES.md](skill/wordwave-mv/STYLES.md)，歌词语法见 [skill/wordwave-mv/LYRICS.md](skill/wordwave-mv/LYRICS.md)。
+
 ## 仓库结构
 
 ```
