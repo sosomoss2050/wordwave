@@ -118,6 +118,20 @@ Install `WordWave_AE_en.jsx` in After Effects' `Scripts/ScriptUI Panels` folder,
 
 </details>
 
+<details open>
+<summary><h2>Credits / Acknowledgements</h2></summary>
+
+**WordWave is a fork of [JIZURA](https://github.com/852wa/JIZURA) by [852wa](https://github.com/852wa). All credit for the original engine goes to the original author.**
+
+- Original project: https://github.com/852wa/JIZURA
+- Original author: https://github.com/852wa
+- Original web app: https://852wa.github.io/JIZURA/
+- License: MIT (Copyright (c) 2026 hakoniwa)
+
+WordWave is a rebranded, Chinese-focused continuation. The entire engine design, 860+ expression parts and 27 styles come from the original project.
+
+</details>
+
 <details>
 <summary><h2>Contributors</h2></summary>
 

@@ -49,3 +49,15 @@ Cài `WordWave_AE_en.jsx` vào thư mục `Scripts/ScriptUI Panels` của After 
 Giao diện và tên kỹ thuật tiếng Trung Phồn thể, tên kỹ thuật tiếng Trung Giản thể, sửa lỗi nhận diện font và ngôn ngữ: [Zaious](https://github.com/Zaious) (#5, #6, #7, #11). Giao diện và tên kỹ thuật tiếng Hàn: [andongmin94](https://github.com/andongmin94) (#8). Giao diện tiếng Indonesia: [auliaramadhann](https://github.com/auliaramadhann) và [enka25](https://github.com/enka25) (#12).
 
 </details>
+
+<details open>
+<summary><h2>Credits / クレジット</h2></summary>
+
+**WordWave は [852wa](https://github.com/852wa) 氏の [JIZURA](https://github.com/852wa/JIZURA) のフォークです。原作者に心から感謝します。**
+
+- 原プロジェクト: https://github.com/852wa/JIZURA
+- 原作者: https://github.com/852wa
+- オンライン版: https://852wa.github.io/JIZURA/
+- ライセンス: MIT (Copyright (c) 2026 hakoniwa)
+
+</details>

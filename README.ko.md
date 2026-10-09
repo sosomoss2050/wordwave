@@ -53,3 +53,15 @@ index.html, en/index.html, ko/index.html이 생성됩니다. 세 파일은 GitHu
 한국어판은 브라우저 UI 번역만 추가합니다. After Effects 패널의 프로젝트 JSON 형식은 기존과 동일하며, 가사의 한국어 감지와 한국어 글꼴 매핑은 기존 엔진을 그대로 사용합니다.
 
 </details>
+
+<details open>
+<summary><h2>Credits / クレジット</h2></summary>
+
+**WordWave は [852wa](https://github.com/852wa) 氏の [JIZURA](https://github.com/852wa/JIZURA) のフォークです。原作者に心から感謝します。**
+
+- 原プロジェクト: https://github.com/852wa/JIZURA
+- 原作者: https://github.com/852wa
+- オンライン版: https://852wa.github.io/JIZURA/
+- ライセンス: MIT (Copyright (c) 2026 hakoniwa)
+
+</details>

@@ -34,3 +34,15 @@ Jalankan `python3 build.py` dari root repository. Perintah ini membuat edisi `in
 Panel After Effects memerlukan After Effects untuk memverifikasi gerakan dan hasil ekspor; pengujian otomatis memakai mock AE.
 
 </details>
+
+<details open>
+<summary><h2>Credits / クレジット</h2></summary>
+
+**WordWave は [852wa](https://github.com/852wa) 氏の [JIZURA](https://github.com/852wa/JIZURA) のフォークです。原作者に心から感謝します。**
+
+- 原プロジェクト: https://github.com/852wa/JIZURA
+- 原作者: https://github.com/852wa
+- オンライン版: https://852wa.github.io/JIZURA/
+- ライセンス: MIT (Copyright (c) 2026 hakoniwa)
+
+</details>

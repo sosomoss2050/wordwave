@@ -421,6 +421,20 @@ python3 build_cep.py          # index.html + ae/ + cep/ → build/com.852wa.jizu
 
 </details>
 
+<details open>
+<summary><h2>鸣谢 / Credits</h2></summary>
+
+**本项目基于原作者 [852wa](https://github.com/852wa) 的杰出作品 [JIZURA](https://github.com/852wa/JIZURA) 二次开发而来，衷心感谢原作者的慷慨开源。**
+
+- 原项目：https://github.com/852wa/JIZURA
+- 原作者：https://github.com/852wa
+- 在线使用（原版）：https://852wa.github.io/JIZURA/
+- 许可：MIT License（Copyright (c) 2026 hakoniwa）
+
+WordWave 在原引擎基础上进行中文场景的二次开发与品牌重塑，引擎核心的全部设计、860+ 表现部品与 27 种风格均源自原项目，功劳属于原作者与本项目贡献者。
+
+</details>
+
 <details>
 <summary><h2>協力してくださった方</h2></summary>
 
