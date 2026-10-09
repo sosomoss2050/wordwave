@@ -46,8 +46,8 @@ window.WW = {
     await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
     return { dur: this.plan.duration, cuts: this.plan.cuts.length, W: this.plan.W, H: this.plan.H, fps: this.plan.fps, style: this.project.style };
   },
-  async export(){
-    const buf = await J.exportMP4({ plan: this.plan, project: this.project, audio: this._audioBuf, quality: 'medium',
+  async export(quality){
+    const buf = await J.exportMP4({ plan: this.plan, project: this.project, audio: this._audioBuf, quality: quality || 'high',
       onProgress: (p, msg) => { document.getElementById('log').textContent = msg; } });
     this._blob = buf.blob;
     return { size: buf.size, tried: buf.tried || [], codec: buf.codec, audio: !!buf.audio };
