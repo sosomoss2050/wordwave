@@ -37780,7 +37780,7 @@ async function runExport(kind) {
       if (r.blob) {
         const name = baseName() + rangeSuffix() + '.mp4';
         const res = await J.saveFile(name, r.blob);
-        if (res !== 'declined') toast(저장 완료: ${name} (다운로드 폴더));
+        if (res !== 'declined') toast(`저장 완료: ${name} (다운로드 폴더)`);
         if (res === 'declined') txt.textContent += ' (저장이 취소됨)';
         offerShare(boxes, r.blob, name);
       } else txt.textContent += `·「${fileName}」에 저장했습니다`;
@@ -38110,7 +38110,7 @@ function bind() {
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close ? dlg.close() : dlg.removeAttribute('open'); });   // click on the backdrop
   const saveWithToast = async (name, data) => {
     const res = await J.saveFile(name, data);
-    toast(res === 'declined' ? '저장이 취소되었습니다' : 저장 완료: ${name} (다운로드 폴더));
+    toast(res === 'declined' ? '저장이 취소되었습니다' : `저장 완료: ${name} (다운로드 폴더)`);
     return res;
   };
   $('btnSave').addEventListener('click', () => saveWithToast(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.10' }), null, 1)));

@@ -37501,7 +37501,7 @@ async function runExport(kind) {
       if (r.blob) {
         const name = baseName() + rangeSuffix() + '.mp4';
         const res = await J.saveFile(name, r.blob);
-        if (res !== 'declined') toast(Saved: ${name} (Downloads folder));
+        if (res !== 'declined') toast(`Saved: ${name} (Downloads folder)`);
         if (res === 'declined') txt.textContent += ' (save canceled)';
         offerShare(boxes, r.blob, name);
       } else txt.textContent += ` · saved to “${fileName}”`;
@@ -37831,7 +37831,7 @@ function bind() {
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close ? dlg.close() : dlg.removeAttribute('open'); });   // click on the backdrop
   const saveWithToast = async (name, data) => {
     const res = await J.saveFile(name, data);
-    toast(res === 'declined' ? 'Save cancelled' : Saved: ${name} (Downloads folder));
+    toast(res === 'declined' ? 'Save cancelled' : `Saved: ${name} (Downloads folder)`);
     return res;
   };
   $('btnSave').addEventListener('click', () => saveWithToast(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.10' }), null, 1)));
