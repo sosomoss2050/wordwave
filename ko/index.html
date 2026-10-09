@@ -481,7 +481,7 @@ button.small.primary { padding: 4px 12px; }
 </div>
 <div id="app">
   <header class="bar">
-    <div class="brand"><span class="mark" aria-hidden="true">字浪</span><span class="word">WordWave</span><span class="tag">lyric motion engine</span><span class="ver">v0.11.9</span></div>
+    <div class="brand"><span class="mark" aria-hidden="true">字浪</span><span class="word">WordWave</span><span class="tag">lyric motion engine</span><span class="ver">v0.11.10</span></div>
     <div class="proj">
       <input id="songTitle" type="text" placeholder="곡 제목 (타이틀 카드와 HUD에 표시)" aria-label="곡 제목">
       <input id="songArtist" type="text" placeholder="아티스트" aria-label="아티스트">
@@ -3730,7 +3730,7 @@ J.plan = (project, audio) => {
   const zoneOf = () => (zones ? Object.assign({}, zones[0]) : null);
   if (zones && en.bg) en.bg.bigChar = false;               // the one background that draws the lyric itself (big, centred)
   const plan = {
-    version: 1, generator: 'WordWave', appVersion: '0.11.9', title, artist, W, H, fps: project.fps || 24,
+    version: 1, generator: 'WordWave', appVersion: '0.11.10', title, artist, W, H, fps: project.fps || 24,
     duration: tm.duration, styleKey: project.style, style: st, fx, seed: project.seed,
     lines: [], cuts: [], events: [], beats: audio && audio.beats ? audio.beats.slice() : [],
     hud: fx.hud === 'on' ? true : fx.hud === 'off' ? false : !!st.hud,
@@ -37780,6 +37780,7 @@ async function runExport(kind) {
       if (r.blob) {
         const name = baseName() + rangeSuffix() + '.mp4';
         const res = await J.saveFile(name, r.blob);
+        if (res !== 'declined') toast(저장 완료: ${name} (다운로드 폴더));
         if (res === 'declined') txt.textContent += ' (저장이 취소됨)';
         offerShare(boxes, r.blob, name);
       } else txt.textContent += `·「${fileName}」에 저장했습니다`;
@@ -37792,7 +37793,7 @@ async function runExport(kind) {
     } else {
       const blob = await J.exportPNGZip({ plan: S.plan, project: proj, transparent: kind === 'pnga', layers: kind === 'pngl', onProgress, signal: ac.signal, range: exportRange() });
       txt.textContent = `완료 ${(blob.size / 1048576).toFixed(1)}MB`;
-      await J.saveFile(baseName() + rangeSuffix() + (kind === 'pnga' ? '_alpha' : kind === 'pngl' ? '_layers' : '') + '_png.zip', blob);
+      await saveWithToast(baseName() + rangeSuffix() + (kind === 'pnga' ? '_alpha' : kind === 'pngl' ? '_layers' : '') + '_png.zip', blob);
     }
   } catch (e) {
     txt.textContent = '오류: ' + (e && e.message ? e.message : e);
@@ -38107,8 +38108,13 @@ function bind() {
   const openTerms = () => { if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', ''); };
   document.querySelectorAll('.terms-open').forEach(b => b.addEventListener('click', openTerms));
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close ? dlg.close() : dlg.removeAttribute('open'); });   // click on the backdrop
-  $('btnSave').addEventListener('click', () => J.saveFile(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.9' }), null, 1)));
-  $('btnAE').addEventListener('click', () => J.saveFile(baseName() + rangeSuffix() + '_ae.json', JSON.stringify(J.planForAE(S.plan, S.project, exportRange()), null, 1)));
+  const saveWithToast = async (name, data) => {
+    const res = await J.saveFile(name, data);
+    toast(res === 'declined' ? '저장이 취소되었습니다' : 저장 완료: ${name} (다운로드 폴더));
+    return res;
+  };
+  $('btnSave').addEventListener('click', () => saveWithToast(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.10' }), null, 1)));
+  $('btnAE').addEventListener('click', () => saveWithToast(baseName() + rangeSuffix() + '_ae.json', JSON.stringify(J.planForAE(S.plan, S.project, exportRange()), null, 1)));
   audioNameDefault = $('audioName').textContent;
   $('btnClearLyrics').addEventListener('click', clearLyrics);
   document.querySelectorAll('.themeSel').forEach(el => el.addEventListener('change', () => {

@@ -266,6 +266,8 @@ BODY = {
 }
 
 UI = {
+    '保存をキャンセルしました': 'Đã hủy lưu',
+    '`保存しました：${name}（ダウンロードフォルダ）`': 'Đã lưu: ${name} (thư mục Tải xuống)',
     '全画面': 'Toàn màn hình',
     '全画面解除': 'Thoát toàn màn hình',
     '全画面プレビュー（F／Esc で戻る）': 'Xem trước toàn màn hình (F / Esc thoát)',

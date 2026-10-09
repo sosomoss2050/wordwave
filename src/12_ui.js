@@ -1442,6 +1442,7 @@ async function runExport(kind) {
       if (r.blob) {
         const name = baseName() + rangeSuffix() + '.mp4';
         const res = await J.saveFile(name, r.blob);
+        if (res !== 'declined') toast(`保存しました：${name}（ダウンロードフォルダ）`);
         if (res === 'declined') txt.textContent += '（保存はキャンセルされました）';
         offerShare(boxes, r.blob, name);
       } else txt.textContent += `・「${fileName}」に保存しました`;
@@ -1454,7 +1455,7 @@ async function runExport(kind) {
     } else {
       const blob = await J.exportPNGZip({ plan: S.plan, project: proj, transparent: kind === 'pnga', layers: kind === 'pngl', onProgress, signal: ac.signal, range: exportRange() });
       txt.textContent = `完成 ${(blob.size / 1048576).toFixed(1)}MB`;
-      await J.saveFile(baseName() + rangeSuffix() + (kind === 'pnga' ? '_alpha' : kind === 'pngl' ? '_layers' : '') + '_png.zip', blob);
+      await saveWithToast(baseName() + rangeSuffix() + (kind === 'pnga' ? '_alpha' : kind === 'pngl' ? '_layers' : '') + '_png.zip', blob);
     }
   } catch (e) {
     txt.textContent = 'エラー: ' + (e && e.message ? e.message : e);
@@ -1769,8 +1770,13 @@ function bind() {
   const openTerms = () => { if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', ''); };
   document.querySelectorAll('.terms-open').forEach(b => b.addEventListener('click', openTerms));
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close ? dlg.close() : dlg.removeAttribute('open'); });   // click on the backdrop
-  $('btnSave').addEventListener('click', () => J.saveFile(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '@VERSION@' }), null, 1)));
-  $('btnAE').addEventListener('click', () => J.saveFile(baseName() + rangeSuffix() + '_ae.json', JSON.stringify(J.planForAE(S.plan, S.project, exportRange()), null, 1)));
+  const saveWithToast = async (name, data) => {
+    const res = await J.saveFile(name, data);
+    toast(res === 'declined' ? '保存をキャンセルしました' : `保存しました：${name}（ダウンロードフォルダ）`);
+    return res;
+  };
+  $('btnSave').addEventListener('click', () => saveWithToast(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '@VERSION@' }), null, 1)));
+  $('btnAE').addEventListener('click', () => saveWithToast(baseName() + rangeSuffix() + '_ae.json', JSON.stringify(J.planForAE(S.plan, S.project, exportRange()), null, 1)));
   audioNameDefault = $('audioName').textContent;
   $('btnClearLyrics').addEventListener('click', clearLyrics);
   document.querySelectorAll('.themeSel').forEach(el => el.addEventListener('change', () => {

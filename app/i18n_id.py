@@ -208,6 +208,8 @@ BODY = {
 }
 
 UI = {
+    '保存をキャンセルしました': 'Penyimpanan dibatalkan',
+    '`保存しました：${name}（ダウンロードフォルダ）`': 'Tersimpan: ${name} (folder Unduhan)',
     '全画面': 'Layar penuh',
     '全画面解除': 'Keluar layar penuh',
     '全画面プレビュー（F／Esc で戻る）': 'Pratinjau layar penuh (F / Esc keluar)',

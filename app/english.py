@@ -176,6 +176,8 @@ BODY = {
 }
 
 UI = {
+    '保存をキャンセルしました': 'Save cancelled',
+    '`保存しました：${name}（ダウンロードフォルダ）`': 'Saved: ${name} (Downloads folder)',
     '全画面': 'Fullscreen',
     '全画面解除': 'Exit fullscreen',
     '全画面プレビュー（F／Esc で戻る）': 'Fullscreen preview (F / Esc to exit)',
