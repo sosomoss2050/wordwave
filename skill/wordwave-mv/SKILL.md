@@ -65,7 +65,7 @@ python3 .../make_mv.py --lyrics-file song.txt --project-json my_style.json
 ```
 
 **② 用户操作指引**（agent 发给用户）：
-1. 起浏览器版：`cd /Volumes/Work/TeamShare/project-workspace/wordwave && python3 -m http.server 8080`，Chrome 打开 `http://localhost:8080/zh-hans/index.html`
+1. 起浏览器版：`cd <仓库根目录> && python3 -m http.server 8080`，Chrome 打开 `http://localhost:8080/zh-hans/index.html`
 2. 导入工程 JSON（详细模式 → 导入构成数据）
 3. ⚠️ **导入后歌词是空的**（dumpProject 不含歌词正文）——把工作文件夹里的 `.lrc` 内容粘回歌词框，并重新「载入音乐」选音频文件
 4. 自由调整（风格/配色/行级锁定，按 R 重摇不丢锁定项）
@@ -153,4 +153,4 @@ Agent 决策流程：
 
 ## 人工精调入口
 
-浏览器版：`cd /Volumes/Work/TeamShare/project-workspace/wordwave && python3 -m http.server 8080`，打开 `http://localhost:8080/zh-hans/index.html`（Chrome）。按 `R` 摇方案，调好后导出方案 JSON 给 skill 用。
+浏览器版：`cd <仓库根目录> && python3 -m http.server 8080`，打开 `http://localhost:8080/zh-hans/index.html`（Chrome）。按 `R` 摇方案，调好后导出方案 JSON 给 skill 用。

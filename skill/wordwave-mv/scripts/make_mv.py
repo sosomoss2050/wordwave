@@ -11,7 +11,20 @@
 """
 import argparse, base64, json, os, random, subprocess, sys, time
 
-REPO = os.environ.get('WORDWAVE_REPO', '/Volumes/Work/TeamShare/project-workspace/wordwave')
+# 引擎仓库位置：环境变量 WORDWAVE_REPO 优先；否则按脚本相对位置自动推断
+# （本脚本位于 <仓库>/skill/wordwave-mv/scripts/ 时，向上三级即仓库根）
+def _detect_repo():
+    env = os.environ.get('WORDWAVE_REPO')
+    if env and os.path.isfile(os.path.join(env, 'build.py')):
+        return env
+    p = os.path.dirname(os.path.abspath(__file__))
+    for _ in range(4):
+        p = os.path.dirname(p)
+        if os.path.isfile(os.path.join(p, 'build.py')):
+            return p
+    return None
+
+REPO = _detect_repo()
 PORT = 8765
 DEFAULTS = dict(aspect='16:9', res=1080, fps=24)
 
@@ -80,6 +93,8 @@ def check_deps(auto_install=True):
 
 def ensure_www():
     """dev/www 构建产物不存在时自动构建。"""
+    if not REPO:
+        sys.exit('[deps] 无法定位 WordWave 引擎仓库。请设置环境变量：\n  export WORDWAVE_REPO=/path/to/wordwave\n（即本仓库 clone 后的根目录）')
     www = os.path.join(REPO, 'dev', 'www')
     if not os.path.isfile(os.path.join(www, 'jizura.js')):
         print('[build] dev/www 不存在，执行 build.py --dev ...')

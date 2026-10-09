@@ -91,7 +91,7 @@ skill 脚本首次运行时自检并**自动安装**缺失依赖，无需手动�
 ### 环境变量（可选）
 
 ```bash
-export WORDWAVE_REPO=/path/to/wordwave   # 引擎仓库位置（默认 /Volumes/Work/TeamShare/project-workspace/wordwave）
+export WORDWAVE_REPO=/path/to/wordwave   # 仅当脚本不在仓库目录结构内时需要设置；clone 后默认自动推断，通常无需配置
 ```
 
 > 其他机器部署时务必设置此项，指向你 clone 的仓库路径。
