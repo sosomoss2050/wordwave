@@ -1,93 +1,120 @@
-# WordWave — Lyric Motion Video Maker
+<div align="center">
 
-> A fork of [852wa/JIZURA](https://github.com/852wa/JIZURA) (MIT License, Copyright (c) 2026 hakoniwa). The engine core, 860+ expression parts and 27 styles all come from the original project — many thanks to 852wa for open-sourcing it.
+# 🌊 WordWave
 
-**Use online: <https://sosomoss2050.github.io/wordwave/>** · [简体中文](https://sosomoss2050.github.io/wordwave/zh-hans/index.html) · [繁體中文](https://sosomoss2050.github.io/wordwave/zh-hant/index.html) · [한국어](https://sosomoss2050.github.io/wordwave/ko/index.html) · [Bahasa Indonesia](https://sosomoss2050.github.io/wordwave/id/index.html) · [Tiếng Việt](https://sosomoss2050.github.io/wordwave/vi/index.html)
+**Lyrics in, lyric-video out — rendered in your browser, or fully automated by AI agents**
 
-Turn lyrics into animated lyric videos: paste lyrics (LRC / SRT / plain text), load a song, and the engine plans cuts on the beat — then exports MP4 (H.264 + AAC) right in your browser. 860 small parts (layouts, entrances, holds, exits, decorations, transitions, finishing) and 27 styles combine freely; change the seed for a whole new plan. No install, no server rendering — everything runs locally.
+[![Version](https://img.shields.io/badge/version-v0.11.6-blue)](https://github.com/sosomoss2050/wordwave/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Web%20%7C%20macOS%20%7C%20Linux-lightgrey)](#quick-start)
+[![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill%20Ready-purple)](#skill-deployment-openclaw--ai-agent-automation)
+[![Built on JIZURA](https://img.shields.io/badge/built%20on-JIZURA%20by%20852wa-orange)](#credits)
 
-## Features
+[简体中文](README.md) · [English](README.en.md)
 
-- **In-browser export**: Chrome / Edge (WebCodecs), 720p–4K, 16:9 / 9:16 / 1:1 / 21:9, 24 / 30 / 60 fps
-- **Beat alignment**: auto BPM/beat detection from the loaded song snaps cuts to the music; LRC timestamps and tap-sync supported
-- **Lyric formats**: LRC as-is, SRT auto-converted, plain text auto-chunked per line
-- **Omakase one-shot plans**: press `R` to randomize style/palette/structure, lock the lines you like
-- **Project files**: export plan JSON, re-open anytime, or feed it to the automation script for batch renders
-- **After Effects panels**: ScriptUI and CEP editions, exporting AE-editable composition data
-- **Privacy**: lyrics and songs never leave your machine
+**🌐 Use online: <https://sosomoss2050.github.io/wordwave/en/index.html>**
 
-## What WordWave adds over upstream JIZURA
+</div>
 
-Independent version line since v0.11.0:
+---
 
-| Capability | Notes |
-|---|---|
-| Headless rendering | Playwright-driven headless Chrome; lyrics → MP4 in one command, for batch runs and AI agents |
-| Working-folder mode | One folder per song; drop lyrics + audio in, renders/previews/project JSON land back there |
-| SRT auto-convert | SRT subtitles in the working folder are converted to LRC automatically |
-| Project JSON auto-save | Every render writes `{song}_mv.json` for later fine-tuning or reproduction |
-| Audio muxed into MP4 | AAC track included, beat-aligned, no external tools |
-| `--quality` flag | medium / **high (default)** / max bitrate presets |
-| Render integrity check | Byte-count validation — no corrupt files delivered |
-| CJK string handling fixes | Improvements aimed at Chinese lyric workflows |
+## Why WordWave?
 
-## Quick start (browser, manual)
+A 3-minute lyric MV used to mean days in After Effects: keyframes, beat-syncing, animation.
 
-1. Open the [web app](https://sosomoss2050.github.io/wordwave/) (or `index.html` from this repo; Chrome/Edge recommended)
-2. Paste lyrics, optionally load a song
-3. Press `R` for a random plan, or pick style/palette/layouts manually
-4. Export MP4 (or PNG sequence / transparent PNG / green-screen)
+**WordWave** compresses that into one step: paste lyrics, load the song, and the engine plans 80+ beat-aligned cuts across 860 expression parts and 27 styles — exporting 1080p MP4 right in the browser. Change the random seed for a brand-new plan. Not perfect? Fine-tune the project file in the browser, or let an AI agent render it end-to-end.
 
-## Quick start (headless automation)
+> 🙌 WordWave is a fork of [852wa/JIZURA](https://github.com/852wa/JIZURA) — see [Credits](#credits).
 
-For batch production / AI agents. Requires Python 3, `pip3 install playwright`, and Google Chrome.
+## ✨ Features
+
+**🎬 Rendering**
+- In-browser MP4 export (H.264 + AAC), 720p–4K, 7 aspect ratios, 24/30/60 fps
+- 860+ parts (layouts/entrances/exits/decor/transitions) × 27 styles, seed-driven and reproducible
+- Green-screen / black-screen export, PNG sequences, transparent PNG, layered output
+
+**🎵 Music sync**
+- Auto BPM/beat detection snaps cuts to the music
+- LRC timestamps, tap-sync, interlude markers
+
+**🤖 AI agent automation (OpenClaw Skill)**
+- Official Skill: say "make a lyric MV with WordWave" → agent renders end-to-end
+- Headless pipeline: Playwright-driven, batch production with zero manual work
+- Working-folder mode: drop lyrics + audio in, renders/previews/project files land back there
+- Auto dependency install: playwright/browser kernel set up on first run — zero-config
+
+**🛠 Manual fine-tuning**
+- Project JSON export/import: browser fine-tuning ↔ agent batch rendering, both ways
+- SRT subtitles auto-converted to LRC
+- Omakase one-shot plans + per-line locks
+
+**🔒 Privacy**
+- Lyrics and songs never leave your machine
+
+## 🚀 Quick start
+
+**Browser (manual)**: open the [web app](https://sosomoss2050.github.io/wordwave/en/index.html) → paste lyrics → press `R` → export MP4. Done.
+
+**Agent (automated)**:
 
 ```bash
-# Working-folder mode (recommended): drop lyrics + audio in, one command renders
-python3 dev/poc_export.py --workdir /path/song-folder --seed 42 --quality high
+git clone https://github.com/sosomoss2050/wordwave.git
+cp -r wordwave/skill/wordwave-mv ~/.openclaw/skills/
+# New agent session, then: "Make a lyric MV with WordWave"
 ```
 
-Everything lands back in the folder: `{song}_mv.mp4`, `{song}_mv.json` (project file), `{song}_mv_frame1~3.png` (previews).
+Dependencies install themselves on first run. See the [deployment guide](#skill-deployment-openclaw--ai-agent-automation).
 
-Flags: `--style` / `--seed` / `--aspect` / `--res` / `--fps` / `--omakase` / `--project-json` / `--audio`.
+**CLI direct render**:
 
-### Fine-tune workflow (recommended)
-
-1. Quick draft (`--quality medium`) with auto-saved project JSON
-2. Import the JSON in the browser app and tweak by hand (⚠️ lyrics are not stored in the JSON — paste them back and re-load the song)
-3. Export the tuned JSON, render the final with `--project-json ... --quality high`
-
-## Repository layout
-
-```
-├── index.html etc.  # browser editions per language (build output, GitHub Pages ready)
-├── src/             # engine source (numeric order = bundle order)
-├── app/             # UI layer & i18n build
-├── dev/             # headless render script + test tools (poc_export.py)
-├── build*.py        # build scripts (browser / AE panel / CEP)
-├── ae/ cep/         # After Effects panel sources
-└── WordWave_AE.jsx / WordWave_CEP.zip  # built AE panel artifacts
+```bash
+python3 dev/poc_export.py --workdir song-folder --quality high
 ```
 
-Rebuild: `python3 build.py` (browser, 7 languages) · `python3 build_ae.py` (AE panel) · `python3 build_cep.py` (CEP package).
+## 🎨 Styles at a glance
 
-## Versioning
-
-Independent version line since v0.11.0 (no longer tracking upstream). See [CHANGELOG.md](CHANGELOG.md).
-
-| Version | Notes |
+| | |
 |---|---|
-| v0.11.0 (2026-10-09) | First independent release: headless pipeline / audio muxing / SRT conversion / project JSON / rebranding |
-| v0.10.1-base | Fork baseline (= upstream JIZURA v0.10.1) |
+| 🌑 **noir** | 🔴 **crimson** |
+| 🟡 **caution** | 🩷 **magenta** |
+| 📜 **paper** | 🖥 **hud** |
+| 🌿 **mint** | 📖 **specimen** |
+| 🚏 **transit** | 📘 **blueprint** |
+| 🌹 **rouge** | 🩶 **mono** |
+
+*27 styles × 860 parts × unlimited seeds — full catalog in [STYLES.md](skill/wordwave-mv/STYLES.md).*
+
+## 📦 Repository layout
+
+```
+├── index.html etc.          # 7-language browser editions (GitHub Pages ready)
+├── skill/wordwave-mv/       # OpenClaw Agent Skill
+├── src/                     # engine source
+├── dev/                     # headless render script + test tools
+├── build*.py                # build scripts (browser / AE panel / CEP)
+└── ae/ cep/                 # After Effects panel sources
+```
+
+Rebuild: `python3 build.py` · `build_ae.py` · `build_cep.py`.
+
+## 📌 Versioning
+
+Independent version line (forked from JIZURA v0.10.1). See [CHANGELOG.md](CHANGELOG.md).
+
+| Version | Highlights |
+|---|---|
+| v0.11.6 | Privacy hardening / skill auto-dependency-install |
+| v0.11.0 | First independent release: headless pipeline / audio muxing / SRT conversion / project JSON / rebranding |
+| v0.10.1-base | Fork baseline |
 
 ## Output rights
 
-Videos and images you make belong to you, commercial or not. Lyrics and songs remain the property of their rights holders. The tool itself is MIT licensed (see credits below and LICENSE).
+Videos and images you make belong to you, commercial or not. Lyrics and songs remain the property of their rights holders.
 
 <a id="credits"></a>
-## Credits / Acknowledgements
+## 🙏 Credits
 
-**WordWave is a fork of [JIZURA](https://github.com/852wa/JIZURA) by [852wa](https://github.com/852wa). All credit for the original engine goes to the original author.**
+**WordWave is a fork of [JIZURA](https://github.com/852wa/JIZURA) by [852wa](https://github.com/852wa). All credit for the original engine goes to the original author — thank you for open-sourcing it.**
 
 - Original project: https://github.com/852wa/JIZURA
 - Original author: https://github.com/852wa
@@ -97,14 +124,18 @@ Videos and images you make belong to you, commercial or not. Lyrics and songs re
 WordWave is a rebranded, Chinese-focused continuation. The entire engine design, 860+ expression parts and 27 styles come from the original project.
 
 <details>
-<summary><h2>Upstream community contributors (JIZURA era)</h2></summary>
+<summary><h4>Upstream community contributors (JIZURA era)</h4></summary>
 
-Traditional Chinese UI and technique names, Simplified Chinese technique names, font and language detection fixes: [Zaious](https://github.com/Zaious) (#5, #6, #7, #11, #21). Korean UI and technique names: [andongmin94](https://github.com/andongmin94) (#8). Indonesian UI: [auliaramadhann](https://github.com/auliaramadhann) and [enka25](https://github.com/enka25) (#12). Looping technique previews, the pinned tap-sync box, line / cut loops, per-cut picks and Advanced-mode locks: [nocore-dtm](https://github.com/nocore-dtm) (#18, #19, #22, #23, #24). Vietnamese UI: [phamhuulocforwork](https://github.com/phamhuulocforwork) (#20).
+- Traditional/Traditional Chinese UI & technique names, font and language detection fixes: [Zaious](https://github.com/Zaious) (#5, #6, #7, #11, #21)
+- Korean UI: [andongmin94](https://github.com/andongmin94) (#8)
+- Indonesian UI: [auliaramadhann](https://github.com/auliaramadhann), [enka25](https://github.com/enka25) (#12)
+- Loop previews, tap-sync box, line/cut loops, per-cut picks, Advanced-mode locks: [nocore-dtm](https://github.com/nocore-dtm) (#18, #19, #22, #23, #24)
+- Vietnamese UI: [phamhuulocforwork](https://github.com/phamhuulocforwork) (#20)
 
 </details>
 
-## License
+## 📄 License
 
-[MIT License](LICENSE). Free to use, modify and redistribute, commercially or not (attribution + license text included). Output videos/images belong to their creator; the license does not extend to output.
+[MIT License](LICENSE). Free to use, modify and redistribute, commercially or not.
 
-Third-party components: see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+Third-party components: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
