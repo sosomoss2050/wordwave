@@ -4,7 +4,7 @@
 
 **Lyrics in, lyric-video out — rendered in your browser, or fully automated by AI agents**
 
-[![Version](https://img.shields.io/badge/version-v0.11.6-blue)](https://github.com/sosomoss2050/wordwave/releases)
+[![Version](https://img.shields.io/badge/version-v0.11.8-blue)](https://github.com/sosomoss2050/wordwave/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Web%20%7C%20macOS%20%7C%20Linux-lightgrey)](#quick-start)
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill%20Ready-purple)](#skill-deployment-openclaw--ai-agent-automation)
@@ -101,7 +101,8 @@ Independent version line (forked from JIZURA v0.10.1). See [CHANGELOG.md](CHANGE
 
 | Version | Highlights |
 |---|---|
-| v0.11.6 | Privacy hardening / skill auto-dependency-install |
+| v0.11.8 | Language auto-redirect / export filename rebrand / dialog rebrand / privacy hardening / skill auto-dependency-install |
+| v0.11.7 | Japanese edition moved to ja/, root language routing |
 | v0.11.0 | First independent release: headless pipeline / audio muxing / SRT conversion / project JSON / rebranding |
 | v0.10.1-base | Fork baseline |
 

@@ -6,7 +6,7 @@
 
 *Paste lyrics → beat-aligned cuts → MP4. In your browser, or fully automated via AI agents.*
 
-[![Version](https://img.shields.io/badge/version-v0.11.6-blue)](https://github.com/sosomoss2050/wordwave/releases)
+[![Version](https://img.shields.io/badge/version-v0.11.8-blue)](https://github.com/sosomoss2050/wordwave/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Web%20%7C%20macOS%20%7C%20Linux-lightgrey)](https://github.com/sosomoss2050/wordwave#quick-start)
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill%20Ready-purple)](#skill-部署指南openclaw--ai-agent-自动化)
@@ -101,7 +101,8 @@ python3 dev/poc_export.py --workdir 歌曲文件夹 --quality high
 
 | 版本 | 亮点 |
 |---|---|
-| v0.11.6 | 隐私加固 / skill 依赖自动安装 |
+| v0.11.8 | 语言自动检测跳转 / 导出文件名换牌 / 弹窗换牌 / 隐私加固 / skill 依赖自动安装 |
+| v0.11.7 | 日文版迁至 ja/，根路径语言分流 |
 | v0.11.0 | 首个独立版本：headless 管线 / 音频混流 / SRT 转换 / 工程 JSON / 品牌重塑 |
 | v0.10.1-base | fork 基线 |
 
