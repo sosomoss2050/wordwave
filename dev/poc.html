@@ -46,6 +46,11 @@ window.WW = {
     await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
     return { dur: this.plan.duration, cuts: this.plan.cuts.length, W: this.plan.W, H: this.plan.H, fps: this.plan.fps, style: this.project.style };
   },
+  dumpProject(){
+    const p = Object.assign({}, this.project);
+    delete p.lyrics;   // 歌词已在源文件里，避免重复存储大段文本
+    return JSON.stringify(p, null, 2);
+  },
   async export(quality){
     const buf = await J.exportMP4({ plan: this.plan, project: this.project, audio: this._audioBuf, quality: quality || 'high',
       onProgress: (p, msg) => { document.getElementById('log').textContent = msg; } });
