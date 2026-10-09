@@ -24,8 +24,6 @@ A 3-minute lyric MV used to mean days in After Effects: keyframes, beat-syncing,
 
 **WordWave** compresses that into one step: paste lyrics, load the song, and the engine plans 80+ beat-aligned cuts across 860 expression parts and 27 styles — exporting 1080p MP4 right in the browser. Change the random seed for a brand-new plan. Not perfect? Fine-tune the project file in the browser, or let an AI agent render it end-to-end.
 
-> 🙌 WordWave is a fork of [852wa/JIZURA](https://github.com/852wa/JIZURA) — see [Credits](#credits).
-
 ## ✨ Features
 
 **🎬 Rendering**
