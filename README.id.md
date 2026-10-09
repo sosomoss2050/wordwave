@@ -1,4 +1,4 @@
-# JIZURA — Pembuat Video Lirik Bergerak
+# WordWave — Pembuat Video Lirik Bergerak
 
 Buat video lirik bergerak langsung di browser. JIZURA menggabungkan layout, animasi masuk, gerakan saat teks bertahan, animasi keluar, dekorasi, efek teks, latar, gerakan kamera, efek, dan transisi. Ganti seed atau tekan **Buat variasi** untuk mencoba susunan lain.
 

@@ -1,14 +1,16 @@
-# JIZURA 字面 — 文字PV自動構成ツール
+# WordWave 字浪 — 歌词动态视频（MV）生成工具
+
+> 本项目基于 [852wa/JIZURA](https://github.com/852wa/JIZURA)（MIT License, Copyright (c) 2026 hakoniwa）二次开发。
 
 **English edition:** [Open the app](https://852wa.github.io/JIZURA/en/) · [English guide](README.en.md)　／　**Bahasa Indonesia**：[Buka](https://852wa.github.io/JIZURA/id/) · [Panduan](README.id.md)　**Tiếng Việt**：[Mở](https://852wa.github.io/JIZURA/vi/) · [Hướng dẫn](README.vi.md)　**繁體中文**：[開啟](https://852wa.github.io/JIZURA/zh-hant/)　**简体中文**：[打开](https://852wa.github.io/JIZURA/zh-hans/)　**한국어**：[열기](https://852wa.github.io/JIZURA/ko/) · [한국어 가이드](README.ko.md)
 
-英語版 AE パネル：[ScriptUI](https://852wa.github.io/JIZURA/JIZURA_AE_en.jsx) · [CEP](https://852wa.github.io/JIZURA/JIZURA_CEP_en.zip)
+英語版 AE パネル：[ScriptUI](https://852wa.github.io/JIZURA/WordWave_AE_en.jsx) · [CEP](https://852wa.github.io/JIZURA/WordWave_CEP_en.zip)
 
 歌詞を入れると、文字PV（リリックモーション）でよく使われる表現を組み合わせてカットを自動で組み立て、MP4 に書き出すブラウザアプリです。レイアウト・動き・装飾・つなぎ・仕上げを 860 の小さな部品（と 27 のスタイル）として持ち、その組み合わせを毎回変えるので、シードを変えれば何度でも別の構成になります。After Effects 用のパネル（スクリプト版と、ブラウザ版の画面をそのまま使える CEP 版）も付属しています。
 
 **バージョン：v0.9.0**（変更の記録は [CHANGELOG.md](CHANGELOG.md)）
 
-**▶ ブラウザで使う：<https://852wa.github.io/JIZURA/>**　／　AE パネル：[JIZURA_AE.jsx](https://852wa.github.io/JIZURA/JIZURA_AE.jsx)（スクリプト版。リンク先を右クリック →「名前を付けてリンク先を保存」）・[JIZURA_CEP.zip](https://852wa.github.io/JIZURA/JIZURA_CEP.zip)（CEP 版）
+**▶ ブラウザで使う：<https://852wa.github.io/JIZURA/>**　／　AE パネル：[WordWave_AE.jsx](https://852wa.github.io/JIZURA/WordWave_AE.jsx)（スクリプト版。リンク先を右クリック →「名前を付けてリンク先を保存」）・[WordWave_CEP.zip](https://852wa.github.io/JIZURA/WordWave_CEP.zip)（CEP 版）
 
 - インストール不要。歌詞・曲・書き出しはすべてブラウザの中で処理され、サーバーには送信されません（外部から読み込むのは Google Fonts のフォントだけで、今の構成で使う書体だけを読み込みます）。
 - おまかせボタン（キー `R`）で、押すたびにスタイル・雰囲気・動き・配色・構成がまるごと変わります。
@@ -19,8 +21,8 @@
 | ファイル | 中身 |
 |---|---|
 | `index.html` | ブラウザ版の本体（ビルド済み・1ファイル）。GitHub Pages ではこれが開きます。ダウンロードしてローカルで開いても使えます |
-| `JIZURA_AE.jsx` | After Effects 用のパネル・スクリプト版（ビルド済み） |
-| `JIZURA_CEP.zip` | After Effects 用のパネル・CEP 版（ビルド済み。展開してインストール用のファイルを実行） |
+| `WordWave_AE.jsx` | After Effects 用のパネル・スクリプト版（ビルド済み） |
+| `WordWave_CEP.zip` | After Effects 用のパネル・CEP 版（ビルド済み。展開してインストール用のファイルを実行） |
 | `src/` `app/` | ブラウザ版のソース（エンジン・表現パック・UI） |
 | `ae/` | AE パネルの生成エンジンのソース |
 | `cep/` | CEP 版パネルの外枠（manifest・AE との橋渡し・インストール用ファイル） |
@@ -306,16 +308,16 @@ AE パネルでは、パネルの「fps」（24 / 30 / 60）でコンポのフ�
 
 AE パネルは2種類あります。どちらも中の生成エンジンは同じです。
 
-- **スクリプト版（`JIZURA_AE.jsx`）**：AE のスクリプトパネル。歌詞からの生成と、ブラウザ版の JSON の読み込みができます。
-- **CEP 版（`JIZURA_CEP.zip`）**：ブラウザ版の画面とプレビューを、そのまま AE の中で使えるパネルです。「AEでコンポを生成」を押すと、その場でコンポができます（下の「CEP 版」）。
+- **スクリプト版（`WordWave_AE.jsx`）**：AE のスクリプトパネル。歌詞からの生成と、ブラウザ版の JSON の読み込みができます。
+- **CEP 版（`WordWave_CEP.zip`）**：ブラウザ版の画面とプレビューを、そのまま AE の中で使えるパネルです。「AEでコンポを生成」を押すと、その場でコンポができます（下の「CEP 版」）。
 
 <details>
 <summary><h3>入れ方</h3></summary>
 
-1. `JIZURA_AE.jsx` を次のフォルダに置き、AE を再起動します。
+1. `WordWave_AE.jsx` を次のフォルダに置き、AE を再起動します。
    - Windows：`C:\Program Files\Adobe\Adobe After Effects <版>\Support Files\Scripts\ScriptUI Panels\`
    - Mac：`/Applications/Adobe After Effects <版>/Scripts/ScriptUI Panels/`
-2. メニューの「ウィンドウ」→「JIZURA_AE.jsx」でパネルが開き、ドッキングできます。
+2. メニューの「ウィンドウ」→「WordWave_AE.jsx」でパネルが開き、ドッキングできます。
 3. 試すだけなら「ファイル → スクリプト → スクリプトファイルを実行」でも動きます（フローティングウィンドウになります）。
 
 </details>
@@ -353,9 +355,9 @@ AE パネルは2種類あります。どちらも中の生成エンジンは同�
 <details>
 <summary><h3>CEP 版（ブラウザ版の画面を AE の中で）</h3></summary>
 
-1. [`JIZURA_CEP.zip`](https://852wa.github.io/JIZURA/JIZURA_CEP.zip) をダウンロードして展開します。
+1. [`WordWave_CEP.zip`](https://852wa.github.io/JIZURA/WordWave_CEP.zip) をダウンロードして展開します。
 2. Windows は `install_win.bat`、Mac は `install_mac.command` を実行します（ユーザーの CEP エクステンションフォルダにコピーし、署名なしのパネルを読み込めるように設定します）。
-3. After Effects（2022 以降）を再起動し、**ウィンドウ → エクステンション → JIZURA 字面** を開きます。
+3. After Effects（2022 以降）を再起動し、**ウィンドウ → エクステンション → WordWave 字浪** を開きます。
 
 - 歌詞・スタイル・演出の決め方はブラウザ版と同じです。**AEでコンポを生成** で、今の構成のコンポがその場にできます。
 - **書き出す範囲**で行を選んでおくと、その行だけのコンポを作ります（曲も同じ位置に合わせて入ります）。長い曲を何回かに分けて作りたいときに使えます。「AE用に書き出し」の JSON も同じ範囲になります。
@@ -401,8 +403,8 @@ AE パネルは2種類あります。どちらも中の生成エンジンは同�
 ```
 python3 build.py              # src/ app/ vendor/ → index.html / en/index.html / ko/index.html
 node tools/export_ae_data.js  # src/ を変えたとき：ae/data.json（AE パネルが使うスタイル・部品の情報）を更新
-python3 build_ae.py           # ae/（本体 + 移植済みパック ae/p_*.jsx）→ JIZURA_AE.jsx
-python3 build_cep.py          # index.html + ae/ + cep/ → build/com.852wa.jizura/ と build/JIZURA_CEP.zip（公開用は直下にコピー）
+python3 build_ae.py           # ae/（本体 + 移植済みパック ae/p_*.jsx）→ WordWave_AE.jsx
+python3 build_cep.py          # index.html + ae/ + cep/ → build/com.852wa.jizura/ と build/WordWave_CEP.zip（公開用は直下にコピー）
 ```
 バージョンはリポジトリ直下の `VERSION` に書きます（ビルドのときに画面・AE パネル・CEP 版に入ります）。変えたときは `CHANGELOG.md` にも追記してください。README の見出しをたたむ形にするには `python3 tools/fold_readme.py README.md` を使います（新しい見出しは `<details>` の形で書き足してください）。
 

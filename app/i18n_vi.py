@@ -1,6 +1,6 @@
 """Vietnamese copy for the browser edition. The Japanese source stays authoritative."""
 
-TITLE = 'JIZURA — Trình tạo video lời bài hát chuyển động'
+TITLE = 'WordWave — Trình tạo video lời bài hát chuyển động'
 DESCRIPTION = 'Tạo video lời bài hát chuyển động từ lời trong trình duyệt, rồi xuất MP4.'
 
 SAMPLE = 'Tôi vẫn nhớ/màu bình minh\nTiếng nói tan dần vang xa\nNày, còn kịp không?\nKhông thể kết thúc trong trạng thái *trong suốt*!'
