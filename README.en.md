@@ -46,7 +46,7 @@ A 3-minute lyric MV used to mean days in After Effects: keyframes, beat-syncing,
 **🛠 Manual fine-tuning**
 - Project JSON export/import: browser fine-tuning ↔ agent batch rendering, both ways
 - SRT subtitles auto-converted to LRC
-- Omakase one-shot plans + per-line locks
+- One-shot auto plans + per-line locks
 
 **🔒 Privacy**
 - Lyrics and songs never leave your machine
