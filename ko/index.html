@@ -5245,7 +5245,7 @@ J.audioWav = (buffer, duration, offset = 0) => {
 const IDB = { db: null };
 IDB.open = () => IDB.db || (IDB.db = new Promise((res, rej) => {
   if (typeof indexedDB === 'undefined') return rej(new Error('no IndexedDB'));
-  const r = indexedDB.open('jizura', 1);
+  const r = indexedDB.open('wordwave', 1);
   r.onupgradeneeded = () => { r.result.createObjectStore('files'); };
   r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
 }));
@@ -5567,7 +5567,7 @@ J.exportPNGZip = async ({ plan, project, transparent, layers, onProgress, signal
   const scale = w / plan.W;
   for (let i = 0; i < total; i += every) {
     if (signal && signal.aborted) throw new Error('취소했습니다');
-    const name = `jizura_${String(i).padStart(5, '0')}.png`;
+    const name = `wordwave_${String(i).padStart(5, '0')}.png`;
     for (const layer of layers ? ['back', 'front'] : [null]) {
       R.frame(ctx, plan, span.t0 + i / fps, { scale, transparent: transparent || !!layers, layer });
       const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
@@ -36338,7 +36338,7 @@ J.randomOk = (project, g, k) => {
 'use strict';
 if (!document.getElementById('app')) return;          // engine-only pages (tests)
 const $ = id => document.getElementById(id);
-const LS_KEY = 'jizura.project.v1';
+const LS_KEY = 'wordwave.project.v1';
 const HUD_CHARS = '0123456789:./-_()【】 · No.LYRICRECUNTITLEDXYlinebpminterlude—─／ ';
 const ICON = {
   dice: '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="12" height="12" rx="2"/><circle cx="5.5" cy="5.5" r="1" fill="currentColor"/><circle cx="10.5" cy="10.5" r="1" fill="currentColor"/><circle cx="10.5" cy="5.5" r="1" fill="currentColor"/><circle cx="5.5" cy="10.5" r="1" fill="currentColor"/></svg>',
@@ -36423,10 +36423,10 @@ const AP = {
 function initVolume() {
   const el = $('vol'), mb = $('btnMute'); if (!el || !mb) return;
   let v = 0.8, m = false;
-  try { const o = JSON.parse(localStorage.getItem('jizura.previewVolume') || 'null'); if (o) { v = +o.v; m = !!o.m; } } catch (e) {}
+  try { const o = JSON.parse(localStorage.getItem('wordwave.previewVolume') || 'null'); if (o) { v = +o.v; m = !!o.m; } } catch (e) {}
   if (!(v >= 0 && v <= 1)) v = 0.8;
   const show = () => { el.value = Math.round(AP.vol * 100); mb.textContent = AP.muted || AP.vol === 0 ? '음소거' : '음량'; mb.setAttribute('aria-pressed', String(AP.muted)); el.title = '음량 ' + Math.round(AP.vol * 100) + '%'; };
-  const save = () => { try { localStorage.setItem('jizura.previewVolume', JSON.stringify({ v: AP.vol, m: AP.muted })); } catch (e) {} };
+  const save = () => { try { localStorage.setItem('wordwave.previewVolume', JSON.stringify({ v: AP.vol, m: AP.muted })); } catch (e) {} };
   AP.setVol(v, m); show();
   el.addEventListener('input', () => { AP.setVol(el.value / 100, false); show(); save(); });
   mb.addEventListener('click', () => { AP.setVol(null, !AP.muted); show(); save(); });
@@ -37521,7 +37521,7 @@ function setMode(m) {
   $('modeMobile').setAttribute('aria-pressed', String(mobile));
   $('modeEasy').setAttribute('aria-pressed', String(S.mode === 'easy'));
   $('modePro').setAttribute('aria-pressed', String(S.mode === 'pro'));
-  try { localStorage.setItem('jizura.mode', S.mode); } catch (e) {}
+  try { localStorage.setItem('wordwave.mode', S.mode); } catch (e) {}
   if (mobile) mobileInit();
     if (easy) { showNow(); syncOut(); codecNoteSoon(); }
     if (easy) closeCutPick();
@@ -37533,7 +37533,7 @@ function setMode(m) {
 function mobileBar() { const b = document.querySelector('.bar'); if (b) document.documentElement.style.setProperty('--mbar', b.offsetHeight + 'px'); }
 function mobileInit() {
   mobileBar();
-  let first = true; try { first = localStorage.getItem('jizura.mobileInit') !== '1'; localStorage.setItem('jizura.mobileInit', '1'); } catch (e) {}
+  let first = true; try { first = localStorage.getItem('wordwave.mobileInit') !== '1'; localStorage.setItem('wordwave.mobileInit', '1'); } catch (e) {}
   if (first) {
     if ((S.project.res || 1080) > 720) { S.project.res = 720; syncOut(); autosave(); }
     const sec = $('lineList') && $('lineList').closest('.sec'); if (sec) sec.classList.add('fold');
@@ -37734,7 +37734,7 @@ async function codecNote() {
 const EXP_BTNS = ['btnMP4', 'btnPNG', 'btnPNGA', 'btnPNGL', 'eMP4', 'btnMP4File', 'eMP4File', 'ePNG', 'ePNGA', 'ePNGL'];
 function baseName() {
   const k = J.keyMode(S.project);
-  return ((S.project.title || 'jizura').replace(/[\\/:*?"<>|]+/g, '_').slice(0, 60) || 'jizura') + (k ? (k === 'green' ? '_greenback' : '_blackback') : '');
+  return ((S.project.title || 'wordwave').replace(/[\\/:*?"<>|]+/g, '_').slice(0, 60) || 'wordwave') + (k ? (k === 'green' ? '_greenback' : '_blackback') : '');
 }
 const canPickFile = () => typeof window.showSaveFilePicker === 'function' && !document.documentElement.classList.contains('cep') && typeof VideoEncoder !== 'undefined';
 async function runExport(kind) {
@@ -37843,12 +37843,12 @@ function startTap(from = 0) {
 }
 /* タップ同期の速さ · カウントダウン: remembered in this browser */
 function tapOpts() {
-  let o = null; try { o = JSON.parse(localStorage.getItem('jizura.tapOpts') || 'null'); } catch (e) {}
+  let o = null; try { o = JSON.parse(localStorage.getItem('wordwave.tapOpts') || 'null'); } catch (e) {}
   const rate = o && [1, 0.75, 0.5].includes(+o.rate) ? +o.rate : 1;
   return { rate, count: !!(o && o.count) };
 }
 function saveTapOpts() {
-  try { localStorage.setItem('jizura.tapOpts', JSON.stringify({ rate: +$('tapRate').value || 1, count: $('tapCount').checked })); } catch (e) {}
+  try { localStorage.setItem('wordwave.tapOpts', JSON.stringify({ rate: +$('tapRate').value || 1, count: $('tapCount').checked })); } catch (e) {}
 }
 function tapNow() {
   if (!S.tap || S.tap.counting) return;         // not during the countdown
@@ -38102,7 +38102,7 @@ function bind() {
   const openTerms = () => { if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', ''); };
   document.querySelectorAll('.terms-open').forEach(b => b.addEventListener('click', openTerms));
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close ? dlg.close() : dlg.removeAttribute('open'); });   // click on the backdrop
-  $('btnSave').addEventListener('click', () => J.saveFile(baseName() + '.jizura.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.0' }), null, 1)));
+  $('btnSave').addEventListener('click', () => J.saveFile(baseName() + '.wordwave.json', JSON.stringify(Object.assign({}, S.project, { appVersion: '0.11.0' }), null, 1)));
   $('btnAE').addEventListener('click', () => J.saveFile(baseName() + rangeSuffix() + '_ae.json', JSON.stringify(J.planForAE(S.plan, S.project, exportRange()), null, 1)));
   audioNameDefault = $('audioName').textContent;
   $('btnClearLyrics').addEventListener('click', clearLyrics);
@@ -38223,7 +38223,7 @@ function tourStart() {
 }
 function tourEnd() {
   $('tour').hidden = true; TR.i = -1;
-  try { localStorage.setItem('jizura.tourDone', '1'); } catch (e) {}
+  try { localStorage.setItem('wordwave.tourDone', '1'); } catch (e) {}
 }
 function bindTour() {
   const el = $('tour');
@@ -38258,10 +38258,10 @@ function boot() {
   restoreFonts();
   // first visit on a phone: スマホ mode
   let mode = window.matchMedia && window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'easy';
-  try { mode = localStorage.getItem('jizura.mode') || mode; } catch (e) {}
+  try { mode = localStorage.getItem('wordwave.mode') || mode; } catch (e) {}
   setMode(mode); commit();
   bindTour();
-  let seen = false; try { seen = localStorage.getItem('jizura.tourDone') === '1'; } catch (e) {}
+  let seen = false; try { seen = localStorage.getItem('wordwave.tourDone') === '1'; } catch (e) {}
   if (!seen && S.mode === 'easy' && !window.__adobe_cep__) setTimeout(tourStart, 600);   // first visit: show the tour once
   // open on a representative frame (end of the first cut's entrance)
   const c0 = S.plan.cuts.find(c => c.line >= 0);

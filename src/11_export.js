@@ -282,7 +282,7 @@ J.exportPNGZip = async ({ plan, project, transparent, layers, onProgress, signal
   const scale = w / plan.W;
   for (let i = 0; i < total; i += every) {
     if (signal && signal.aborted) throw new Error('キャンセルしました');
-    const name = `jizura_${String(i).padStart(5, '0')}.png`;
+    const name = `wordwave_${String(i).padStart(5, '0')}.png`;
     for (const layer of layers ? ['back', 'front'] : [null]) {
       R.frame(ctx, plan, span.t0 + i / fps, { scale, transparent: transparent || !!layers, layer });
       const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));

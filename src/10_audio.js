@@ -94,7 +94,7 @@ J.audioWav = (buffer, duration, offset = 0) => {
 const IDB = { db: null };
 IDB.open = () => IDB.db || (IDB.db = new Promise((res, rej) => {
   if (typeof indexedDB === 'undefined') return rej(new Error('no IndexedDB'));
-  const r = indexedDB.open('jizura', 1);
+  const r = indexedDB.open('wordwave', 1);
   r.onupgradeneeded = () => { r.result.createObjectStore('files'); };
   r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
 }));
