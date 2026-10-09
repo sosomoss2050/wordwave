@@ -291,7 +291,7 @@ UI = {
     'プロジェクトを読み込めませんでした': '프로젝트를 불러오지 못했습니다',
     '解析中…': '분석 중…', '読み込めませんでした: ': '불러오지 못했습니다: ',
     '約': '약 ', '（PC）': ' (PC)',
-    '字面': 'WordWave', '追加': 'NEW', '和': 'JP',
+    '字浪': 'WordWave', '追加': 'NEW', '和': 'JP',
     # extra keys: Korean word order, labels with full-width colons / parentheses
     '`${cuts.length} カット・レイアウト ${kinds} 種`': '`컷 ${cuts.length}개 · 레이아웃 ${kinds}종`',
     '`${j + 1} / ${H.list.length} 案目`': '`${H.list.length}개 중 ${j + 1}번째 안`',

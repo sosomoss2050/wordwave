@@ -295,7 +295,7 @@ UI = {
     'プロジェクトを読み込めませんでした': 'Could not open the project',
     '解析中…': 'Analyzing audio…', '読み込めませんでした: ': 'Could not load: ',
     '約': 'about ', '（PC）': ' (installed)',
-    '字面': 'WordWave', '追加': 'New', '和': 'JP',
+    '字浪': 'WordWave', '追加': 'New', '和': 'JP',
     'ループ': 'Loop',
     '行ループ': 'Line loop', 'カットループ': 'Cut loop',
     '全体を繰り返し': 'Loop the whole piece', 'この行を繰り返し': 'Loop this line',

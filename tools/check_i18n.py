@@ -14,7 +14,7 @@ for k in ('STYLES', 'MOODS', 'SAMPLE', 'TITLE', 'DESCRIPTION'):
     if not getattr(m, k, None): bad += 1; print('missing', k)
 kana = re.compile(r'[぀-ヿ]')
 han = re.compile(r'[㐀-鿿]')
-allowed = {'字面', '日本語', '繁體中文', '简体中文', '태'}
+allowed = {'字浪', '字面', '日本語', '繁體中文', '简体中文', '태'}
 def left(text, name):
     global bad
     for i, l in enumerate(text.split('\n')):

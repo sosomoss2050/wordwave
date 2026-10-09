@@ -327,7 +327,7 @@ UI = {
     'プロジェクトを読み込めませんでした': 'Proyek gagal dibuka',
     '解析中…': 'Menganalisis audio…', '読み込めませんでした: ': 'Tidak dapat memuat: ',
     '約': 'sekitar ', '（PC）': ' (terpasang)',
-    '字面': 'WordWave', '追加': 'Baru', '和': 'JP',
+    '字浪': 'WordWave', '追加': 'Baru', '和': 'JP',
     'ループ': 'Loop',
     '行ループ': 'Loop baris', 'カットループ': 'Loop cut',
     '全体を繰り返し': 'Ulangi seluruh lagu', 'この行を繰り返し': 'Ulangi baris ini',

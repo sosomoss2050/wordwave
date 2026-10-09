@@ -341,7 +341,7 @@ UI = {
     'プロジェクトを読み込めませんでした': '无法打开项目',
     '解析中…': '正在分析音频…', '読み込めませんでした: ': '无法载入：',
     '約': '约 ', '（PC）': '（本机）',
-    '字面': '字面', '追加': '新增', '和': '和',
+    '字浪': '字浪', '追加': '新增', '和': '和',
     # longer phrases so the short tokens above read naturally in Chinese
     '`${cuts.length} カット・レイアウト ${kinds} 種`': '`${cuts.length} 个镜头 · ${kinds} 种布局`',
     '`${j + 1} / ${H.list.length} 案目`': '`方案 ${j + 1} / ${H.list.length}`',

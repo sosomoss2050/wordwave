@@ -304,7 +304,7 @@ UI = {
     'プロジェクトを読み込めませんでした': '無法開啟專案',
     '解析中…': '分析中…', '読み込めませんでした: ': '無法載入：',
     '約': '約', '（PC）': '（本機）',
-    '字面': '字面', '追加': '新增', '和': '和',
+    '字浪': '字浪', '追加': '新增', '和': '和',
     # extra keys (longer phrases that read better as a whole in Chinese)
     '`${j + 1} / ${H.list.length} 案目`': '`方案 ${j + 1} / ${H.list.length}`',
     '`${cuts.length} カット・レイアウト ${kinds} 種`': '`${cuts.length}  個片段 · ${kinds} 種版面`',
