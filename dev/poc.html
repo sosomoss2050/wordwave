@@ -12,34 +12,45 @@ window.WW = {
     project.title = 'WordWave MV';
     if (over) for (const k of ['style','seed','aspect','res','fps']) if (over[k] != null) project[k] = over[k];
     this.project = project;
+    this._audioBuf = null;
     this.plan = J.plan(project, null);
     return this.plan;
   },
-  async setup(lyrics, over){
-    const plan = this.base(lyrics, over || {});
+  async loadAudio(dataB64, name){
+    const bin = atob(dataB64);
+    const u8 = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    const file = new File([u8], name || 'song.mp3');
+    this._audioBuf = await J.analyzeAudio(file);
+    this.plan = J.plan(this.project, this._audioBuf);
+    return { dur: this.plan.duration, cuts: this.plan.cuts.length, bpm: this._audioBuf.bpm, audioDur: this._audioBuf.duration, beats: this._audioBuf.beats.length };
+  },
+  async setup(lyrics, over, withAudio){
+    let plan = this.base(lyrics, over || {});
+    if (withAudio && this._audioBuf) plan = this.plan = J.plan(this.project, this._audioBuf);
     await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
     return { dur: plan.duration, cuts: plan.cuts.length, W: plan.W, H: plan.H, fps: plan.fps, style: this.project.style, seed: this.project.seed };
   },
-  async setupOmakase(lyrics, seed){
-    const plan = this.base(lyrics, { seed });
+  async setupOmakase(lyrics, seed, withAudio){
+    this.base(lyrics, { seed });
     const r = J.omakase(this.project, J.rng(seed), null);
     Object.assign(this.project, r);   // UI 层同款应用方式（12_ui.js:1120）
-    this.plan = J.plan(this.project, null);
+    this.plan = J.plan(this.project, (withAudio && this._audioBuf) ? this._audioBuf : null);
     await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
     return { dur: this.plan.duration, cuts: this.plan.cuts.length, W: this.plan.W, H: this.plan.H, fps: this.plan.fps, style: this.project.style, seed };
   },
-  async setupFromJson(lyrics, json){
-    const plan = this.base(lyrics, {});
+  async setupFromJson(lyrics, json, withAudio){
+    this.base(lyrics, {});
     try { Object.assign(this.project, typeof json === 'string' ? JSON.parse(json) : json); } catch(e){}
-    this.plan = J.plan(this.project, null);
+    this.plan = J.plan(this.project, (withAudio && this._audioBuf) ? this._audioBuf : null);
     await J.ensureFonts(lyrics + (this.project.title||'') + '0123456789XYLINEREC:/.・【】No', null);
     return { dur: this.plan.duration, cuts: this.plan.cuts.length, W: this.plan.W, H: this.plan.H, fps: this.plan.fps, style: this.project.style };
   },
   async export(){
-    const buf = await J.exportMP4({ plan: this.plan, project: this.project, audio: null, quality: 'medium',
+    const buf = await J.exportMP4({ plan: this.plan, project: this.project, audio: this._audioBuf, quality: 'medium',
       onProgress: (p, msg) => { document.getElementById('log').textContent = msg; } });
     this._blob = buf.blob;
-    return { size: buf.size, tried: buf.tried || [], codec: buf.codec };
+    return { size: buf.size, tried: buf.tried || [], codec: buf.codec, audio: !!buf.audio };
   },
   async b64(){
     if (!this._b64) {
