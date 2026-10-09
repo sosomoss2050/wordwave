@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="7.0" ExtensionBundleId="com.852wa.jizura" ExtensionBundleVersion="0.10.1" ExtensionBundleName="JIZURA" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.852wa.jizura" ExtensionBundleVersion="0.11.0" ExtensionBundleName="JIZURA" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ExtensionList>
-    <Extension Id="com.852wa.jizura.panel" Version="0.10.1"/>
+    <Extension Id="com.852wa.jizura.panel" Version="0.11.0"/>
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>

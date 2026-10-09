@@ -8,7 +8,37 @@ JIZURA のバージョンは `メジャー.マイナー.パッチ` の形で付�
 - **パッチ**（0.7.0 → 0.7.1）：不具合の修正だけの更新
 - **メジャー**（0.x → 1.0）：プロジェクトファイルや AE 用 JSON の形式が変わるなど、互換性に関わる変更
 
-いまのバージョンはリポジトリ直下の `VERSION` に書いてあり、ブラウザ版の左上（JIZURA のロゴの横）、AE パネル（スクリプト版の見出しと、診断レポート）に表示されます。保存したプロジェクトファイルと AE 用 JSON にも `appVersion` として記録されます。
+いまのバージョンはリポジトリ直下の `VERSION` に書いてあり、ブラウザ版の左上（WordWave のロゴの横）、AE パネル（スクリプト版の見出しと、診断レポート）に表示されます。保存したプロジェクトファイルと AE 用 JSON にも `appVersion` として記録されます。
+
+> ⭐ 自 v0.11.0 起，WordWave 独立版本线演进（fork 自 JIZURA v0.10.1，方向不同，不再跟随上游版本号）。
+
+## v0.11.0 — 2026-10-09
+
+WordWave 首个独立版本。基于 JIZURA v0.10.1 二次开发，面向中文歌词 MV 场景。
+
+### 新增
+
+- **headless 出片链路**：`dev/poc_export.py` + `dev/poc.html`，Playwright 驱动无头 Chrome 全自动出片（歌词→规划→渲染→MP4），支持 `--workdir` 工作文件夹模式
+- **音频支持**：`--audio` 载入歌曲（mp3/wav/m4a），引擎自动检测 BPM/拍点对齐镜头，AAC 混流进成片（免 ffmpeg）
+- **SRT 自动转 LRC**：工作文件夹内检测到 SRT 字幕自动转换
+- **工程 JSON 自动落盘**：每次出片同步导出 `{歌名}_mv.json`，可在浏览器版二次精调
+- **`--quality` 画质参数**：medium / high（默认，质量优先）/ max 三档码率
+
+### 修复
+
+- 大文件传输截断问题：出片改走 Playwright 原生下载通道流式落盘，修复 500MB 级成片 0 字节问题；出片后自动字节校验
+
+### 品牌重塑
+
+- 全库 JIZURA → WordWave（SOSOMOSS）：README、i18n 七语言、UI 文案、画面内水印、AE/CEP 面板
+- 源码头注释采用加注式：`WordWave (based on JIZURA by 852wa)`
+- 兼容性：旧方案 JSON（JIZURA generator）导入不受影响
+
+### 致谢
+
+- 感谢原作者 [852wa](https://github.com/852wa) 的杰出作品 [JIZURA](https://github.com/852wa/JIZURA)（MIT, Copyright (c) 2026 hakoniwa），引擎核心与 860+ 表现部品均源自原项目
+
+## 以下为 upstream JIZURA 时代的历史记录
 
 ## v0.10.1 — 2026-10-01
 
