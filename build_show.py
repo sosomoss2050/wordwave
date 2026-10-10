@@ -70,11 +70,16 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
       </div>
     </div>
     <div class="sp-cell sp-srcsel">
-      <h4>同步源</h4>
+      <h4>同步</h4>
       <div class="sp-row">
         <select class="sp-btn" id="spSrc"><option value="">选择 MTC 端口…</option></select>
         <span class="sp-st"><span class="sp-dot" id="spDot"></span><span id="spState">idle</span></span>
-        <span class="sp-note">时间码偏移 <input id="spOffset" class="sp-btn" style="width:100px" placeholder="HH:MM:SS:FF" value="00:00:00:00"> · 工程时间 <span class="sp-src" id="spProjTc">--:--:--:--</span></span>
+      </div>
+      <div class="sp-row" style="margin-top:6px">
+        <span class="sp-note">宿主时间 <span class="sp-src" id="spHostTc">--:--:--:--</span></span>
+      </div>
+      <div class="sp-row" style="margin-top:6px">
+        <span class="sp-note">时间码偏移 <input id="spOffset" class="sp-btn" style="width:100px" placeholder="HH:MM:SS:FF" value="00:00:00:00"></span>
       </div>
     </div>
     <div class="sp-cell">

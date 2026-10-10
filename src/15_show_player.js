@@ -41,11 +41,10 @@ function updateTc() {
     const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = Math.floor(t) % 60;
     return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
   };
-  // 顶栏：sync 下显示收到的绝对时间码（与宿主对帧）；工程时间在 SYNC 面板单独显示
-  const t = (S.mode === 'sync' && S._absTc != null) ? S._absTc : S.t;
-  $('spTc').textContent = fmtSmp(t);
-  const pt = $('spProjTc');
-  if (pt) pt.textContent = fmtSmp(S.t);   // 工程时间 = 绝对 − 偏移，偏移改这里即可见
+  // 顶栏：工程时间码（宿主 MTC 经偏移映射后的工程时间，供 WordWave 工作人员查看）
+  $('spTc').textContent = fmtSmp(S.t);
+  const ht = $('spHostTc');
+  if (ht) ht.textContent = (S.mode === 'sync' && S._absTc != null) ? fmtSmp(S._absTc) : '--:--:--:--';   // 宿主原始 MTC
 }
 
 /* ---------- 工程加载（与编辑器同一 localStorage 工程） ---------- */
