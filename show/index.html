@@ -35780,7 +35780,7 @@ function tick() {
   }
   if (S.need && S.plan) {
     const cv = $('view'), ctx = cv.getContext('2d');
-    S.renderer.frame(ctx, S.plan, S.t, { fast: false });
+    S.renderer.frame(ctx, S.plan, S.t, { scale: cv.width / S.plan.W, fast: false });   // 缺 scale 会按设计尺寸绘制导致内容被裁
     S.need = false;
   }
   updateTc();
