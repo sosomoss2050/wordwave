@@ -1,8 +1,10 @@
 /* ============================================================
    WordWave Show — SMPTE follower core (protocol-agnostic)
    协议前端（MTC/LTC/Art-Net）只负责喂锚点；本模块负责：
-   ① 状态机 idle → following → lost  ② 本地时钟外推插值
+   ① 状态机 idle → following → paused  ② 本地时钟外推插值
    ③ 跳变(seek)检测  ④ 帧率协商警告
+   设计说明：MTC 停发时无法区分"宿主暂停"与"信号中断"，
+   统一进入 paused（保持末帧、非告警）；红色告警不用于此。
    独立于 DOM/引擎，Node 可直接加载测试。
    ============================================================ */
 'use strict';
@@ -14,7 +16,7 @@
   class SMPTEFollower {
     constructor(opts = {}) {
       this.fps = opts.fps || 25;              // 期望帧率
-      this.lostMs = opts.lostMs ?? 500;       // 判定信号丢失阈值
+      this.lostMs = opts.lostMs ?? 500;       // 时间码停发判定阈值 → paused
       this.jumpSec = opts.jumpSec ?? 0.35;    // 跳变判定阈值
       this.onSeek = opts.onSeek || null;      // (tcSec) => void  锚点跳变
       this.onState = opts.onState || null;    // (state) => void
@@ -58,7 +60,7 @@
     now(at = nowMs()) {
       const a = this._anchor;
       if (!a) return this._t;
-      if (this.state === 'following' && at - a.at > this.lostMs) this._set('lost');
+      if (this.state === 'following' && at - a.at > this.lostMs) this._set('paused');
       if (this.state !== 'following') return this._t;
       this._t = a.tc + (at - a.at) / 1000;
       return this._t;

@@ -473,7 +473,8 @@ html,body{margin:0;height:100%;background:#141417;color:#ededf0;font-family:syst
 .sp-st{display:flex;align-items:center;gap:8px;font-size:12px}
 .sp-dot{width:8px;height:8px;border-radius:50%;background:#555}
 .sp-dot.following{background:#46a758;box-shadow:0 0 8px #46a758}
-.sp-dot.chasing,.sp-dot.lost{background:#e5484d;box-shadow:0 0 8px #e5484d}
+.sp-dot.paused{background:#f5a623;box-shadow:0 0 8px #f5a623}
+.sp-dot.chasing{background:#f5a623;box-shadow:0 0 8px #f5a623}
 .sp-src{font-family:ui-monospace,monospace;color:#f5a623}
 .sp-note{font-size:11px;color:#8b8b94}
 .sp-srcsel{display:none}
@@ -506,7 +507,7 @@ html,body{margin:0;height:100%;background:#141417;color:#ededf0;font-family:syst
       <div class="sp-row">
         <select class="sp-btn" id="spSrc"><option value="">选择 MTC 端口…</option></select>
         <span class="sp-st"><span class="sp-dot" id="spDot"></span><span id="spState">idle</span></span>
-        <span class="sp-note">偏移<input id="spOffset" class="sp-btn" style="width:90px" placeholder="HH:MM:SS:FF" value="00:00:00:00">（Pro Tools Session Start）</span>
+        <span class="sp-note">时间码偏移 <input id="spOffset" class="sp-btn" style="width:100px" placeholder="HH:MM:SS:FF" value="00:00:00:00"> · 工程时间 <span class="sp-src" id="spProjTc">--:--:--:--</span></span>
       </div>
     </div>
     <div class="sp-cell">
@@ -35542,8 +35543,10 @@ J.randomOk = (project, g, k) => {
 /* ============================================================
    WordWave Show — SMPTE follower core (protocol-agnostic)
    协议前端（MTC/LTC/Art-Net）只负责喂锚点；本模块负责：
-   ① 状态机 idle → following → lost  ② 本地时钟外推插值
+   ① 状态机 idle → following → paused  ② 本地时钟外推插值
    ③ 跳变(seek)检测  ④ 帧率协商警告
+   设计说明：MTC 停发时无法区分"宿主暂停"与"信号中断"，
+   统一进入 paused（保持末帧、非告警）；红色告警不用于此。
    独立于 DOM/引擎，Node 可直接加载测试。
    ============================================================ */
 'use strict';
@@ -35555,7 +35558,7 @@ J.randomOk = (project, g, k) => {
   class SMPTEFollower {
     constructor(opts = {}) {
       this.fps = opts.fps || 25;              // 期望帧率
-      this.lostMs = opts.lostMs ?? 500;       // 判定信号丢失阈值
+      this.lostMs = opts.lostMs ?? 500;       // 时间码停发判定阈值 → paused
       this.jumpSec = opts.jumpSec ?? 0.35;    // 跳变判定阈值
       this.onSeek = opts.onSeek || null;      // (tcSec) => void  锚点跳变
       this.onState = opts.onState || null;    // (state) => void
@@ -35599,7 +35602,7 @@ J.randomOk = (project, g, k) => {
     now(at = nowMs()) {
       const a = this._anchor;
       if (!a) return this._t;
-      if (this.state === 'following' && at - a.at > this.lostMs) this._set('lost');
+      if (this.state === 'following' && at - a.at > this.lostMs) this._set('paused');
       if (this.state !== 'following') return this._t;
       this._t = a.tc + (at - a.at) / 1000;
       return this._t;
@@ -35729,12 +35732,17 @@ function tick() {
   requestAnimationFrame(tick);
 }
 function updateTc() {
-  // 完整 SMPTE 格式 HH:MM:SS:FF，与 Pro Tools 一致
-  const t = (S.mode === 'sync' && S._absTc != null) ? S._absTc : S.t;
   const fps = (S.mode === 'sync' && S.follower) ? (S.follower.fpsEff || 25) : 25;
-  const fr = Math.floor((t % 1) * fps + 1e-6);
-  const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = Math.floor(t) % 60;
-  $('spTc').textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
+  const fmtSmp = t => {
+    const fr = Math.floor((t % 1) * fps + 1e-6);
+    const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = Math.floor(t) % 60;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
+  };
+  // 顶栏：sync 下显示收到的绝对时间码（与宿主对帧）；工程时间在 SYNC 面板单独显示
+  const t = (S.mode === 'sync' && S._absTc != null) ? S._absTc : S.t;
+  $('spTc').textContent = fmtSmp(t);
+  const pt = $('spProjTc');
+  if (pt) pt.textContent = fmtSmp(S.t);   // 工程时间 = 绝对 − 偏移，偏移改这里即可见
 }
 
 /* ---------- 工程加载（与编辑器同一 localStorage 工程） ---------- */
@@ -35798,20 +35806,22 @@ function setupSync() {
     onSeek: abs => { seek(Math.max(0, abs - S.tcOffset)); },
     onState: st => {
       const dot = $('spDot');
-      dot.className = 'sp-dot ' + (st === 'following' ? 'following' : st === 'lost' ? 'lost' : '');
+      dot.className = 'sp-dot ' + (st === 'following' ? 'following' : st === 'paused' ? 'paused' : '');
       $('spState').textContent = st;
-      $('spGo').disabled = (S.mode === 'sync' && st === 'following');   // lost 时 GO 接管
+      $('spGo').disabled = (S.mode === 'sync' && st === 'following');   // paused 时 GO 可接管
     },
   });
-  listMidiPorts();
+  restoreOrPickPort();   // 恢复上次端口，或回退第一个可用设备
 }
 function teardownSync() {
   if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} S.midiIn = null; }
   S.follower = null; S.mtc = null;
   $('spDot').className = 'sp-dot'; $('spState').textContent = 'idle';
 }
-async function listMidiPorts() {
-  if (!navigator.mimeTypes && !navigator.requestMIDIAccess) { $('spMsg').textContent = '此环境无 Web MIDI'; return; }
+/* ---------- 同步源记忆：localStorage 保存端口 id，不可用则回退第一个 ---------- */
+const SRC_KEY = 'wordwave.show.midiPort';
+async function restoreOrPickPort() {
+  if (!navigator.requestMIDIAccess) { $('spMsg').textContent = '此环境无 Web MIDI'; return; }
   try {
     const acc = await navigator.requestMIDIAccess();
     const sel = $('spSrc');
@@ -35821,19 +35831,28 @@ async function listMidiPorts() {
       o.value = port.id; o.textContent = port.name;
       sel.appendChild(o);
     }
+    let pick = null;
+    const saved = (() => { try { return localStorage.getItem(SRC_KEY); } catch (e) { return null; } })();
+    if (saved && acc.inputs.has(saved)) pick = saved;
+    else if (acc.inputs.size) pick = acc.inputs.values().next().value;   // 回退：第一个可用设备
+    if (pick) { sel.value = pick; connectPort(acc, pick); }
     sel.onchange = () => {
-      if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} }
-      const port = acc.inputs.get(sel.value);
-      if (!port) return;
-      S.midiIn = port;
-      S.mtc = new J.MTCDecoder({
-        onTimecode: (tc, fps) => S.follower && S.follower.feedTimecode(tc, fps),
-        onStop: () => S.follower && S.follower.transportStop(),
-      });
-      port.onmidimessage = ev => S.mtc && S.mtc.feed(ev);
-      $('spMsg').textContent = 'SYNC：已连接 ' + port.name + '，等待时间码…';
+      try { localStorage.setItem(SRC_KEY, sel.value); } catch (e) {}
+      connectPort(acc, sel.value);
     };
   } catch (e) { $('spMsg').textContent = 'MIDI 访问被拒绝: ' + e.message; }
+}
+function connectPort(acc, id) {
+  if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} }
+  const port = acc.inputs.get(id);
+  if (!port) { S.midiIn = null; return; }
+  S.midiIn = port;
+  S.mtc = new J.MTCDecoder({
+    onTimecode: (tc, fps) => S.follower && S.follower.feedTimecode(tc, fps),
+    onStop: () => S.follower && S.follower.transportStop(),
+  });
+  port.onmidimessage = ev => S.mtc && S.mtc.feed(ev);
+  $('spMsg').textContent = 'SYNC：已连接 ' + port.name + '，等待时间码…';
 }
 
 /* ---------- SMPTE 偏移：把绝对时间码映射到工程时间轴 ---------- */

@@ -40,7 +40,8 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
 .sp-st{{display:flex;align-items:center;gap:8px;font-size:12px}}
 .sp-dot{{width:8px;height:8px;border-radius:50%;background:#555}}
 .sp-dot.following{{background:#46a758;box-shadow:0 0 8px #46a758}}
-.sp-dot.chasing,.sp-dot.lost{{background:#e5484d;box-shadow:0 0 8px #e5484d}}
+.sp-dot.paused{{background:#f5a623;box-shadow:0 0 8px #f5a623}}
+.sp-dot.chasing{{background:#f5a623;box-shadow:0 0 8px #f5a623}}
 .sp-src{{font-family:ui-monospace,monospace;color:#f5a623}}
 .sp-note{{font-size:11px;color:#8b8b94}}
 .sp-srcsel{{display:none}}
@@ -73,7 +74,7 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
       <div class="sp-row">
         <select class="sp-btn" id="spSrc"><option value="">选择 MTC 端口…</option></select>
         <span class="sp-st"><span class="sp-dot" id="spDot"></span><span id="spState">idle</span></span>
-        <span class="sp-note">偏移<input id="spOffset" class="sp-btn" style="width:90px" placeholder="HH:MM:SS:FF" value="00:00:00:00">（Pro Tools Session Start）</span>
+        <span class="sp-note">时间码偏移 <input id="spOffset" class="sp-btn" style="width:100px" placeholder="HH:MM:SS:FF" value="00:00:00:00"> · 工程时间 <span class="sp-src" id="spProjTc">--:--:--:--</span></span>
       </div>
     </div>
     <div class="sp-cell">

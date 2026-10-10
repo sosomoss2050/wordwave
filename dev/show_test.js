@@ -49,7 +49,7 @@ eq('tcToSec 01:02:03:12@25', tcToSec(1, 2, 3, 12, 25), 3723.48);
   f.feedTimecode(5, 25, T0);
   eq('丢失前 following', f.now(T0 + 100), 5.1, 0.002);
   f.now(T0 + 700);                    // 超过 lostMs，触发状态迁移
-  eq('丢失后状态', f.state, 'lost');
+  eq('停发后 paused', f.state, 'paused');
   eq('lost 保持最后时间', f.now(T0 + 800), 5.1, 0.002);
 }
 

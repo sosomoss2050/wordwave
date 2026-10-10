@@ -35,12 +35,17 @@ function tick() {
   requestAnimationFrame(tick);
 }
 function updateTc() {
-  // 完整 SMPTE 格式 HH:MM:SS:FF，与 Pro Tools 一致
-  const t = (S.mode === 'sync' && S._absTc != null) ? S._absTc : S.t;
   const fps = (S.mode === 'sync' && S.follower) ? (S.follower.fpsEff || 25) : 25;
-  const fr = Math.floor((t % 1) * fps + 1e-6);
-  const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = Math.floor(t) % 60;
-  $('spTc').textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
+  const fmtSmp = t => {
+    const fr = Math.floor((t % 1) * fps + 1e-6);
+    const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = Math.floor(t) % 60;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
+  };
+  // 顶栏：sync 下显示收到的绝对时间码（与宿主对帧）；工程时间在 SYNC 面板单独显示
+  const t = (S.mode === 'sync' && S._absTc != null) ? S._absTc : S.t;
+  $('spTc').textContent = fmtSmp(t);
+  const pt = $('spProjTc');
+  if (pt) pt.textContent = fmtSmp(S.t);   // 工程时间 = 绝对 − 偏移，偏移改这里即可见
 }
 
 /* ---------- 工程加载（与编辑器同一 localStorage 工程） ---------- */
@@ -104,20 +109,22 @@ function setupSync() {
     onSeek: abs => { seek(Math.max(0, abs - S.tcOffset)); },
     onState: st => {
       const dot = $('spDot');
-      dot.className = 'sp-dot ' + (st === 'following' ? 'following' : st === 'lost' ? 'lost' : '');
+      dot.className = 'sp-dot ' + (st === 'following' ? 'following' : st === 'paused' ? 'paused' : '');
       $('spState').textContent = st;
-      $('spGo').disabled = (S.mode === 'sync' && st === 'following');   // lost 时 GO 接管
+      $('spGo').disabled = (S.mode === 'sync' && st === 'following');   // paused 时 GO 可接管
     },
   });
-  listMidiPorts();
+  restoreOrPickPort();   // 恢复上次端口，或回退第一个可用设备
 }
 function teardownSync() {
   if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} S.midiIn = null; }
   S.follower = null; S.mtc = null;
   $('spDot').className = 'sp-dot'; $('spState').textContent = 'idle';
 }
-async function listMidiPorts() {
-  if (!navigator.mimeTypes && !navigator.requestMIDIAccess) { $('spMsg').textContent = '此环境无 Web MIDI'; return; }
+/* ---------- 同步源记忆：localStorage 保存端口 id，不可用则回退第一个 ---------- */
+const SRC_KEY = 'wordwave.show.midiPort';
+async function restoreOrPickPort() {
+  if (!navigator.requestMIDIAccess) { $('spMsg').textContent = '此环境无 Web MIDI'; return; }
   try {
     const acc = await navigator.requestMIDIAccess();
     const sel = $('spSrc');
@@ -127,19 +134,28 @@ async function listMidiPorts() {
       o.value = port.id; o.textContent = port.name;
       sel.appendChild(o);
     }
+    let pick = null;
+    const saved = (() => { try { return localStorage.getItem(SRC_KEY); } catch (e) { return null; } })();
+    if (saved && acc.inputs.has(saved)) pick = saved;
+    else if (acc.inputs.size) pick = acc.inputs.values().next().value;   // 回退：第一个可用设备
+    if (pick) { sel.value = pick; connectPort(acc, pick); }
     sel.onchange = () => {
-      if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} }
-      const port = acc.inputs.get(sel.value);
-      if (!port) return;
-      S.midiIn = port;
-      S.mtc = new J.MTCDecoder({
-        onTimecode: (tc, fps) => S.follower && S.follower.feedTimecode(tc, fps),
-        onStop: () => S.follower && S.follower.transportStop(),
-      });
-      port.onmidimessage = ev => S.mtc && S.mtc.feed(ev);
-      $('spMsg').textContent = 'SYNC：已连接 ' + port.name + '，等待时间码…';
+      try { localStorage.setItem(SRC_KEY, sel.value); } catch (e) {}
+      connectPort(acc, sel.value);
     };
   } catch (e) { $('spMsg').textContent = 'MIDI 访问被拒绝: ' + e.message; }
+}
+function connectPort(acc, id) {
+  if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} }
+  const port = acc.inputs.get(id);
+  if (!port) { S.midiIn = null; return; }
+  S.midiIn = port;
+  S.mtc = new J.MTCDecoder({
+    onTimecode: (tc, fps) => S.follower && S.follower.feedTimecode(tc, fps),
+    onStop: () => S.follower && S.follower.transportStop(),
+  });
+  port.onmidimessage = ev => S.mtc && S.mtc.feed(ev);
+  $('spMsg').textContent = 'SYNC：已连接 ' + port.name + '，等待时间码…';
 }
 
 /* ---------- SMPTE 偏移：把绝对时间码映射到工程时间轴 ---------- */
