@@ -198,15 +198,28 @@ $('spPause').addEventListener('click', () => { if (S.mode === 'normal') pause();
 $('spStop').addEventListener('click', () => { if (S.mode === 'normal') { pause(); seek(0); } });
 $('spFull').addEventListener('click', toggleFullscreen);
 $('spOffset').addEventListener('change', applyOffset);
-// 偏移输入过滤：仅放行数字、正负号、冒号（粘贴内容同样清洗）
-$('spOffset').addEventListener('input', () => {
+// 偏移输入掩码：数字自动入位 HH:MM:SS:FF，逐段范围钳制（时0-23/分秒0-59/帧0-24），前缀 ± 可选
+(function () {
   const el = $('spOffset');
-  const clean = el.value.replace(/[^0-9:+-]/g, '');
-  if (clean !== el.value) { const pos = el.selectionStart - (el.value.length - clean.length); el.value = clean; try { el.setSelectionRange(pos, pos); } catch (e) {} }
-});
-$('spOffset').addEventListener('keydown', e => {
-  if (e.key.length === 1 && !/[0-9:+-]/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault();
-});
+  const LIM = [23, 59, 59, 24];
+  function mask(raw) {
+    const sign = /^\s*[-]/.test(raw) ? '-' : (/^\s*\+/.test(raw) ? '+' : '');
+    const digits = raw.replace(/[^0-9]/g, '').slice(0, 8);
+    if (!digits) return sign;
+    const seg = [];
+    for (let i = 0; i < 4; i++) {
+      let v = parseInt(digits.slice(i * 2, i * 2 + 2) || '0', 10);
+      if (v > LIM[i]) v = LIM[i];
+      seg.push(String(v).padStart(2, '0'));
+    }
+    return sign + seg.join(':');
+  }
+  el.addEventListener('input', () => {
+    const clean = mask(el.value);
+    if (clean !== el.value) el.value = clean;
+  });
+  el.addEventListener('blur', () => { if (!el.value.trim()) el.value = '00:00:00:00'; });
+})();
 
 loadProject();
 requestAnimationFrame(tick);
