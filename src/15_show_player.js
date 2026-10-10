@@ -21,8 +21,8 @@ const S = {
 /* ---------- 渲染循环 ---------- */
 function tick() {
   if (S.mode === 'sync' && S.follower) {
-    const abs = S.follower.now();              // 绝对 SMPTE 秒
-    const t = Math.max(0, abs - S.tcOffset);   // 映射到工程时间轴
+    const abs = S.follower.now();              // 宿主原始 MTC 秒
+    const t = Math.max(0, abs + S.tcOffset);   // 工程时间 = 宿主 + 偏移（偏移带符号）
     if (Math.abs(t - S.t) > 0.001) { S.t = t; S.need = true; }
     S._absTc = abs;
   }
@@ -105,7 +105,7 @@ function setMode(m) {
 function setupSync() {
   S.follower = new J.SMPTEFollower({
     fps: 25,
-    onSeek: abs => { seek(Math.max(0, abs - S.tcOffset)); },
+    onSeek: abs => { seek(Math.max(0, abs + S.tcOffset)); },
     onState: st => {
       const dot = $('spDot');
       dot.className = 'sp-dot ' + (st === 'following' ? 'following' : st === 'paused' ? 'paused' : '');
@@ -159,9 +159,10 @@ function connectPort(acc, id) {
 
 /* ---------- SMPTE 偏移：把绝对时间码映射到工程时间轴 ---------- */
 function parseTc(str) {
-  const m = /^(\d+):(\d{1,2}):(\d{1,2}):(\d{1,2})$/.exec((str || '').trim());
+  const m = /^([+-]?\d+):(\d{1,2}):(\d{1,2}):(\d{1,2})$/.exec((str || '').trim());
   if (!m) return null;
-  return (+m[1]) * 3600 + (+m[2]) * 60 + (+m[3]) + (+m[4]) / 25;
+  const sign = m[1].startsWith('-') ? -1 : 1;
+  return sign * ((Math.abs(parseInt(m[1], 10)) * 3600) + (+m[2]) * 60 + (+m[3]) + (+m[4]) / 25);
 }
 function applyOffset() {
   const v = parseTc($('spOffset').value);

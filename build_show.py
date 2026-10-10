@@ -45,7 +45,7 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
 .sp-src{{font-family:ui-monospace,monospace;color:#f5a623}}
 .sp-note{{font-size:11px;color:#8b8b94}}
 .sp-srcsel{{display:none}}
-.sp-sync .sp-srcsel{{display:flex}}
+.sp-sync .sp-srcsel{{display:flex;flex-direction:column;align-items:flex-start;gap:6px}}
 </style>
 </head>
 <body>
