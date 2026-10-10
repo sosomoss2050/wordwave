@@ -16,6 +16,7 @@ const S = {
   mode: 'normal',        // normal | sync
   tcOffset: 0,           // SMPTE 偏移（秒）：工程时间 = 宿主MTC + tcOffset
   follower: null, mtc: null, midiIn: null,
+  portName: '',          // 当前连接的 MTC 端口名（状态提示用）
   scrubbing: false,      // 进度条拖拽中
 };
 
@@ -211,9 +212,17 @@ function setupSync() {
       dot.className = 'sp-dot ' + (st === 'following' ? 'following' : st === 'paused' ? 'paused' : '');
       $('spState').textContent = st;
       $('spGo').disabled = (S.mode === 'sync' && st === 'following');   // paused 时 GO 可接管
+      updateSyncMsg(st);   // 状态提示跟随状态机：收到时间码≠等待中
     },
   });
   restoreOrPickPort();   // 恢复上次端口，或回退第一个可用设备
+}
+function updateSyncMsg(st) {
+  // st: following=正在接收 | paused/idle=等待时间码
+  if (!S.portName) return;
+  $('spMsg').textContent = st === 'following'
+    ? 'SYNC：正在接收时间码（' + S.portName + '）'
+    : 'SYNC：已连接 ' + S.portName + '，等待时间码…';
 }
 function teardownSync() {
   if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} S.midiIn = null; }
@@ -254,7 +263,8 @@ function connectPort(acc, id) {
     onStop: () => S.follower && S.follower.transportStop(),
   });
   port.onmidimessage = ev => S.mtc && S.mtc.feed(ev);
-  $('spMsg').textContent = 'SYNC：已连接 ' + port.name + '，等待时间码…';
+  S.portName = port.name;
+  updateSyncMsg(S.follower ? S.follower.state : 'idle');
 }
 
 /* ---------- SMPTE 偏移：把绝对时间码映射到工程时间轴 ---------- */
