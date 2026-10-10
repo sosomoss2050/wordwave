@@ -67,12 +67,13 @@ eq('tcToSec 01:02:03:12@25', tcToSec(1, 2, 3, 12, 25), 3723.48);
   const dec = new MTCDecoder();
   const got = [];
   dec.onTimecode = (tc, fps) => got.push([tc, fps]);
-  // 01:02:03:12 @25fps：数据字节 = piece<<4 | value；frame=12→低位0xC，piece7 value = fps1(25)<<1 | 时高位0 = 0x02
-  const nibs = [0x01, 0x12, 0x23, 0x3C, 0x40, 0x50, 0x60, 0x72];
+  // 00:00:08:12 @25fps：数据字节高4位=piece序号，piece7 收尾（与 Pro Tools 实测流一致：每帧 72 打头，下一帧的 72 触发组装）
+  // 帧=12→p0=0x0C；秒=8→p2=0x28；分/时=0；p7=fps1(25)<<1|时MSB0=0x72
+  const nibs = [0x0C, 0x10, 0x28, 0x30, 0x40, 0x50, 0x60, 0x72];
 
   for (const b of nibs) dec.feed({ data: new Uint8Array([0xf1, b]) });
   eq('MTC 帧数', got.length, 1);
-  eq('MTC 时间', got[0][0], tcToSec(1, 2, 3, 12, 25), 0.0001);
+  eq('MTC 时间', got[0][0], tcToSec(0, 0, 8, 12, 25), 0.0001);
   eq('MTC 帧率', got[0][1], 25);
 }
 
@@ -81,10 +82,10 @@ eq('tcToSec 01:02:03:12@25', tcToSec(1, 2, 3, 12, 25), 3723.48);
   const dec = new MTCDecoder();
   const got = [];
   dec.onTimecode = (tc, fps) => got.push([tc, fps]);
-  // full-frame：02:03:12:00 @25fps → hh字节=0x22（帧率1在bit5-6，时=2），mm=0x03, ss=0x0C, ff=0x00
-  dec.feed({ data: new Uint8Array([0xf0, 0x7f, 0x7f, 0x06, 0x01, 0x22, 0x03, 0x0C, 0x00, 0xf7]) });
+  // full-frame：00:00:08:12 @25fps → hh字节=0x20（帧率1在bit5-6，时=0），mm=0, ss=8, ff=0x0C
+  dec.feed({ data: new Uint8Array([0xf0, 0x7f, 0x7f, 0x06, 0x01, 0x20, 0x00, 0x08, 0x0C, 0xf7]) });
   eq('full-frame 帧数', got.length, 1);
-  eq('full-frame 时间', got[0][0], tcToSec(2, 3, 12, 0, 25), 0.0001);
+  eq('full-frame 时间', got[0][0], tcToSec(0, 0, 8, 12, 25), 0.0001);
 }
 
 // ---- 8. MTC Stop ----

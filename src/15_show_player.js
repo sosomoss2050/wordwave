@@ -14,14 +14,17 @@ const S = {
   renderer: new J.Renderer(),
   playing: false, t: 0, need: true,
   mode: 'normal',        // normal | sync
+  tcOffset: 0,           // SMPTE 偏移（秒）：plan时间 = 绝对MTC - tcOffset
   follower: null, mtc: null, midiIn: null,
 };
 
 /* ---------- 渲染循环 ---------- */
 function tick() {
   if (S.mode === 'sync' && S.follower) {
-    const tc = S.follower.now();
-    if (Math.abs(tc - S.t) > 0.001) { S.t = tc; S.need = true; }
+    const abs = S.follower.now();              // 绝对 SMPTE 秒
+    const t = Math.max(0, abs - S.tcOffset);   // 映射到工程时间轴
+    if (Math.abs(t - S.t) > 0.001) { S.t = t; S.need = true; }
+    S._absTc = abs;
   }
   if (S.need && S.plan) {
     const cv = $('view'), ctx = cv.getContext('2d');
@@ -32,17 +35,13 @@ function tick() {
   requestAnimationFrame(tick);
 }
 function updateTc() {
-  let txt;
-  if (S.mode === 'sync' && S.follower) {
-    const t = S.t, fr = Math.floor((t % 1) * (S.follower.fpsEff || 25));
-    txt = fmt(t) + ':' + String(fr).padStart(2, '0');
-  } else txt = fmt(S.t);
-  $('spTc').textContent = txt;
-}
-const fmt = t => {
+  // 完整 SMPTE 格式 HH:MM:SS:FF，与 Pro Tools 一致
+  const t = (S.mode === 'sync' && S._absTc != null) ? S._absTc : S.t;
+  const fps = (S.mode === 'sync' && S.follower) ? (S.follower.fpsEff || 25) : 25;
+  const fr = Math.floor((t % 1) * fps + 1e-6);
   const h = Math.floor(t / 3600), m = Math.floor(t / 60) % 60, s = Math.floor(t) % 60;
-  return (h ? String(h).padStart(2, '0') + ':' : '') + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-};
+  $('spTc').textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
+}
 
 /* ---------- 工程加载（与编辑器同一 localStorage 工程） ---------- */
 function loadProject() {
@@ -102,7 +101,7 @@ function setMode(m) {
 function setupSync() {
   S.follower = new J.SMPTEFollower({
     fps: 25,
-    onSeek: tc => { seek(tc); },
+    onSeek: abs => { seek(Math.max(0, abs - S.tcOffset)); },
     onState: st => {
       const dot = $('spDot');
       dot.className = 'sp-dot ' + (st === 'following' ? 'following' : st === 'lost' ? 'lost' : '');
@@ -143,6 +142,20 @@ async function listMidiPorts() {
   } catch (e) { $('spMsg').textContent = 'MIDI 访问被拒绝: ' + e.message; }
 }
 
+/* ---------- SMPTE 偏移：把绝对时间码映射到工程时间轴 ---------- */
+function parseTc(str) {
+  const m = /^(\d+):(\d{1,2}):(\d{1,2}):(\d{1,2})$/.exec((str || '').trim());
+  if (!m) return null;
+  return (+m[1]) * 3600 + (+m[2]) * 60 + (+m[3]) + (+m[4]) / 25;
+}
+function applyOffset() {
+  const v = parseTc($('spOffset').value);
+  if (v == null) { $('spOffset').style.borderColor = '#e5484d'; return; }
+  $('spOffset').style.borderColor = '';
+  S.tcOffset = v;
+  S.need = true;
+}
+
 /* ---------- 全屏（继承编辑器 toggleFullscreen） ---------- */
 function toggleFullscreen() {
   const st = $('spStage');
@@ -168,6 +181,7 @@ $('spGo').addEventListener('click', go);
 $('spPause').addEventListener('click', () => { if (S.mode === 'normal') pause(); });
 $('spStop').addEventListener('click', () => { if (S.mode === 'normal') { pause(); seek(0); } });
 $('spFull').addEventListener('click', toggleFullscreen);
+$('spOffset').addEventListener('change', applyOffset);
 
 loadProject();
 requestAnimationFrame(tick);

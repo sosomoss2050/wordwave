@@ -40,14 +40,14 @@
       this._qf[piece] = nib;
       this._got = Math.max(this._got, piece + 1);
       if (piece === 7) {
-        // 规范组装：p0-2=时/分/秒低4位，p3=帧低4位，p4.bit0=帧高位，p5.bit0=秒高位，
-        // p6.bit0=分高位，p7.bit0=时高位，p7.bit1-2=帧率类型
+        // MTC 规范字段顺序：p0=帧LSB p1=帧MSB p2=秒LSB p3=秒MSB
+        //                 p4=分LSB p5=分MSB p6=时LSB p7=帧率+时MSB
         const [p0, p1, p2, p3, p4, p5, p6, p7] = this._qf;
         if ([p0,p1,p2,p3,p4,p5,p6,p7].some(v => v == null)) return;
-        const h = p0 | ((p7 & 0x01) << 4);
-        const m = p1 | ((p6 & 0x01) << 4);
-        const s = p2 | ((p5 & 0x01) << 4);
-        const f = p3 | ((p4 & 0x01) << 4);
+        const f = p0 | (p1 << 4);
+        const s = p2 | (p3 << 4);
+        const m = p4 | (p5 << 4);
+        const h = p6 | ((p7 & 0x01) << 4);
         this._fps = FPS_BY_TYPE[(p7 >> 1) & 0x03] || 25;
         if (this.onTimecode) this.onTimecode(J.tcToSec(h, m, s, f, this._fps), this._fps, at);
         this._got = 0;

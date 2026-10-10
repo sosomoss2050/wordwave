@@ -72,7 +72,8 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
       <h4>同步源</h4>
       <div class="sp-row">
         <select class="sp-btn" id="spSrc"><option value="">选择 MTC 端口…</option></select>
-        <span class="sp-st"><span class="sp-dot" id="spDot"></span><span id="spState">idle</span> · 偏移 <span class="sp-src" id="spDrift">—</span></span>
+        <span class="sp-st"><span class="sp-dot" id="spDot"></span><span id="spState">idle</span></span>
+        <span class="sp-note">偏移<input id="spOffset" class="sp-btn" style="width:90px" placeholder="HH:MM:SS:FF" value="00:00:00:00">（Pro Tools Session Start）</span>
       </div>
     </div>
     <div class="sp-cell">
