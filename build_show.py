@@ -56,7 +56,10 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
       <button class="sp-tab" id="tabSync">SYNC</button>
     </div>
     <div class="sp-tc" id="spTc">--:--:--:--</div>
-    <div class="sp-mode"><span class="sp-note" id="spProj">未加载工程</span></div>
+    <div class="sp-mode"><span class="sp-note" id="spProj">未加载工程</span>
+      <button class="sp-tab" id="spOpen">打开工程…</button>
+      <input type="file" id="spFile" accept=".json,.wordwave.json,application/json" hidden>
+    </div>
   </div>
   <div class="sp-stage" id="spStage"><canvas id="view" width="1280" height="720"></canvas></div>
   <div class="sp-ops" id="spOps">

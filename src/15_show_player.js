@@ -47,16 +47,39 @@ function updateTc() {
   if (ht) ht.textContent = (S.mode === 'sync' && S._absTc != null) ? fmtSmp(S._absTc) : '--:--:--:--';   // 宿主原始 MTC
 }
 
-/* ---------- 工程加载（与编辑器同一 localStorage 工程） ---------- */
+/* ---------- 工程加载：文件打开 + 同浏览器 localStorage 回退 ---------- */
+async function useProject(proj, label) {
+  S.project = proj;
+  await replan();
+  $('spProj').textContent = label + '（只读）';
+}
 function loadProject() {
   try {
     const raw = localStorage.getItem(LS_KEY);
-    if (!raw) return;
-    S.project = JSON.parse(raw);
-    replan();
-    $('spProj').textContent = (S.project.title || '未命名工程') + '（只读）';
-  } catch (e) { $('spProj').textContent = '工程加载失败: ' + e.message; }
+    if (raw) { useProject(JSON.parse(raw), '本地工程'); return; }
+  } catch (e) { $('spProj').textContent = '本地工程损坏: ' + e.message; }
 }
+$('spOpen').addEventListener('click', () => $('spFile').click());
+$('spFile').addEventListener('change', async e => {
+  const f = e.target.files && e.target.files[0];
+  if (!f) return;
+  try {
+    const proj = JSON.parse(await f.text());
+    await useProject(proj, f.name);
+    // 工程自带歌曲名时，尝试从同浏览器 IndexedDB 恢复音频（编辑器存过即可）
+    if (S.project.audioName && !S.audio && J.loadSong) {
+      const song = await J.loadSong();
+      if (song && song.name === S.project.audioName) {
+        S.audio = await J.analyzeAudio(song);
+        await replan();
+        $('spMsg').textContent = '已加载音频：' + song.name;
+      } else {
+        $('spMsg').textContent = '提示：音频 "' + S.project.audioName + '" 不在本浏览器，需在编辑器中重新装载一次';
+      }
+    }
+  } catch (err) { $('spProj').textContent = '工程打开失败: ' + err.message; }
+  e.target.value = '';
+});
 async function replan() {
   if (!S.project) return;
   await J.ensureFonts(S.project.lyrics + (S.project.title || '') + '0123456789XYLINEREC:/.・【】No', null);
