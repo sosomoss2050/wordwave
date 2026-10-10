@@ -19,8 +19,8 @@ html = f'''<!doctype html>
 <style>
 {css}
 /* ---- show player overrides ---- */
-html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:system-ui,'PingFang SC',sans-serif}}
-#showapp{{display:flex;flex-direction:column;height:100vh}}
+html,body{{margin:0;padding:0;width:100%;height:100%;background:#141417;color:#ededf0;font-family:system-ui,'PingFang SC',sans-serif;overflow:hidden}}
+#showapp{{display:flex;flex-direction:column;width:100vw;height:100vh;background:#141417}}
 .sp-bar{{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#1d1d22;border-bottom:1px solid #2e2e36;font-size:13px}}
 .sp-mode{{display:flex;gap:6px;align-items:center}}
 .sp-badge{{padding:3px 10px;border-radius:6px;font-weight:600}}
@@ -28,7 +28,7 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
 .sp-tab{{padding:4px 14px;border:1px solid #2e2e36;border-radius:6px;background:transparent;color:#8b8b94;cursor:pointer}}
 .sp-tab.on{{background:#2e2e36;color:#fff}}
 .sp-tc{{font-family:ui-monospace,monospace;font-size:15px;letter-spacing:1px;color:#f5a623}}
-.sp-stage{{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden}}
+.sp-stage{{flex:1;position:relative;width:100%;background:#000;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden}}
 .sp-stage canvas{{max-width:100%;max-height:100%;width:auto;height:auto;display:block}}
 .sp-row input[type=range]{{accent-color:#46a758}}
 .sp-ops{{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#2e2e36;border-top:1px solid #2e2e36}}
