@@ -115,6 +115,18 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#141417;color:#e
     </div>
   </div>
 </div>
+<dialog id="spHelpDlg" class="terms" aria-labelledby="spHelpTitle">
+  <form method="dialog">
+    <h2 id="spHelpTitle">WordWave Show Player 使用说明</h2>
+    <div class="terms-main">
+      <p class="terms-big">① 打开工程：点击右上角「打开工程…」选择编辑器导出的 .json 工程文件；若歌曲已在本浏览器（编辑器保存过），将自动恢复音频</p>
+    </div>
+    <p>② NORMAL 模式：空格/GO 播放，←→ 逐帧（Shift ±1 秒），F 全屏；进度条可拖拽</p>
+    <p>③ SYNC 模式：选择 MTC 端口（自动记忆），宿主播放时自动跟随；时间码偏移支持正负值</p>
+    <p>④ 快捷键：空格 播放/暂停 · ←→ 逐帧 · F 全屏 · Esc 退出全屏</p>
+    <div class="terms-foot"><span></span><span class="row"><button value="close" class="primary" autofocus>关闭</button></span></div>
+  </form>
+</dialog>
 <script>
 {chr(10).join(read(f) for f in ENGINE_FILES)}
 </script>
