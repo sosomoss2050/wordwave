@@ -35842,6 +35842,13 @@ function loadProject() {
   } catch (e) { $('spProj').textContent = '本地工程损坏: ' + e.message; }
 }
 $('spOpen').addEventListener('click', () => $('spFile').click());
+function updateStatusMsg() {
+  // 统一状态提示：工程有无 × 音频有无
+  if (!S.project) { $('spMsg').textContent = '请打开工程文件。'; return; }
+  $('spMsg').textContent = S.audio
+    ? '已加载音频：' + S.audio.name
+    : '未加载音频' + (S.project.audioName ? '：' + S.project.audioName + '（可手动加载，不影响播放）' : '');
+}
 $('spFile').addEventListener('change', async e => {
   const f = e.target.files && e.target.files[0];
   if (!f) return;
@@ -35852,14 +35859,12 @@ $('spFile').addEventListener('change', async e => {
     if (S.project.audioName && !S.audio && J.loadSong) {
       const song = await J.loadSong();
       if (song && song.name === S.project.audioName) {
-        S.audio = await J.analyzeAudio(song);
+        await loadSongFile(song);
         await replan();
-        $('spMsg').textContent = '已加载音频：' + song.name;
-      } else {
-        $('spMsg').textContent = '提示：音频 "' + S.project.audioName + '" 不在本浏览器，需在编辑器中重新装载一次';
       }
     }
   } catch (err) { $('spProj').textContent = '工程打开失败: ' + err.message; }
+  updateStatusMsg();
   e.target.value = '';
 });
 async function replan() {
@@ -35897,6 +35902,7 @@ async function loadSongFile(f) {
     S.audio = await J.analyzeAudio(f);
     $('spSongName').textContent = f.name + '（' + J.fmtTime(S.audio.duration) + '·约' + S.audio.bpm + 'BPM）';
     if (S.project) await replan();
+    updateStatusMsg();
     updateScrub();
   } catch (e) { $('spSongName').textContent = '音频加载失败: ' + e.message; }
 }
@@ -36047,7 +36053,7 @@ $('spReset').addEventListener('click', () => {
   $('spNow').textContent = '00:00'; $('spDur').textContent = '00:00';
   $('spScrub').value = 0;                    // 进度条归零
   if (S.follower) S.follower.transportStop();   // follower 回 idle（连接配置保留，再进 SYNC 自动重连）
-  $('spMsg').textContent = '已初始化：请打开工程文件';
+  $('spMsg').textContent = '已初始化：请打开工程文件。';
 });
 
 /* ---------- 使用说明（页面内 dialog 弹层，与编辑器 termsDlg 同构） ---------- */
@@ -36079,6 +36085,7 @@ $('spHelp').addEventListener('click', () => {
 })();
 
 loadProject();
+updateStatusMsg();   // 启动时按实际状态提示（无工程→请打开工程文件）
 /* 工程同名歌曲自动回退（IndexedDB，同浏览器编辑器存过即可） */
 (async () => {
   if (S.project && S.project.audioName && !S.audio && J.loadSong) {
