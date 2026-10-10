@@ -21,13 +21,18 @@ html = f'''<!doctype html>
 /* ---- show player overrides ---- */
 html,body{{margin:0;padding:0;width:100%;height:100%;background:#141417;color:#ededf0;font-family:system-ui,'PingFang SC',sans-serif;overflow:hidden}}
 #showapp{{display:flex;flex-direction:column;width:100vw;height:100vh;background:#141417}}
-.sp-bar{{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#1d1d22;border-bottom:1px solid #2e2e36;font-size:13px}}
+.sp-bar{{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:#1d1d22;border-bottom:1px solid #2e2e36;font-size:13px;gap:8px 12px;flex-wrap:wrap;row-gap:6px}}
+.sp-brand{{display:flex;align-items:baseline;gap:8px;margin-right:10px;white-space:nowrap}}
+.sp-mark{{font-weight:800;font-size:16px;color:#fff}}
+.sp-word{{font-weight:600;font-size:13px;color:#ededf0}}
+.sp-tag{{font-size:10px;color:#8b8b94;letter-spacing:.5px}}
+.sp-ver{{font-family:ui-monospace,monospace;font-size:10px;color:#8b8b94}}
 .sp-mode{{display:flex;gap:6px;align-items:center}}
 .sp-badge{{padding:3px 10px;border-radius:6px;font-weight:600}}
 .sp-badge.show{{background:#e5484d;color:#fff}}
 .sp-tab{{padding:4px 14px;border:1px solid #2e2e36;border-radius:6px;background:transparent;color:#8b8b94;cursor:pointer}}
 .sp-tab.on{{background:#2e2e36;color:#fff}}
-.sp-tc{{font-family:ui-monospace,monospace;font-size:15px;letter-spacing:1px;color:#f5a623}}
+.sp-tc{{font-family:ui-monospace,monospace;font-size:15px;letter-spacing:1px;color:#f5a623;margin-left:auto;margin-right:auto}}
 .sp-stage{{flex:1;position:relative;width:100%;background:#000;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden}}
 .sp-stage canvas{{max-width:100%;max-height:100%;width:auto;height:auto;display:block}}
 .sp-row input[type=range]{{accent-color:#46a758}}
@@ -52,14 +57,24 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#141417;color:#e
 <body>
 <div id="showapp">
   <div class="sp-bar">
-    <div class="sp-mode"><span class="sp-badge show">SHOW</span>
+    <div class="sp-mode">
+      <div class="sp-brand">
+        <span class="sp-mark">字浪</span>
+        <span class="sp-word">WordWave</span>
+        <span class="sp-tag">lyric motion engine</span>
+        <span class="sp-ver">v@VERSION@</span>
+      </div>
+      <span class="sp-badge show">SHOW</span>
       <button class="sp-tab on" id="tabNormal">NORMAL</button>
       <button class="sp-tab" id="tabSync">SYNC</button>
     </div>
     <div class="sp-tc" id="spTc">--:--:--:--</div>
-    <div class="sp-mode"><span class="sp-note" id="spProj">未加载工程</span>
+    <div class="sp-mode">
+      <span class="sp-note" id="spProj">未加载工程</span>
       <button class="sp-tab" id="spOpen">打开工程…</button>
       <input type="file" id="spFile" accept=".json,.wordwave.json,application/json" hidden>
+      <button class="sp-tab" id="spReset" title="清除已加载的工程与音频，回到初始状态">初始化</button>
+      <button class="sp-tab" id="spHelp">使用说明</button>
     </div>
   </div>
   <div class="sp-stage" id="spStage"><canvas id="view" width="1280" height="720"></canvas></div>
@@ -109,5 +124,7 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#141417;color:#e
 </body>
 </html>'''
 os.makedirs('show', exist_ok=True)
+VERSION = read('VERSION').strip()
+html = html.replace('@VERSION@', VERSION)
 open('show/index.html', 'w', encoding='utf-8').write(html)
-print('show/index.html built,', len(html), 'bytes')
+print('show/index.html built (v%s), %d bytes' % (VERSION, len(html)))

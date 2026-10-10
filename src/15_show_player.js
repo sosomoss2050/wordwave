@@ -292,6 +292,30 @@ $('spPause').addEventListener('click', () => { if (S.mode === 'normal') pause();
 $('spStop').addEventListener('click', () => { if (S.mode === 'normal') { pause(); seek(0); } });
 $('spFull').addEventListener('click', toggleFullscreen);
 $('spOffset').addEventListener('change', applyOffset);
+
+/* ---------- 初始化：确认后清空已加载的工程/音频，回到初始状态（参照编辑器 btnReset） ---------- */
+$('spReset').addEventListener('click', () => {
+  if (!S.project && !S.audio) { $('spMsg').textContent = '当前无已加载的工程'; return; }
+  if (!confirm('清除已加载的工程与音频，回到初始状态？')) return;
+  pause();
+  S.project = null; S.plan = null; S.audio = null; S.t = 0; S._absTc = null;
+  const cv = $('view'), ctx = cv.getContext('2d'); ctx.clearRect(0, 0, cv.width, cv.height);
+  $('spProj').textContent = '未加载工程';
+  $('spSongName').textContent = '未加载音频';
+  $('spMsg').textContent = '已初始化：请打开工程文件';
+});
+
+/* ---------- 使用说明 ---------- */
+$('spHelp').addEventListener('click', () => {
+  alert([
+    'WordWave Show Player 使用说明',
+    '',
+    '① 打开工程：点击右上角「打开工程…」选择编辑器导出的 .wordwave.json；若歌曲已在本浏览器（编辑器保存过），自动恢复音频',
+    '② NORMAL 模式：空格/GO 播放，←→ 逐帧（Shift ±1 秒），F 全屏；进度条可拖拽',
+    '③ SYNC 模式：选择 MTC 端口（自动记忆），宿主播放时自动跟随；时间码偏移支持正负值',
+    '④ 快捷键：空格 播放/暂停 · ←→ 逐帧 · F 全屏 · Esc 退出全屏',
+  ].join('\n'));
+});
 // 偏移输入掩码：数字自动入位 HH:MM:SS:FF，逐段范围钳制（时0-23/分秒0-59/帧0-24），前缀 ± 可选
 (function () {
   const el = $('spOffset');
