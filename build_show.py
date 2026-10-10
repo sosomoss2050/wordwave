@@ -28,8 +28,9 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
 .sp-tab{{padding:4px 14px;border:1px solid #2e2e36;border-radius:6px;background:transparent;color:#8b8b94;cursor:pointer}}
 .sp-tab.on{{background:#2e2e36;color:#fff}}
 .sp-tc{{font-family:ui-monospace,monospace;font-size:15px;letter-spacing:1px;color:#f5a623}}
-.sp-stage{{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;min-height:0}}
+.sp-stage{{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden}}
 .sp-stage canvas{{max-width:100%;max-height:100%}}
+.sp-row input[type=range]{{accent-color:#46a758}}
 .sp-ops{{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#2e2e36;border-top:1px solid #2e2e36}}
 .sp-cell{{background:#1d1d22;padding:10px 14px}}
 .sp-cell h4{{margin:0 0 8px;font-size:10px;color:#8b8b94;text-transform:uppercase;letter-spacing:1px}}
@@ -70,6 +71,14 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
         <button class="sp-btn" id="spPause">⏸</button>
         <button class="sp-btn" id="spStop">⏹</button>
         <button class="sp-btn" id="spFull">全屏</button>
+        <button class="sp-btn" id="spSong">加载音乐…</button>
+        <input type="file" id="spSongFile" accept="audio/*" hidden>
+        <span class="sp-note" id="spSongName">未加载音频</span>
+      </div>
+      <div class="sp-row" style="margin-top:6px">
+        <span class="sp-tc" id="spNow" style="font-size:12px">00:00</span>
+        <input id="spScrub" type="range" min="0" max="10000" value="0" style="flex:1" aria-label="歌曲进度">
+        <span class="sp-note" id="spDur">00:00</span>
       </div>
     </div>
     <div class="sp-cell sp-srcsel">

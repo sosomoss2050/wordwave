@@ -14,9 +14,42 @@ const S = {
   renderer: new J.Renderer(),
   playing: false, t: 0, need: true,
   mode: 'normal',        // normal | sync
-  tcOffset: 0,           // SMPTE 偏移（秒）：plan时间 = 绝对MTC - tcOffset
+  tcOffset: 0,           // SMPTE 偏移（秒）：工程时间 = 宿主MTC + tcOffset
   follower: null, mtc: null, midiIn: null,
+  scrubbing: false,      // 进度条拖拽中
 };
+
+/* ---------- WebAudio 播放器（与编辑器同构，沙箱页面可用） ---------- */
+const AP = {
+  ctx: null, src: null, startAt: 0, base: 0, gain: null,
+  play(buffer, offset) {
+    if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    this.stop();
+    if (!this.gain) { this.gain = this.ctx.createGain(); this.gain.gain.value = 0.9; this.gain.connect(this.ctx.destination); }
+    const s = this.ctx.createBufferSource(); s.buffer = buffer; s.connect(this.gain);
+    const off = Math.max(0, Math.min(offset, buffer.duration - 0.01));
+    s.start(0, off); this.src = s; this.startAt = this.ctx.currentTime; this.base = off;
+  },
+  stop() { if (this.src) { try { this.src.stop(); } catch (e) {} try { this.src.disconnect(); } catch (e) {} this.src = null; } },
+  time() { return this.ctx ? this.base + (this.ctx.currentTime - this.startAt) : 0; },
+};
+
+/* ---------- 视口自适应（与编辑器 sizeViewport 同构：等比缩放 + DPR） ---------- */
+function sizeViewport() {
+  if (!S.plan) return;
+  const vp = $('spStage'), c = $('view');
+  const ar = S.plan.W / S.plan.H;
+  let cssW = vp.clientWidth || 800, cssH = cssW / ar;
+  const maxH = Math.max(160, vp.clientHeight - 4);
+  if (cssH > maxH) { cssH = maxH; cssW = cssH * ar; }
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const pw = Math.round(Math.min(S.plan.W, cssW * dpr)), ph = Math.round(pw / ar);
+  if (c.width !== pw || c.height !== ph) { c.width = pw; c.height = ph; }
+  c.style.width = cssW + 'px'; c.style.height = cssH + 'px';
+  S.need = true;
+}
+window.addEventListener('resize', sizeViewport);
 
 /* ---------- 渲染循环 ---------- */
 function tick() {
@@ -25,6 +58,11 @@ function tick() {
     const t = Math.max(0, abs + S.tcOffset);   // 工程时间 = 宿主 + 偏移（偏移带符号）
     if (Math.abs(t - S.t) > 0.001) { S.t = t; S.need = true; }
     S._absTc = abs;
+  } else if (S.playing) {
+    // NORMAL：音频时钟优先（音画同步），无音频用本地时钟
+    S.t = S.audio ? AP.time() : (performance.now() - S._t0) / 1000;
+    if (S.t >= (S.plan ? S.plan.duration : 0) - 1e-3) { S.t = S.plan.duration; pause(); }
+    S.need = true;
   }
   if (S.need && S.plan) {
     const cv = $('view'), ctx = cv.getContext('2d');
@@ -32,6 +70,7 @@ function tick() {
     S.need = false;
   }
   updateTc();
+  updateScrub();
   requestAnimationFrame(tick);
 }
 function updateTc() {
@@ -84,6 +123,7 @@ async function replan() {
   if (!S.project) return;
   await J.ensureFonts(S.project.lyrics + (S.project.title || '') + '0123456789XYLINEREC:/.・【】No', null);
   S.plan = J.plan(S.project, S.audio);
+  sizeViewport();
   S.need = true;
 }
 
@@ -97,18 +137,47 @@ let _raf0 = 0;
 function play() {
   if (S.playing || !S.plan) return;
   S.playing = true;
-  S._t0 = performance.now() - S.t * 1000;
-  requestAnimationFrame(normalTick);
+  if (S.audio) AP.play(S.audio.buffer, S.t);
+  else S._t0 = performance.now() - S.t * 1000;
 }
-function normalTick() {
-  if (!S.playing || S.mode !== 'normal') { S.playing = false; return; }
-  S.t = (performance.now() - S._t0) / 1000;
-  if (S.t >= S.plan.duration) { S.t = S.plan.duration; pause(); }
+function pause() { S.playing = false; AP.stop(); }
+function seek(t) {
+  S.t = Math.max(0, Math.min(t, S.plan ? S.plan.duration : t));
+  if (S.playing && S.mode === 'normal') { if (S.audio) AP.play(S.audio.buffer, S.t); else S._t0 = performance.now() - S.t * 1000; }
   S.need = true;
-  requestAnimationFrame(normalTick);
 }
-function pause() { S.playing = false; }
-function seek(t) { S.t = Math.max(0, Math.min(t, S.plan ? S.plan.duration : t)); S.need = true; }
+
+/* ---------- 音频装载（文件选择 + IndexedDB 回退） ---------- */
+async function loadSongFile(f) {
+  try {
+    $('spSongName').textContent = '解析中…';
+    S.audio = await J.analyzeAudio(f);
+    $('spSongName').textContent = f.name + '（' + J.fmtTime(S.audio.duration) + '·约' + S.audio.bpm + 'BPM）';
+    if (S.project) await replan();
+    updateScrub();
+  } catch (e) { $('spSongName').textContent = '音频加载失败: ' + e.message; }
+}
+$('spSong').addEventListener('click', () => $('spSongFile').click());
+$('spSongFile').addEventListener('change', async e => {
+  const f = e.target.files && e.target.files[0];
+  if (f) await loadSongFile(f);
+  e.target.value = '';
+});
+
+/* ---------- 进度条（NORMAL 模式，拖拽 seek） ---------- */
+function updateScrub() {
+  if (S.scrubbing || !S.plan) return;
+  const s = $('spScrub');
+  s.value = Math.round(S.t / Math.max(0.01, S.plan.duration) * 10000);
+  $('spNow').textContent = J.fmtTime(S.t);
+  $('spDur').textContent = J.fmtTime(S.plan.duration);
+}
+$('spScrub').addEventListener('pointerdown', () => { S.scrubbing = true; });
+$('spScrub').addEventListener('input', () => {
+  if (!S.plan) return;
+  seek(+$('spScrub').value / 10000 * S.plan.duration);
+});
+$('spScrub').addEventListener('change', () => { S.scrubbing = false; });
 
 /* ---------- SYNC 模式 ---------- */
 function setMode(m) {
@@ -245,5 +314,12 @@ $('spOffset').addEventListener('change', applyOffset);
 })();
 
 loadProject();
+/* 工程同名歌曲自动回退（IndexedDB，同浏览器编辑器存过即可） */
+(async () => {
+  if (S.project && S.project.audioName && !S.audio && J.loadSong) {
+    const song = await J.loadSong();
+    if (song && song.name === S.project.audioName) await loadSongFile(song);
+  }
+})();
 requestAnimationFrame(tick);
 })();
