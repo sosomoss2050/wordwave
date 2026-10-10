@@ -127,6 +127,19 @@ html,body{{margin:0;padding:0;width:100%;height:100%;background:#141417;color:#e
     <div class="terms-foot"><span></span><span class="row"><button value="close" class="primary" autofocus>关闭</button></span></div>
   </form>
 </dialog>
+<dialog id="spResetDlg" class="terms" aria-labelledby="spResetTitle">
+  <form method="dialog" id="spResetForm">
+    <h2 id="spResetTitle">初始化</h2>
+    <p>将复位播放器状态，清除以下内容：</p>
+    <ul class="reset-list">
+      <li>已加载的工程（含歌词与渲染画面）</li>
+      <li>本次会话中加载的音频</li>
+      <li>MTC 同步连接（端口记忆与时间码偏移保留）</li>
+    </ul>
+    <p class="terms-sub">播放器只读加载，不影响编辑器数据；已保存的工程文件（.json）也不会被删除。</p>
+    <div class="terms-foot"><span></span><span class="row"><button value="cancel" class="ghost">取消</button><button value="reset" class="danger">初始化</button></span></div>
+  </form>
+</dialog>
 <script>
 {chr(10).join(read(f) for f in ENGINE_FILES)}
 </script>

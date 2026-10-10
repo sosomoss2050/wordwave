@@ -299,10 +299,23 @@ $('spStop').addEventListener('click', () => { if (S.mode === 'normal') { pause()
 $('spFull').addEventListener('click', toggleFullscreen);
 $('spOffset').addEventListener('change', applyOffset);
 
-/* ---------- 初始化：确认后复位播放器状态（不动编辑器数据，不丢端口记忆与偏移） ---------- */
+/* ---------- 初始化：dialog 确认后复位播放器状态（不动编辑器数据，不丢端口记忆与偏移） ---------- */
+let spResetPending = false;
 $('spReset').addEventListener('click', () => {
   if (!S.project && !S.audio) { $('spMsg').textContent = '当前无已加载的工程'; return; }
-  if (!confirm('复位播放器状态？\n（清空已加载的工程与音频；不影响编辑器数据、MTC 端口记忆和时间码偏移）')) return;
+  const dlg = $('spResetDlg');
+  if (dlg && dlg.showModal) dlg.showModal();
+  else doReset();                       // 兜底（dialog 不可用时直接执行）
+});
+$('spResetForm').addEventListener('click', e => {
+  if (e.target.value === 'reset') { spResetPending = true; }
+});
+$('spResetDlg').addEventListener('close', () => {
+  if (!spResetPending) return;          // 取消或 Esc：不执行
+  spResetPending = false;
+  doReset();
+});
+function doReset() {
   pause();                                   // 停播放 + 断音频
   if (S.midiIn) { try { S.midiIn.onmidimessage = null; } catch (e) {} S.midiIn = null; }   // 断 MTC 连接（localStorage 端口记忆保留）
   S.project = null; S.plan = null; S.audio = null; S.t = 0; S._absTc = null;
@@ -313,7 +326,7 @@ $('spReset').addEventListener('click', () => {
   $('spScrub').value = 0;                    // 进度条归零
   if (S.follower) S.follower.transportStop();   // follower 回 idle（连接配置保留，再进 SYNC 自动重连）
   $('spMsg').textContent = '已初始化：请打开工程文件。';
-});
+}
 
 /* ---------- 使用说明（页面内 dialog 弹层，与编辑器 termsDlg 同构） ---------- */
 $('spHelp').addEventListener('click', () => {
