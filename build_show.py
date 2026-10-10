@@ -29,7 +29,7 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
 .sp-tab.on{{background:#2e2e36;color:#fff}}
 .sp-tc{{font-family:ui-monospace,monospace;font-size:15px;letter-spacing:1px;color:#f5a623}}
 .sp-stage{{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden}}
-.sp-stage canvas{{max-width:100%;max-height:100%}}
+.sp-stage canvas{{max-width:100%;max-height:100%;width:auto;height:auto;display:block}}
 .sp-row input[type=range]{{accent-color:#46a758}}
 .sp-ops{{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#2e2e36;border-top:1px solid #2e2e36}}
 .sp-cell{{background:#1d1d22;padding:10px 14px}}

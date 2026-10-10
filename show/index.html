@@ -462,7 +462,7 @@ html,body{margin:0;height:100%;background:#141417;color:#ededf0;font-family:syst
 .sp-tab.on{background:#2e2e36;color:#fff}
 .sp-tc{font-family:ui-monospace,monospace;font-size:15px;letter-spacing:1px;color:#f5a623}
 .sp-stage{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;min-height:0;overflow:hidden}
-.sp-stage canvas{max-width:100%;max-height:100%}
+.sp-stage canvas{max-width:100%;max-height:100%;width:auto;height:auto;display:block}
 .sp-row input[type=range]{accent-color:#46a758}
 .sp-ops{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#2e2e36;border-top:1px solid #2e2e36}
 .sp-cell{background:#1d1d22;padding:10px 14px}
@@ -35749,20 +35749,22 @@ const AP = {
   time() { return this.ctx ? this.base + (this.ctx.currentTime - this.startAt) : 0; },
 };
 
-/* ---------- 视口自适应（与编辑器 sizeViewport 同构：等比缩放 + DPR） ---------- */
+/* ---------- 视口自适应（ResizeObserver 监听舞台，画布尺寸交 CSS 等比约束） ---------- */
 function sizeViewport() {
   if (!S.plan) return;
   const vp = $('spStage'), c = $('view');
   const ar = S.plan.W / S.plan.H;
-  let cssW = vp.clientWidth || 800, cssH = cssW / ar;
-  const maxH = Math.max(160, vp.clientHeight - 4);
-  if (cssH > maxH) { cssH = maxH; cssW = cssH * ar; }
+  // 画布显示尺寸交给 CSS（max-width/height 100% + aspect-ratio），这里只定内部分辨率
   const dpr = Math.min(2, window.devicePixelRatio || 1);
-  const pw = Math.round(Math.min(S.plan.W, cssW * dpr)), ph = Math.round(pw / ar);
-  if (c.width !== pw || c.height !== ph) { c.width = pw; c.height = ph; }
-  c.style.width = cssW + 'px'; c.style.height = cssH + 'px';
+  const boxW = vp.clientWidth || 800, boxH = vp.clientHeight || 450;
+  const dispW = Math.min(boxW, boxH * ar);
+  const pw = Math.max(320, Math.round(Math.min(S.plan.W, dispW * dpr)));
+  if (c.width !== pw) { c.width = pw; c.height = Math.round(pw / ar); }
+  c.style.width = ''; c.style.height = '';
+  c.style.aspectRatio = ar + '';   // CSS 侧等比
   S.need = true;
 }
+if (window.ResizeObserver) new ResizeObserver(() => sizeViewport()).observe($('spStage'));
 window.addEventListener('resize', sizeViewport);
 
 /* ---------- 渲染循环 ---------- */

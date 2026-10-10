@@ -35,20 +35,22 @@ const AP = {
   time() { return this.ctx ? this.base + (this.ctx.currentTime - this.startAt) : 0; },
 };
 
-/* ---------- 视口自适应（与编辑器 sizeViewport 同构：等比缩放 + DPR） ---------- */
+/* ---------- 视口自适应（ResizeObserver 监听舞台，画布尺寸交 CSS 等比约束） ---------- */
 function sizeViewport() {
   if (!S.plan) return;
   const vp = $('spStage'), c = $('view');
   const ar = S.plan.W / S.plan.H;
-  let cssW = vp.clientWidth || 800, cssH = cssW / ar;
-  const maxH = Math.max(160, vp.clientHeight - 4);
-  if (cssH > maxH) { cssH = maxH; cssW = cssH * ar; }
+  // 画布显示尺寸交给 CSS（max-width/height 100% + aspect-ratio），这里只定内部分辨率
   const dpr = Math.min(2, window.devicePixelRatio || 1);
-  const pw = Math.round(Math.min(S.plan.W, cssW * dpr)), ph = Math.round(pw / ar);
-  if (c.width !== pw || c.height !== ph) { c.width = pw; c.height = ph; }
-  c.style.width = cssW + 'px'; c.style.height = cssH + 'px';
+  const boxW = vp.clientWidth || 800, boxH = vp.clientHeight || 450;
+  const dispW = Math.min(boxW, boxH * ar);
+  const pw = Math.max(320, Math.round(Math.min(S.plan.W, dispW * dpr)));
+  if (c.width !== pw) { c.width = pw; c.height = Math.round(pw / ar); }
+  c.style.width = ''; c.style.height = '';
+  c.style.aspectRatio = ar + '';   // CSS 侧等比
   S.need = true;
 }
+if (window.ResizeObserver) new ResizeObserver(() => sizeViewport()).observe($('spStage'));
 window.addEventListener('resize', sizeViewport);
 
 /* ---------- 渲染循环 ---------- */
