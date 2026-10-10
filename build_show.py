@@ -79,7 +79,7 @@ html,body{{margin:0;height:100%;background:#141417;color:#ededf0;font-family:sys
         <span class="sp-note">宿主时间 <span class="sp-src" id="spHostTc">--:--:--:--</span></span>
       </div>
       <div class="sp-row" style="margin-top:6px">
-        <span class="sp-note">时间码偏移 <input id="spOffset" class="sp-btn" style="width:100px" placeholder="HH:MM:SS:FF" value="00:00:00:00"></span>
+        <span class="sp-note">时间码偏移 <input id="spOffset" class="sp-btn" style="width:100px" placeholder="HH:MM:SS:FF" value="00:00:00:00" inputmode="numeric" autocomplete="off" spellcheck="false"></span>
       </div>
     </div>
     <div class="sp-cell">

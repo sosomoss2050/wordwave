@@ -198,6 +198,15 @@ $('spPause').addEventListener('click', () => { if (S.mode === 'normal') pause();
 $('spStop').addEventListener('click', () => { if (S.mode === 'normal') { pause(); seek(0); } });
 $('spFull').addEventListener('click', toggleFullscreen);
 $('spOffset').addEventListener('change', applyOffset);
+// 偏移输入过滤：仅放行数字、正负号、冒号（粘贴内容同样清洗）
+$('spOffset').addEventListener('input', () => {
+  const el = $('spOffset');
+  const clean = el.value.replace(/[^0-9:+-]/g, '');
+  if (clean !== el.value) { const pos = el.selectionStart - (el.value.length - clean.length); el.value = clean; try { el.setSelectionRange(pos, pos); } catch (e) {} }
+});
+$('spOffset').addEventListener('keydown', e => {
+  if (e.key.length === 1 && !/[0-9:+-]/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault();
+});
 
 loadProject();
 requestAnimationFrame(tick);
